@@ -20,7 +20,8 @@ fun App(
         ) {
             MainNavigation(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(16.dp),
+                appDatabase = appDatabase
             )
         }
     }

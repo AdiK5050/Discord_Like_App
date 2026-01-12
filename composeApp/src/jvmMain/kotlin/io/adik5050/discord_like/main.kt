@@ -16,9 +16,3 @@ fun main() = application {
         )
     }
 }
-
-//        val currentWindowSize = LocalWindowInfo.current.containerSize.width.dp
-//        val windowSize: WindowSizes =
-//            if(currentWindowSize < 800.dp) WindowSizes.COMPACT
-//            else if(currentWindowSize > 1600.dp) WindowSizes.LARGE
-//            else WindowSizes.MEDIUM
