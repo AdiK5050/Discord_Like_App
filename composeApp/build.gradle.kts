@@ -74,7 +74,6 @@ kotlin {
             //navigation 3
             implementation(libs.jetbrains.navigation3.ui)
             implementation(libs.jetbrains.lifecycle.viewmodel.nav3)
-            implementation(libs.androidx.material3.adaptive)
 
             //room-sqlite database
             implementation(libs.androidx.room.runtime)
