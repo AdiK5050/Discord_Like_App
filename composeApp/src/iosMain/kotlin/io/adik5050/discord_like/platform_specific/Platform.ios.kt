@@ -1,7 +1,6 @@
-package io.adik5050.discord_like
+package io.adik5050.discord_like.platform_specific
 
 import platform.UIKit.UIDevice
-import io.adik5050.discord_like.platform_specific.Platform
 
 class IOSPlatform: Platform {
     override val name: String = UIDevice.currentDevice.systemName() + " " + UIDevice.currentDevice.systemVersion

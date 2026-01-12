@@ -8,8 +8,11 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
-    alias(libs.plugins.jetbrains.kotlin.serialization)
 
+    alias(libs.plugins.kotlin.serialization)
+    //ksp for room
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.androidx.room)
 }
 
 kotlin {
@@ -46,8 +49,8 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            implementation (libs.androidx.material3.window.size.class1)
             implementation(libs.imageselector)
+            implementation (libs.androidx.material3.window.size.class1)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -58,19 +61,33 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+
+            //coroutines
+            implementation(libs.kotlinx.coroutines.core)
+
+            //wannaverse
             implementation (libs.imageselector)
-            implementation(libs.androidx.navigation3.ui)
-            implementation(libs.androidx.navigation3.runtime)
-            implementation(libs.androidx.lifecycle.viewmodel.navigation3)
-            implementation(libs.androidx.material3.adaptive.navigation3)
+
+            //serialisation
             implementation(libs.kotlinx.serialization.core)
+            implementation(libs.kotlinx.serialization.json)
+
+            //navigation 3
+            implementation(libs.jetbrains.navigation3.ui)
+            implementation(libs.jetbrains.lifecycle.viewmodel.nav3)
+            implementation(libs.androidx.material3.adaptive)
+
+            //room-sqlite database
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutinesSwing)
+            implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.imageselector)
         }
     }
@@ -105,6 +122,11 @@ android {
 
 dependencies {
     debugImplementation(compose.uiTooling)
+    add("kspCommonMainMetadata", libs.androidx.room.compiler)
+    add("kspJvm", libs.androidx.room.compiler)
+}
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 compose.desktop {

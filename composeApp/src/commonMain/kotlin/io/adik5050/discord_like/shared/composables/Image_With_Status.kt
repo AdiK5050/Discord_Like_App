@@ -31,8 +31,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun Image_With_Status( modifier: Modifier = Modifier,
                        image: ByteArray?,
                        status: OnlineStatus,
-                       clickable: Boolean,
-                       onClick: () -> Unit
+                       clickable: Boolean = false,
+                       onClick: () -> Unit= {}
 ) {
     Box (
         modifier = modifier

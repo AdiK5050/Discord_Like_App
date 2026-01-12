@@ -1,4 +1,4 @@
-package io.adik5050.discord_like.ui.app.chat_page
+package io.adik5050.discord_like.ui.app.home_page
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -10,20 +10,17 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.adik5050.discord_like.ui.app.WindowSizes
-import io.adik5050.discord_like.ui.app.chat_page.composables.Chat
-import io.adik5050.discord_like.ui.app.chat_page.composables.ChatInfo
-import io.adik5050.discord_like.ui.app.chat_page.composables.ChatList
-import io.adik5050.discord_like.ui.app.chat_page.composables.ServerList
+import io.adik5050.discord_like.ui.app.chat_list.ChatList
+import io.adik5050.discord_like.ui.app.server_list.ServerList
 import io.adik5050.discord_like.ui.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
 @Composable
-fun ChatPage(
-    windowSize: WindowSizes,
+fun HomePage(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+    onClickMessageIcon: () -> Unit,
+    onClickChatCard: () -> Unit
 ) {
     Row (
         modifier = modifier
@@ -31,7 +28,8 @@ fun ChatPage(
     ) {
         ServerList(
             modifier = Modifier
-                .width(80.dp)
+                .width(80.dp),
+            onClickMessageIcon = onClickMessageIcon
         )
         Surface (
             shape = MaterialTheme.shapes.large
@@ -42,17 +40,7 @@ fun ChatPage(
                         .fillMaxHeight()
                         .fillMaxWidth()
                         .weight(0.30f),
-                    onClick = onClick
-                )
-                if(windowSize == WindowSizes.MEDIUM || windowSize == WindowSizes.LARGE) Chat(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .weight(1f)
-                )
-                if(windowSize == WindowSizes.LARGE) ChatInfo(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .weight(0.30f)
+                    onClick = onClickChatCard
                 )
             }
         }
@@ -64,9 +52,9 @@ fun ChatPage(
 fun PreviewChatPage() {
     AppTheme {
         Surface {
-            ChatPage(
-                windowSize = WindowSizes.COMPACT
-            )
+            HomePage(
+                onClickMessageIcon = {}
+            ) {}
         }
     }
 }
@@ -77,9 +65,9 @@ fun PreviewChatPageDark() {
         darkTheme = true
     ) {
         Surface {
-            ChatPage(
-                windowSize = WindowSizes.COMPACT
-            )
+            HomePage(
+                onClickMessageIcon = {}
+            ) {}
         }
     }
 }
