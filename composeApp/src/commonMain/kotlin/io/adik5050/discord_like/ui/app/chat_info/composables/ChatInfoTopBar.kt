@@ -17,7 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import io.adik5050.discord_like.shared.composables.Image_With_Status
+import io.adik5050.discord_like.shared.composables.ImageWithStatus
 import io.adik5050.discord_like.shared.composables.OnlineStatus
 import myapplication.composeapp.generated.resources.Res
 import myapplication.composeapp.generated.resources.notifications_hollow
@@ -86,7 +86,7 @@ fun ChatInfoTopBar(
                 overflow = TextOverflow.Ellipsis
 
             )
-            Image_With_Status(
+            ImageWithStatus(
                 image = image,
                 status = status,
                 clickable = true,

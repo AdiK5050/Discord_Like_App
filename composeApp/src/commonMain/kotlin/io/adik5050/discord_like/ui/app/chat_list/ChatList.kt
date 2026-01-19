@@ -6,16 +6,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.ui.app.chat_list.composables.ChatListCard
 import io.adik5050.discord_like.ui.app.chat_list.composables.ChatListSearchBar
 import io.adik5050.discord_like.ui.theme.AppTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ChatList(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+    onClickToChatPage: () -> Unit
 ) {
     Surface (
         modifier = modifier,
@@ -31,7 +31,7 @@ fun ChatList(
                 ChatListCard(
                     name = "Adi",
                     lastMessage = "Hello this is Adi",
-                    onClick = onClick
+                    onClick = onClickToChatPage
                 )
             }
         }
@@ -46,7 +46,9 @@ fun ChatList(
 fun PreviewChatList() {
     AppTheme {
         Surface {
-            ChatList()
+            ChatList(
+                onClickToChatPage = {}
+            )
         }
     }
 }
@@ -57,7 +59,9 @@ fun PreviewChatListCard() {
         darkTheme = true
     ) {
         Surface {
-            ChatList()
+            ChatList(
+                onClickToChatPage = {}
+            )
         }
     }
 }

@@ -8,11 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.shared.composables.OnlineStatus
+import io.adik5050.discord_like.storage.MessageEntity
+import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
 
 @Composable
 fun MessageContent (
     modifier: Modifier = Modifier,
-    messageCardDataList: List<MessageCardData>
+    channelMembers: List<UserInfo>,
+    messageHistory: List<MessageEntity>
 ) {
     Surface (
         modifier = modifier
@@ -20,13 +23,14 @@ fun MessageContent (
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(messageCardDataList) { messageCardData ->
+            items(messageHistory) { message ->
+                val user = channelMembers.firstOrNull { it.userId == message.senderId }
                 MessageCard(
-                    name = messageCardData.name,
-                    message = messageCardData.message,
-                    image = messageCardData.image,
-                    status = messageCardData.status,
-                    time = messageCardData.time,
+                    image = user?.profileImage,
+                    status = OnlineStatus.INVISIBLE,
+                    name = user?.username,
+                    time = message.sentAt,
+                    message = message.message.decodeToString(),
                 )
             }
         }

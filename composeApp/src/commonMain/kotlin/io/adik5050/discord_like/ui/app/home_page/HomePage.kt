@@ -9,18 +9,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.ui.app.chat_list.ChatList
 import io.adik5050.discord_like.ui.app.server_list.ServerList
 import io.adik5050.discord_like.ui.theme.AppTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
 @Composable
 fun HomePage(
     modifier: Modifier = Modifier,
     onClickMessageIcon: () -> Unit,
-    onClickChatCard: () -> Unit
+    onClickChatPage: () -> Unit
 ) {
     Row (
         modifier = modifier
@@ -40,7 +40,7 @@ fun HomePage(
                         .fillMaxHeight()
                         .fillMaxWidth()
                         .weight(0.30f),
-                    onClick = onClickChatCard
+                    onClickToChatPage = onClickChatPage
                 )
             }
         }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import myapplication.composeapp.generated.resources.Res
@@ -28,7 +30,7 @@ fun MessageTextField(
     modifier: Modifier = Modifier,
     onClickAttachment: () -> Unit = {},
     onClickSmiley: () -> Unit = {},
-    onCLickSend: () -> Unit = {},
+    onCLickSend: (String) -> Unit = {},
 ) {
     var message by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue("")) }
 
@@ -60,7 +62,9 @@ fun MessageTextField(
                 Icon(
                     painter = painterResource(Res.drawable.smiley),
                     contentDescription = "Smiley",
-                    modifier = Modifier.clickable(
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .clickable(
                         onClick = onClickSmiley
                     )
                 )
@@ -68,12 +72,15 @@ fun MessageTextField(
                 Icon(
                     painter = painterResource(Res.drawable.send),
                     contentDescription = "Send",
-                    modifier = Modifier.clickable(
-                        onClick = onCLickSend
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .clickable(
+                        onClick = {
+                            onCLickSend(message.text)
+                            message = TextFieldValue("")
+                        }
                     )
                 )
-
-
             }
         }
     )

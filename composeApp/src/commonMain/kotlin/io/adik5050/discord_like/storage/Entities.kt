@@ -1,5 +1,7 @@
 package io.adik5050.discord_like.storage
 
+
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -87,14 +89,45 @@ data class ChannelEntity(
         )]
 )
 
+
 data class MessageEntity(
     @PrimaryKey(autoGenerate = true) val messageId: Int = 0,
-    val message: Any,
+    val message: ByteArray,
     val senderId: Int,
     val channelId: Int,
+    val repliedTo: Int?,
     val messageType: MessageType,
-    
-)
+    @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP")
+    val sentAt: String
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as MessageEntity
+
+        if (messageId != other.messageId) return false
+        if (senderId != other.senderId) return false
+        if (channelId != other.channelId) return false
+        if (repliedTo != other.repliedTo) return false
+        if (!message.contentEquals(other.message)) return false
+        if (messageType != other.messageType) return false
+        if (sentAt != other.sentAt) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = messageId
+        result = 31 * result + senderId
+        result = 31 * result + channelId
+        result = 31 * result + (repliedTo ?: 0)
+        result = 31 * result + message.contentHashCode()
+        result = 31 * result + messageType.hashCode()
+        result = 31 * result + sentAt.hashCode()
+        return result
+    }
+}
 
 @Entity(
     foreignKeys = [ForeignKey(
@@ -106,6 +139,7 @@ data class MessageEntity(
     )]
 )
 data class ChannelMembersEntity(
+    @PrimaryKey(autoGenerate = true) val channelMembersId: Int,
     val channelId: Int,
     val memberId: Int
 )

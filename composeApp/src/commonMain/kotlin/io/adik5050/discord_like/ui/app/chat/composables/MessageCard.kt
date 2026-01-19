@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.adik5050.discord_like.shared.composables.Image_With_Status
+import io.adik5050.discord_like.shared.composables.ImageWithStatus
 import io.adik5050.discord_like.shared.composables.OnlineStatus
 
 @Composable
@@ -18,7 +18,7 @@ fun MessageCard (
     modifier: Modifier = Modifier,
     image: ByteArray? = null,
     status: OnlineStatus,
-    name: String,
+    name: String?,
     time: String,
     message: String,
 ) {
@@ -27,7 +27,7 @@ fun MessageCard (
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Image_With_Status(
+        ImageWithStatus(
             image = image,
             clickable = false,
             status = status,
@@ -41,7 +41,7 @@ fun MessageCard (
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = name,
+                    text = name?:"User",
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(

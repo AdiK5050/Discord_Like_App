@@ -6,11 +6,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.ui.app.server_list.composables.MessageToggleIcon
 import io.adik5050.discord_like.ui.app.server_list.composables.ServerIcon
 import io.adik5050.discord_like.ui.theme.AppTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ServerList(
@@ -22,9 +22,7 @@ fun ServerList(
     ) {
         item {
             MessageToggleIcon(
-                onClick = {
-                    onClickMessageIcon
-                }
+                onClick = onClickMessageIcon
             )
             Spacer(modifier = Modifier.size(16.dp))
         }

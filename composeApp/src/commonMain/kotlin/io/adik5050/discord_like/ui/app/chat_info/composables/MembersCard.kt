@@ -9,7 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import io.adik5050.discord_like.shared.composables.Image_With_Status
+import io.adik5050.discord_like.shared.composables.ImageWithStatus
 import io.adik5050.discord_like.shared.composables.OnlineStatus
 
 @Composable
@@ -31,7 +31,7 @@ fun MembersCard(
         Row (
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image_With_Status(
+            ImageWithStatus(
                 image = image,
                 status = status,
                 clickable = true,

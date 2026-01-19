@@ -6,8 +6,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.ui.app.chat.composables.ChatTopBar
@@ -15,15 +18,17 @@ import io.adik5050.discord_like.ui.app.chat.composables.MessageContent
 import io.adik5050.discord_like.ui.app.chat.composables.MessageTextField
 import io.adik5050.discord_like.ui.app.chat.viewmodels.ChatViewModel
 import io.adik5050.discord_like.ui.theme.AppTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Suppress("ParamsComparedByRef")
 @Composable
-fun Chat(
+fun ChatPage(
     modifier: Modifier = Modifier,
     appDatabase: AppDatabase,
-    chatViewModel: ChatViewModel = viewModel { ChatViewModel(appDatabase) }
+    chatViewModel: ChatViewModel = viewModel { ChatViewModel(appDatabase, 1) },
+    onNavigateToChatList: () -> Unit
 ) {
+    val channelMembers by chatViewModel.channelMembers.collectAsStateWithLifecycle()
+    val messageHistory by chatViewModel.messageHistory.collectAsStateWithLifecycle() 
     Surface (
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.surface,
@@ -32,13 +37,22 @@ fun Chat(
         Column (
             modifier = Modifier.padding(8.dp)
         ) {
-            ChatTopBar()
+            ChatTopBar(
+                onClickBack = {
+                    onNavigateToChatList()
+                }
+            )
             MessageContent(
                 modifier = Modifier
                     .weight(1f),
-                chatViewModel.messageCardDataList
+                channelMembers,
+                messageHistory
             )
-            MessageTextField()
+            MessageTextField(
+                onCLickSend = { message ->
+                    chatViewModel.addMessage(message)
+                }
+            )
         }
     }
 }

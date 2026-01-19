@@ -18,21 +18,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wannaverse.imageselector.toImageBitmap
 import myapplication.composeapp.generated.resources.Res
 import myapplication.composeapp.generated.resources.discord
 import myapplication.composeapp.generated.resources.status_do_not_disturb
+import myapplication.composeapp.generated.resources.status_offline
 import myapplication.composeapp.generated.resources.status_online
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun Image_With_Status( modifier: Modifier = Modifier,
-                       image: ByteArray?,
-                       status: OnlineStatus,
-                       clickable: Boolean = false,
-                       onClick: () -> Unit= {}
+fun ImageWithStatus(modifier: Modifier = Modifier,
+                    image: ByteArray?,
+                    status: OnlineStatus,
+                    clickable: Boolean = false,
+                    onClick: () -> Unit= {}
 ) {
     Box (
         modifier = modifier
@@ -80,7 +81,7 @@ fun Image_With_Status( modifier: Modifier = Modifier,
                     modifier = Modifier.align(alignment = Alignment.Center)
                 )
                 OnlineStatus.INVISIBLE -> Icon(
-                    painterResource(Res.drawable.status_online),
+                    painterResource(Res.drawable.status_offline),
                     contentDescription = "Online",
                     tint = Color.Gray,
                     modifier = Modifier.align(alignment = Alignment.Center)
@@ -99,9 +100,9 @@ fun Preview_Image_With_Status() {
     MaterialTheme(darkColorScheme()) {
         Surface {
             Column {
-                Image_With_Status(Modifier.size(70.dp), null, OnlineStatus.ONLINE, false, {})
-                Image_With_Status(Modifier.size(70.dp), null, OnlineStatus.DO_NOT_DISTURB, false, {})
-                Image_With_Status(Modifier.size(70.dp), null, OnlineStatus.INVISIBLE, false, {})
+                ImageWithStatus(Modifier.size(70.dp), null, OnlineStatus.ONLINE, false, {})
+                ImageWithStatus(Modifier.size(70.dp), null, OnlineStatus.DO_NOT_DISTURB, false, {})
+                ImageWithStatus(Modifier.size(70.dp), null, OnlineStatus.INVISIBLE, false, {})
             }
         }
     }

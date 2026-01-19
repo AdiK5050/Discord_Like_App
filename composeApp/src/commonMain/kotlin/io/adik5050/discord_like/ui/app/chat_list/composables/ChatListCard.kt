@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.adik5050.discord_like.shared.composables.Image_With_Status
+import io.adik5050.discord_like.shared.composables.ImageWithStatus
 import io.adik5050.discord_like.shared.composables.OnlineStatus
 
 @Composable
@@ -37,7 +37,7 @@ fun ChatListCard(
         Row (
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image_With_Status(
+            ImageWithStatus(
                 image = image,
                 status = status,
                 clickable = false,
