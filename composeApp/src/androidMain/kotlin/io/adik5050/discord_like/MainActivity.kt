@@ -8,6 +8,7 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import io.adik5050.discord_like.storage.getDatabase
 import io.adik5050.discord_like.ui.app.App
 
+
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,10 +22,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-//val currentWindowSize = calculateWindowSizeClass(this)
-//val windowSize = when (currentWindowSize.widthSizeClass) {
-//    WindowWidthSizeClass.Compact -> WindowSizes.COMPACT
-//    WindowWidthSizeClass.Medium -> WindowSizes.MEDIUM
-//    WindowWidthSizeClass.Expanded -> WindowSizes.LARGE
-//    else -> WindowSizes.MEDIUM
-//}
