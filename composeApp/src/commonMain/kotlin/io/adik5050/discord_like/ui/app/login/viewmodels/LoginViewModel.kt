@@ -1,15 +1,11 @@
 package io.adik5050.discord_like.ui.app.login.viewmodels
 
-import androidx.compose.foundation.text.input.TextFieldBuffer
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.adik5050.discord_like.storage.AppDatabase
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.stateIn
 
 class LoginViewModel(
