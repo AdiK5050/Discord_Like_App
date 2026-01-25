@@ -62,15 +62,6 @@ fun PersonalProfilePage(
                             memberSince = "Jul 9, 2024"
                         )
                     }
-                    item {
-                        ContentCards(
-                            modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                            connections = true,
-                            orbs = 1080,
-                            about = "Change Is Fated",
-                            memberSince = "Jul 9, 2024"
-                        )
-                    }
                 }
             }
         }
