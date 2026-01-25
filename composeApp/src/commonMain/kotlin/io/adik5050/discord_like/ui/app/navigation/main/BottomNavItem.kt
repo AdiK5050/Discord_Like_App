@@ -1,5 +1,6 @@
-package io.adik5050.discord_like.ui.app.navigation
+package io.adik5050.discord_like.ui.app.navigation.main
 
+import io.adik5050.discord_like.ui.app.navigation.Route
 import myapplication.composeapp.generated.resources.Res
 import myapplication.composeapp.generated.resources.bottom_navigation_home
 import myapplication.composeapp.generated.resources.bottom_navigation_profile

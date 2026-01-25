@@ -1,4 +1,4 @@
-package io.adik5050.discord_like.ui.app.navigation
+package io.adik5050.discord_like.ui.app.navigation.chat
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,6 +12,7 @@ import androidx.savedstate.serialization.SavedStateConfiguration
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.ui.app.chat.ChatPage
 import io.adik5050.discord_like.ui.app.chat_info.ChatInfo
+import io.adik5050.discord_like.ui.app.navigation.Route
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 

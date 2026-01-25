@@ -1,4 +1,4 @@
-package io.adik5050.discord_like.ui.app.navigation
+package io.adik5050.discord_like.ui.app.navigation.home
 
 
 import androidx.compose.runtime.Composable
@@ -14,8 +14,8 @@ import androidx.savedstate.serialization.SavedStateConfiguration
 import androidx.window.core.layout.WindowSizeClass
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.ui.app.home_page.HomePage
-import io.adik5050.discord_like.ui.app.navigation.scenes.HomePageSceneForWideScreen
-import io.adik5050.discord_like.ui.app.navigation.strategies.rememberHomePageStrategy
+import io.adik5050.discord_like.ui.app.navigation.chat.ChatNavigation
+import io.adik5050.discord_like.ui.app.navigation.Route
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 

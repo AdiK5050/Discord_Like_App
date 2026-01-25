@@ -1,4 +1,4 @@
-package io.adik5050.discord_like.ui.app.navigation.scenes
+package io.adik5050.discord_like.ui.app.navigation.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

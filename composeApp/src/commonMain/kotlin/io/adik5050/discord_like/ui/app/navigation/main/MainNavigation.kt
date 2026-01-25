@@ -1,9 +1,8 @@
-package io.adik5050.discord_like.ui.app.navigation
+package io.adik5050.discord_like.ui.app.navigation.main
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
@@ -12,13 +11,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
 import io.adik5050.discord_like.storage.AppDatabase
+import io.adik5050.discord_like.ui.app.navigation.home.HomeNavigation
+import io.adik5050.discord_like.ui.app.navigation.Route
 import io.adik5050.discord_like.ui.app.profile.PersonalProfilePage
 
 @Composable
@@ -37,14 +37,13 @@ fun MainNavigation(
     var nestedBackStacks: NavBackStack<NavKey>? by remember { mutableStateOf(null) }
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     Surface (
-        modifier = modifier
-            .padding(top = 8.dp),
+        modifier = modifier,
     ) {
         Column {
             NavDisplay(
                 modifier = Modifier
                     .fillMaxSize()
-                    .weight(9f),
+                    .weight(8f),
                 onBack = navigator::goBack,
                 entries = navigationState.toEntries(
                     entryProvider {
@@ -75,11 +74,12 @@ fun MainNavigation(
             )
 
             if(!windowSizeClass.isWidthAtLeastBreakpoint(WIDTH_DP_MEDIUM_LOWER_BOUND)) {
-                if(nestedBackStacks?.lastOrNull() == Route.Home.HomePage) {
+                if(showMainBottomNavigationBar)
+                {
                     MainBottomNavigationBar(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .weight(0.8f),
+                            .weight(1f),
                         selectedKey = navigationState.topLevelRoute,
                         onSelectKey = {
                             navigator.navigate(it)

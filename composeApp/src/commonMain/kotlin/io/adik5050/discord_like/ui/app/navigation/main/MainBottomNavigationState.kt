@@ -1,4 +1,4 @@
-package io.adik5050.discord_like.ui.app.navigation
+package io.adik5050.discord_like.ui.app.navigation.main
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -18,6 +18,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.savedstate.compose.serialization.serializers.MutableStateSerializer
 import androidx.savedstate.serialization.SavedStateConfiguration
+import io.adik5050.discord_like.ui.app.navigation.Route
 import kotlinx.serialization.PolymorphicSerializer
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic

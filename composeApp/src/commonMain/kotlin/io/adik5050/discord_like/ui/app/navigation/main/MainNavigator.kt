@@ -1,4 +1,4 @@
-package io.adik5050.discord_like.ui.app.navigation
+package io.adik5050.discord_like.ui.app.navigation.main
 
 import androidx.navigation3.runtime.NavKey
 
