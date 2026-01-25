@@ -10,11 +10,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import io.adik5050.discord_like.storage.AppDatabase
-import io.adik5050.discord_like.ui.app.home_page.HomePage
 import io.adik5050.discord_like.ui.app.navigation.Route
-import io.adik5050.discord_like.ui.app.navigation.chat.ChatNavigation
-import io.adik5050.discord_like.ui.app.navigation.home.HomePageSceneForWideScreen
-import io.adik5050.discord_like.ui.app.navigation.home.rememberHomePageStrategy
 import io.adik5050.discord_like.ui.app.navigation.main.MainNavigation
 import io.adik5050.discord_like.ui.app.navigation.welcome.WelcomeNavigation
 import kotlinx.serialization.modules.SerializersModule
