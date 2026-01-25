@@ -10,6 +10,10 @@ import kotlinx.coroutines.flow.Flow
 interface UserDao {
     @Insert
     suspend fun insertUser(user: UserEntity)
+
+    @Query("SELECT * FROM UserEntity")
+    fun getAllUsersAsFlow(): Flow<List<UserEntity>>
+
     @Query("SELECT UserEntity.userId, UserEntity.username, UserEntity.profileImage FROM UserEntity INNER JOIN main.ChannelEntity CE on UserEntity.userId = CE.userCreatedId WHERE CE.channelId = :channelId")
     fun getUserWithChannelId(channelId: Int): Flow<List<UserInfo>>
 }
