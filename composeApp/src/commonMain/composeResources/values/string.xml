@@ -1,5 +1,18 @@
 <resources>
     <string name="app_name">Discord Like App</string>
+    <string name="app_logo">App Logo</string>
+    <string name = "login_background">Login Background</string>
+    <string name="welcome">WELCOME TO ADI CHAT</string>
+    <string name="welcome_script">Hang out, play games, or just talk. Tap below to get started!</string>
+    <string name="register">Register</string>
+    <string name="register_heading">Enter User Name or Email</string>
+    <string name="register_user_name_label">User Name</string>
+    <string name="register_email_label">Email</string>
+    <string name="login">Log In</string>
+    <string name="login_heading">Welcome back!</string>
+    <string name="login_email_text_field">Email or User Name</string>
+    <string name="password_text_field">Password</string>
+    <string name="signup">Signup</string>
     <string name = "discord_nitro">Nitro</string>
     <string name = "user_thoughts">What did you eat today?</string>
     <string name = "edit_profile">Edit Profile</string>
