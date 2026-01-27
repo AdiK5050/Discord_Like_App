@@ -15,16 +15,20 @@ import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
+import androidx.window.core.layout.WindowSizeClass
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
+import io.adik5050.discord_like.shared.composables.ErrorPage
 import io.adik5050.discord_like.storage.AppDatabase
-import io.adik5050.discord_like.ui.app.navigation.home.HomeNavigation
+import io.adik5050.discord_like.ui.app.home_page.HomePage
 import io.adik5050.discord_like.ui.app.navigation.Route
 import io.adik5050.discord_like.ui.app.profile.PersonalProfilePage
 
 @Composable
 fun MainNavigation(
     modifier: Modifier = Modifier,
-    appDatabase: AppDatabase
+    appDatabase: AppDatabase,
+    windowSizeClass: WindowSizeClass,
+    onNavigateToChat: () -> Unit
 ) {
     val navigationState = rememberMainBottomNavigationState(
         startRoute = Route.Home,
@@ -33,9 +37,6 @@ fun MainNavigation(
     val navigator = remember {
         MainNavigator(navigationState)
     }
-    var showMainBottomNavigationBar by remember { mutableStateOf(true) }
-    var nestedBackStacks: NavBackStack<NavKey>? by remember { mutableStateOf(null) }
-    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     Surface (
         modifier = modifier,
     ) {
@@ -47,20 +48,12 @@ fun MainNavigation(
                 onBack = navigator::goBack,
                 entries = navigationState.toEntries(
                     entryProvider {
-                        entry<Route.Home>{
-                            HomeNavigation(
-                                modifier = Modifier,
-                                appDatabase = appDatabase,
-                                showMainBottomNavigationBar = {
-                                    showMainBottomNavigationBar = true
+                        entry<Route.Home> {
+                            HomePage(
+                                onClickMessageIcon = {
+                                    navigator.navigate(Route.Home)
                                 },
-                                hideMainBottomNavigationBar = {
-                                    showMainBottomNavigationBar = false
-                                },
-                                getHomeBackstack = { homeBackStack ->
-                                    nestedBackStacks = homeBackStack
-                                },
-                                windowSizeClass = windowSizeClass
+                                onClickChatPage = onNavigateToChat
                             )
                         }
                         entry<Route.Profile> {
@@ -69,18 +62,29 @@ fun MainNavigation(
                         entry<Route.Settings> {
                             PersonalProfilePage()
                         }
+                        entry<Route.Error> {
+                            ErrorPage(
+                                errorMessage = "",
+                                onGoBackToLastDestination = {
+                                    navigationState.stackInUse.dropLast(1)
+                                }
+                            )
+                        }
                     }
                 )
             )
-            MainBottomNavigationBar(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                selectedKey = navigationState.topLevelRoute,
-                onSelectKey = {
-                    navigator.navigate(it)
-                },
-            )
+
+        if(!windowSizeClass.isWidthAtLeastBreakpoint(WIDTH_DP_MEDIUM_LOWER_BOUND)) {
+                MainBottomNavigationBar(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    selectedKey = navigationState.topLevelRoute,
+                    onSelectKey = {
+                        navigator.navigate(it)
+                    },
+                )
+            }
         }
     }
 }
