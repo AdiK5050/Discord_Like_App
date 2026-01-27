@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.adik5050.discord_like.shared.composables.LoginOrRegisterHeaderText
 import io.adik5050.discord_like.storage.AppDatabase
-import io.adik5050.discord_like.ui.app.login.composables.WelcomeBackground
+import io.adik5050.discord_like.shared.composables.WelcomeBackground
 import io.adik5050.discord_like.ui.app.login.composables.LoginButtons
 import io.adik5050.discord_like.ui.app.login.composables.LoginTextField
 import io.adik5050.discord_like.ui.app.login.viewmodels.LoginViewModel
