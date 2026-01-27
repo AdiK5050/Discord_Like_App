@@ -25,7 +25,7 @@ fun ChatPage(
     modifier: Modifier = Modifier,
     appDatabase: AppDatabase,
     chatViewModel: ChatViewModel = viewModel { ChatViewModel(appDatabase, 1) },
-    onNavigateToChatList: () -> Unit
+    onNavigateToHome: () -> Unit
 ) {
     val channelMembers by chatViewModel.channelMembers.collectAsStateWithLifecycle()
     val messageHistory by chatViewModel.messageHistory.collectAsStateWithLifecycle() 
@@ -39,7 +39,7 @@ fun ChatPage(
         ) {
             ChatTopBar(
                 onClickBack = {
-                    onNavigateToChatList()
+                    onNavigateToHome()
                 }
             )
             MessageContent(
