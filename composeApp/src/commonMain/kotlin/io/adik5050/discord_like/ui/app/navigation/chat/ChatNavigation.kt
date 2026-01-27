@@ -20,18 +20,18 @@ import kotlinx.serialization.modules.polymorphic
 fun ChatNavigation(
     modifier: Modifier = Modifier,
     appDatabase: AppDatabase,
-    onNavigateToChatList: () -> Unit
+    onNavigateToHome: () -> Unit
 ) {
     val chatPageBackStack = rememberNavBackStack(
         configuration = SavedStateConfiguration {
             serializersModule = SerializersModule {
                 polymorphic(NavKey::class) {
-                    subclass(Route.Home.Chat.ChatPage::class, Route.Home.Chat.ChatPage.serializer())
-                    subclass(Route.Home.Chat.ChatInfo::class, Route.Home.Chat.ChatInfo.serializer())
+                    subclass(Route.Chat.ChatPage::class, Route.Chat.ChatPage.serializer())
+                    subclass(Route.Chat.ChatInfo::class, Route.Chat.ChatInfo.serializer())
                 }
             }
         },
-        Route.Home.Chat.ChatPage
+        Route.Chat.ChatPage
     )
     NavDisplay(
         modifier = modifier,
@@ -41,16 +41,16 @@ fun ChatNavigation(
             rememberViewModelStoreNavEntryDecorator()
         ),
         entryProvider = entryProvider {
-            entry<Route.Home.Chat.ChatPage> {
+            entry<Route.Chat.ChatPage> {
                 ChatPage(
                     modifier = Modifier,
                     appDatabase = appDatabase,
-                    onNavigateToChatList = {
-                        onNavigateToChatList()
+                    onNavigateToHome = {
+                        onNavigateToHome()
                     }
                 )
             }
-            entry<Route.Home.Chat.ChatInfo> {
+            entry<Route.Chat.ChatInfo> {
                 ChatInfo(
                     modifier = Modifier,
                 )
