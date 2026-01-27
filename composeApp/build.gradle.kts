@@ -81,8 +81,8 @@ kotlin {
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
 
-            //russel-wolf settings
-            implementation(libs.russelwolf.settings)
+            //russh-wolf settings
+            implementation(libs.russhwolf.settings)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
