@@ -24,9 +24,9 @@ val Migration_3_4 = object : Migration(3, 4) {
         connection.execSQL("ALTER TABLE MessageEntity ADD COLUMN `sentAt` TEXT DEFAULT CURRENT_TIMESTAMP")
     }
 }
-val Migration_4_5 = object : Migration(3, 4) {
+val Migration_4_5 = object : Migration(4, 5) {
     override fun migrate(connection: SQLiteConnection) {
         connection.execSQL("ALTER TABLE MessageEntity DROP COLUMN sentAt")
-        connection.execSQL("ALTER TABLE MessageEntity ADD COLUMN `sentAt` TEXT NOT NULL")
+        connection.execSQL("ALTER TABLE MessageEntity ADD COLUMN `sentAt` TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP")
     }
 }
