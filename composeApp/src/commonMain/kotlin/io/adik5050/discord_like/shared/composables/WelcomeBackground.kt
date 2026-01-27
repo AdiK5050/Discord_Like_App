@@ -1,4 +1,4 @@
-package io.adik5050.discord_like.ui.app.login.composables
+package io.adik5050.discord_like.shared.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,10 +19,11 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.adik5050.discord_like.ui.app.login.composables.WaveShape
 import io.adik5050.discord_like.ui.theme.AppTheme
 
 @Composable
-fun LoginBackground() {
+fun WelcomeBackground() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -141,19 +142,19 @@ fun DottedRow() {
 }
 @Preview
 @Composable
-fun PreviewLoginBackground() {
+fun PreviewWelcomeBackground() {
     AppTheme (
         darkTheme = false
     ) {
-        LoginBackground()
+        WelcomeBackground()
     }
 }
 @Preview
 @Composable
-fun PreviewDarkLoginBackground() {
+fun PreviewDarkWelcomeBackground() {
     AppTheme (
         darkTheme = true
     ) {
-        LoginBackground()
+        WelcomeBackground()
     }
 }
