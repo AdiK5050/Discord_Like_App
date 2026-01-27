@@ -72,21 +72,15 @@ fun MainNavigation(
                     }
                 )
             )
-
-            if(!windowSizeClass.isWidthAtLeastBreakpoint(WIDTH_DP_MEDIUM_LOWER_BOUND)) {
-                if(showMainBottomNavigationBar)
-                {
-                    MainBottomNavigationBar(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f),
-                        selectedKey = navigationState.topLevelRoute,
-                        onSelectKey = {
-                            navigator.navigate(it)
-                        },
-                    )
-                }
-            }
+            MainBottomNavigationBar(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                selectedKey = navigationState.topLevelRoute,
+                onSelectKey = {
+                    navigator.navigate(it)
+                },
+            )
         }
     }
 }
