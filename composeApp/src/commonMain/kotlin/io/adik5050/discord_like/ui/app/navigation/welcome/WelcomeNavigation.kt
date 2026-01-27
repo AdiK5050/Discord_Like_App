@@ -51,13 +51,16 @@ fun WelcomeNavigation(
                     onClickToRegister = {}
                 )
             }
-            entry(Route.Welcome.Login) {
+            entry<Route.Welcome.Login> {
                 LoginPage(
                     appDatabase = appDatabase,
-                    onNavigateToMainPage = onNavigateToMainNavigation
+                    onNavigateToMainPage = onNavigateToMainNavigation,
+                    onNavigateToWelcomePage = {
+                        welcomeBackstack.add(Route.Welcome.WelcomePage)
+                    }
                 )
             }
-            entry(Route.Welcome.Register) {
+            entry<Route.Welcome.Register> {
 
             }
         }
