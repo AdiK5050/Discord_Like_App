@@ -31,9 +31,7 @@ fun HomePage(
                 .width(80.dp),
             onClickMessageIcon = onClickMessageIcon
         )
-        Surface (
-            shape = MaterialTheme.shapes.large
-        ){
+        Surface{
             Row {
                 ChatList(
                     modifier = Modifier
