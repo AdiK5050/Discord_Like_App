@@ -5,20 +5,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.adik5050.discord_like.storage.AppDatabase
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
+import io.adik5050.discord_like.storage.UserEntity
+import kotlinx.coroutines.launch
 
 class LoginViewModel(
     appDatabase: AppDatabase
 ) : ViewModel() {
     val userDao = appDatabase.getUserDao()
-
-    val userList = userDao.getAllUsersAsFlow()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList()
-        )
 
     private var _loginSuccessful = mutableStateOf(false)
     val loginSuccessful = _loginSuccessful
@@ -35,6 +28,8 @@ class LoginViewModel(
 
     private var _errorMessage = mutableStateOf("")
     val errorMessage = _errorMessage
+
+    private var userFound: UserEntity? = null
     fun updateUsername(newValue: TextFieldValue) {
         _usernameTextFieldValue.value = newValue
     }
@@ -48,35 +43,72 @@ class LoginViewModel(
         _errorMessage.value = ""
     }
 
-    fun checkUsername(): Boolean {
-        userList.value.forEach { user ->
-            if(user.username.equals(_usernameTextFieldValue)) return true
-        }
+    suspend fun checkUsername(): Boolean {
+        userFound = userDao.getUserWithName(_usernameTextFieldValue.value.text)
+        if(userFound != null) return true
+        _isError.value = true
+        _errorMessage.value = "Username Incorrect!"
         return false
     }
     fun checkPassword(): Boolean {
-        userList.value.forEach { user ->
-            if(user.password.equals(_passwordTextFieldValue)) return true
-        }
+        if(userFound?.password == _passwordTextFieldValue.value.text) return true
+        _isError.value = true
+        _errorMessage.value = "Password Incorrect!"
         return false
     }
 
-    fun login() {
-//        if(_usernameTextFieldValue.value.text.isBlank() || _passwordTextFieldValue.value.text.isBlank()) {
-//            _isError.value = true
-//            _errorMessage.value = "Username Or Password Cannot Be Empty!"
-//            return
-//        }
-//        else if(!checkPassword() || !checkUsername()) {
-//            _isError.value = true
-//            _errorMessage.value = "Username Or Password Incorrect!"
-//            return
-//        }
-//        _loginSuccessful.value = true
-        _loginSuccessful.value = true
+    fun login() = viewModelScope.launch {
+        if(_usernameTextFieldValue.value.text.isBlank() || _passwordTextFieldValue.value.text.isBlank()) {
+            _isError.value = true
+            _errorMessage.value = "Username Or Password Cannot Be Empty!"
+        }
+        else if(checkUsername()) {
+            if(checkPassword()) {
+                resetErrorStatus()
+                _loginSuccessful.value = true
+            }
+        }
     }
     fun enableButton() {
         if(_usernameTextFieldValue.value.text.isNotBlank() && _passwordTextFieldValue.value.text.isNotBlank()) _loginButtonEnabled.value = true
         else _loginButtonEnabled.value = false
     }
+    fun fillDataInDatabase() = viewModelScope.launch{
+        listOfUsers.forEach { userEntity ->
+            userDao.insertUser(userEntity.username, userEntity.password, userEntity.profileImage)
+        }
+    }
 }
+
+val listOfUsers = listOf<UserEntity>(
+    UserEntity(
+        username = "Adi",
+        password = "Adi12345",
+        profileImage = null,
+    ),
+    UserEntity(
+        username = "Marko",
+        password = "Marko12345",
+        profileImage = null,
+    ),
+    UserEntity(
+        username = "Wazei",
+        password = "Wazei12345",
+        profileImage = null,
+    ),
+    UserEntity(
+        username = "Lucky",
+        password = "Lucky12345",
+        profileImage = null,
+    ),
+    UserEntity(
+        username = "Yui",
+        password = "Yui12345",
+        profileImage = null,
+    ),
+    UserEntity(
+        username = "Rias",
+        password = "Rias12345",
+        profileImage = null,
+    ),
+)
