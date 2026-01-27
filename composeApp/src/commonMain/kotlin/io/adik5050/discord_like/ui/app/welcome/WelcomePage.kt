@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.adik5050.discord_like.ui.app.login.composables.LoginBackground
+import io.adik5050.discord_like.shared.composables.WelcomeBackground
 import io.adik5050.discord_like.ui.app.welcome.composables.WelcomeButtons
 import io.adik5050.discord_like.ui.app.welcome.composables.WelcomeContent
 import io.adik5050.discord_like.ui.theme.AppTheme
@@ -27,7 +27,7 @@ fun WelcomePage(
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        LoginBackground()
+        WelcomeBackground()
         Column(
             modifier = modifier
                 .fillMaxSize(),
