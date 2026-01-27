@@ -12,33 +12,28 @@ sealed interface Route : NavKey {
         data object WelcomePage: Route
         @Serializable
         data object Login: Route
-
         @Serializable
         data object Register: Route
     }
     @Serializable
-    data object Home: Route {
-        @Serializable
-        data object HomePage: Route
-
-        @Serializable
-        data object Chat: Route {
-
-            @Serializable
-            data object ChatPage: Route
-
-            @Serializable
-            data class ChatInfo( val channelId: Int): Route
-        }
-    }
+    data object Home: Route
 
     @Serializable
-    data object Profile: Route {
-        @Serializable
-        data object ProfilePage
-    }
+    data object Profile: Route
 
     @Serializable
     data object Settings: Route
 
+
+    @Serializable
+    data object Chat: Route {
+
+        @Serializable
+        data object ChatPage: Route
+        @Serializable
+        data class ChatInfo( val channelId: Int): Route
+    }
+
+    @Serializable
+    data object Error: Route
 }
