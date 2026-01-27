@@ -3,6 +3,8 @@ package io.adik5050.discord_like.ui.app.navigation.home
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavEntry
@@ -18,18 +20,22 @@ class HomePageSceneForWideScreen<T: Any>(
         get() = listOf(homePage,chatPage)
 
     override val content: @Composable (() -> Unit) = {
-        Row (
-            modifier = Modifier.fillMaxSize()
+        Surface(
+            shape = MaterialTheme.shapes.large
         ) {
-            Column(
-                modifier = Modifier.weight(3f)
+            Row (
+                modifier = Modifier.fillMaxSize()
             ) {
-                homePage.Content()
-            }
-            Column(
-                modifier = Modifier.weight(7f)
-            ) {
-                chatPage.Content()
+                Column(
+                    modifier = Modifier.weight(4f)
+                ) {
+                    homePage.Content()
+                }
+                Column(
+                    modifier = Modifier.weight(6f)
+                ) {
+                    chatPage.Content()
+                }
             }
         }
     }
