@@ -12,7 +12,6 @@ import androidx.savedstate.serialization.SavedStateConfiguration
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.ui.app.login.LoginPage
 import io.adik5050.discord_like.ui.app.navigation.Route
-import io.adik5050.discord_like.ui.app.navigation.main.MainNavigation
 import io.adik5050.discord_like.ui.app.welcome.WelcomePage
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
