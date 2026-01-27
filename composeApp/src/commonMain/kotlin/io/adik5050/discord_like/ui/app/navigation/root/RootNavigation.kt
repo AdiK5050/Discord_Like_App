@@ -12,10 +12,10 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import io.adik5050.discord_like.shared.composables.ErrorPage
 import io.adik5050.discord_like.storage.AppDatabase
+import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.navigation.Route
 import io.adik5050.discord_like.ui.app.navigation.chat.ChatNavigation
 import io.adik5050.discord_like.ui.app.navigation.home.HomePageSceneForWideScreen
-import io.adik5050.discord_like.ui.app.navigation.home.HomePageStrategy
 import io.adik5050.discord_like.ui.app.navigation.home.rememberHomePageStrategy
 import io.adik5050.discord_like.ui.app.navigation.main.MainNavigation
 import io.adik5050.discord_like.ui.app.navigation.welcome.WelcomeNavigation
@@ -25,10 +25,13 @@ import kotlinx.serialization.modules.polymorphic
 @Composable
 fun RootNavigation(
     modifier: Modifier = Modifier,
-    appDatabase: AppDatabase
+    appDatabase: AppDatabase,
+    userSession: UserSession,
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
-
+    //userSession.clearUserSession()
+    val startRoute = if(userSession.isLoggedIn()) Route.Home else Route.Welcome
+    val userId = userSession.getUserId()
     val rootBackstack = rememberNavBackStack(
         configuration = SavedStateConfiguration {
             serializersModule = SerializersModule {
@@ -40,9 +43,8 @@ fun RootNavigation(
                 }
             }
         },
-        Route.Welcome
+        startRoute
     )
-
     NavDisplay(
         modifier = modifier,
         backStack = rootBackstack,
@@ -56,8 +58,12 @@ fun RootNavigation(
                 WelcomeNavigation(
                     modifier = modifier,
                     appDatabase = appDatabase,
-                    onNavigateToMainNavigation = {
+                    userSession = userSession,
+                    onNavigateToMainNavigation = { userId ->
                         rootBackstack.add(Route.Home)
+                    },
+                    onNavigateToErrorPage = { errorMessage ->
+                        rootBackstack.add(Route.Error(errorMessage = errorMessage))
                     }
                 )
             }
@@ -69,7 +75,8 @@ fun RootNavigation(
                     windowSizeClass = windowSizeClass,
                     onNavigateToChat = {
                         rootBackstack.add(Route.Chat)
-                    }
+                    },
+                    userId = userId
                 )
             }
             entry<Route.Chat>(
@@ -84,7 +91,7 @@ fun RootNavigation(
             }
             entry<Route.Error> {
                 ErrorPage(
-                    errorMessage = "",
+                    errorMessage = it.errorMessage,
                     onGoBackToLastDestination = {
                         rootBackstack.dropLast(1)
                     }

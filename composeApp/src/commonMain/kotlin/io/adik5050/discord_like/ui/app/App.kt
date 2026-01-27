@@ -5,6 +5,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import io.adik5050.discord_like.storage.AppDatabase
+import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.navigation.root.RootNavigation
 import io.adik5050.discord_like.ui.theme.AppTheme
 
@@ -12,6 +13,7 @@ import io.adik5050.discord_like.ui.theme.AppTheme
 fun App(
     appDatabase: AppDatabase
 ) {
+    val userSession = UserSession()
     AppTheme {
         Surface(
             modifier = Modifier
@@ -19,7 +21,8 @@ fun App(
         ) {
             RootNavigation(
                 modifier = Modifier,
-                appDatabase = appDatabase
+                appDatabase = appDatabase,
+                userSession = userSession
             )
         }
     }

@@ -6,13 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.storage.UserEntity
+import io.adik5050.discord_like.storage.UserSession
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    appDatabase: AppDatabase
+    appDatabase: AppDatabase,
+    val userSession: UserSession
 ) : ViewModel() {
     val userDao = appDatabase.getUserDao()
-
     private var _loginSuccessful = mutableStateOf(false)
     val loginSuccessful = _loginSuccessful
     private var _usernameTextFieldValue = mutableStateOf(TextFieldValue(""))
@@ -42,7 +43,9 @@ class LoginViewModel(
         _isError.value = false
         _errorMessage.value = ""
     }
-
+    fun getUserId(): Int? {
+        return userFound?.userId
+    }
     suspend fun checkUsername(): Boolean {
         userFound = userDao.getUserWithName(_usernameTextFieldValue.value.text)
         if(userFound != null) return true
@@ -65,6 +68,11 @@ class LoginViewModel(
         else if(checkUsername()) {
             if(checkPassword()) {
                 resetErrorStatus()
+                userSession.saveUserSession(
+                    userID = userFound!!.userId,
+                    username = userFound!!.username,
+                    password = userFound!!.password
+                )
                 _loginSuccessful.value = true
             }
         }

@@ -21,6 +21,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import io.adik5050.discord_like.shared.composables.LoginOrRegisterHeaderText
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.shared.composables.WelcomeBackground
+import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.login.composables.LoginButtons
 import io.adik5050.discord_like.ui.app.login.composables.LoginTextField
 import io.adik5050.discord_like.ui.app.login.viewmodels.LoginViewModel
@@ -36,15 +37,21 @@ import org.jetbrains.compose.resources.stringResource
 fun LoginPage(
     modifier: Modifier = Modifier,
     appDatabase: AppDatabase,
-    loginViewModel: LoginViewModel = viewModel { LoginViewModel(appDatabase) },
-    onNavigateToMainPage: () -> Unit,
-    onNavigateToWelcomePage: () -> Unit
+    userSession: UserSession,
+    loginViewModel: LoginViewModel = viewModel { LoginViewModel(appDatabase, userSession) },
+    onNavigateToMainPage: (Int) -> Unit,
+    onNavigateToWelcomePage: () -> Unit,
+    onNavigateToErrorPage:(String) -> Unit
 ) {
     //Use only once to fill fake data in the database.
 //    LaunchedEffect(Unit) {
 //        loginViewModel.fillDataInDatabase()
 //    }
-    if(loginViewModel.loginSuccessful.value) onNavigateToMainPage()
+    if(loginViewModel.loginSuccessful.value) {
+        if(loginViewModel.getUserId() != null) onNavigateToMainPage(loginViewModel.getUserId()!!)
+        else onNavigateToErrorPage("User Id Not Found")
+    }
+
     WelcomeBackground()
     Column(
         modifier = modifier
@@ -55,7 +62,7 @@ fun LoginPage(
         LoginOrRegisterHeaderText(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp),
+                .padding(top = 16.dp, start = 16.dp, end = 16.dp),
             heading = stringResource(Res.string.login_heading),
             onClickBack = onNavigateToWelcomePage
         )

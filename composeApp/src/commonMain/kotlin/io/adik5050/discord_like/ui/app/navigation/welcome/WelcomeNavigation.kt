@@ -10,6 +10,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import io.adik5050.discord_like.storage.AppDatabase
+import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.login.LoginPage
 import io.adik5050.discord_like.ui.app.navigation.Route
 import io.adik5050.discord_like.ui.app.welcome.WelcomePage
@@ -20,7 +21,9 @@ import kotlinx.serialization.modules.polymorphic
 fun WelcomeNavigation(
     modifier: Modifier = Modifier,
     appDatabase: AppDatabase,
-    onNavigateToMainNavigation: () -> Unit,
+    userSession: UserSession,
+    onNavigateToMainNavigation: (Int) -> Unit,
+    onNavigateToErrorPage: (String) -> Unit
 ) {
     val welcomeBackstack = rememberNavBackStack(
         configuration = SavedStateConfiguration {
@@ -53,9 +56,15 @@ fun WelcomeNavigation(
             entry<Route.Welcome.Login> {
                 LoginPage(
                     appDatabase = appDatabase,
-                    onNavigateToMainPage = onNavigateToMainNavigation,
+                    userSession = userSession,
+                    onNavigateToMainPage = { userId ->
+                        onNavigateToMainNavigation(userId)
+                    },
                     onNavigateToWelcomePage = {
                         welcomeBackstack.add(Route.Welcome.WelcomePage)
+                    },
+                    onNavigateToErrorPage = { errorMessage ->
+                        onNavigateToErrorPage(errorMessage)
                     }
                 )
             }
