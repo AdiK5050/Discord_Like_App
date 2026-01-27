@@ -8,9 +8,11 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
-    @Insert
-    suspend fun insertUser(user: UserEntity)
+    @Query("INSERT INTO UserEntity (username, password, profileImage) VALUES(:username, :password, :profileImage)" )
+    suspend fun insertUser(username: String, password: String, profileImage: ByteArray?)
 
+    @Query("SELECT * FROM UserEntity WHERE username = :username")
+    suspend fun getUserWithName(username: String): UserEntity?
     @Query("SELECT * FROM UserEntity")
     fun getAllUsersAsFlow(): Flow<List<UserEntity>>
 
@@ -33,4 +35,3 @@ interface MessageDao {
     @Query("SELECT messageId, message, senderId, channelId, repliedTo, messageType, strftime('%I:%M',sentAt, 'localtime') as sentAt FROM MessageEntity WHERE channelID = :channelID")
     fun getAllMessagesByChannelID(channelID: Int): Flow<List<MessageEntity>>
 }
-
