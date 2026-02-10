@@ -21,22 +21,25 @@ kotlin {
         }
     }
     
-//    listOf(
-//        iosArm64(),
-//        iosSimulatorArm64()
-//    ).forEach { iosTarget ->
-//        iosTarget.binaries.framework {
-//            baseName = "ComposeApp"
-//            isStatic = true
-//        }
-//    }
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "ComposeApp"
+            isStatic = true
+            //to select sql driver
+            linkerOpts.add("-lsqlite3")
+        }
+    }
     
     jvm()
     
-    js {
-        browser()
-        binaries.executable()
-    }
+//    js {
+//        browser()
+//        binaries.executable()
+//    }
 //
 //    @OptIn(ExperimentalWasmDsl::class)
 //    wasmJs {
@@ -125,6 +128,9 @@ dependencies {
     add("kspCommonMainMetadata", libs.androidx.room.compiler)
     add("kspAndroid", libs.androidx.room.compiler)
     add("kspJvm", libs.androidx.room.compiler)
+    add("kspIosX64", libs.androidx.room.compiler)
+    add("kspIosArm64", libs.androidx.room.compiler)
+    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
 }
 room {
     schemaDirectory("$projectDir/schemas")
