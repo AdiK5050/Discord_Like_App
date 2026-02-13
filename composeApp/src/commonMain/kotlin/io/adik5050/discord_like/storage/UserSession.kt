@@ -14,6 +14,8 @@ class UserSession() {
         private  const val KEY_USERNAME = "user_username"
         private const val KEY_PASSWORD = "user_password"
         private const val KEY_USER_ID = "user_id"
+
+        private const val KEY_USER_PROFILE_IMAGE = "user_profile_image"
         private const val KEY_LOGGED_IN = "user_logged_in"
     }
 
@@ -33,6 +35,18 @@ class UserSession() {
         settings.putInt(KEY_USER_ID, userID)
         settings.putBoolean(KEY_LOGGED_IN, true)
     }
+
+    fun saveUserProfileImage(userProfileImage: ByteArray) {
+        settings.putString(KEY_USER_PROFILE_IMAGE,userProfileImage.toString())
+    }
+    fun getUserProfileImage() : ByteArray? {
+        val byteArrayString = settings.getString(KEY_USER_PROFILE_IMAGE, defaultValue = "")
+        if(byteArrayString.isNotBlank())
+            return byteArrayString.encodeToByteArray()
+        else
+            println("User Profile Image is not present.")
+        return null
+    }
     fun isLoggedIn(): Boolean {
         return settings.getBoolean(KEY_LOGGED_IN, defaultValue = false)
     }
@@ -41,8 +55,7 @@ class UserSession() {
         settings.remove(KEY_USERNAME)
         settings.remove(KEY_PASSWORD)
         settings.remove(KEY_USER_ID)
+        settings.remove(KEY_USER_PROFILE_IMAGE)
         settings.putBoolean(KEY_LOGGED_IN, false)
     }
-
-
 }
