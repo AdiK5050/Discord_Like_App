@@ -54,25 +54,24 @@ fun ProfileInfo(
     onClickNotes: () -> Unit = {}
 ) {
     Column(
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         ProfileInfoImageRow(
-            modifier,
             image = image,
             status = status,
+            statusAlignment = Alignment.BottomEnd,
             thoughts = thoughts,
             clickableImage = clickableImage,
             onClickImage = onClickImage,
             onClickNotes = onClickNotes
         )
         ProfileInfoTextRow(
-            modifier,
             name = name,
             userId = userId,
             pronouns = pronouns,
         )
         ProfileEditButton(
-            modifier = modifier,
             onEdit = onEdit
         )
     }
@@ -83,6 +82,7 @@ fun ProfileInfoImageRow(
     image: ByteArray? = null,
     status: OnlineStatus = OnlineStatus.ONLINE,
     thoughts: String?,
+    statusAlignment: Alignment,
     clickableImage: Boolean,
     onClickImage: () -> Unit,
     onClickNotes: () -> Unit,
@@ -96,6 +96,7 @@ fun ProfileInfoImageRow(
             modifier = Modifier.size(82.dp),
             image = image,
             status = status,
+            statusAlignment = statusAlignment,
             clickable = clickableImage,
             onClick = onClickImage
         )
