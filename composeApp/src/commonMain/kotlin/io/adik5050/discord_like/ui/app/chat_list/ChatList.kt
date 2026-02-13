@@ -1,5 +1,6 @@
 package io.adik5050.discord_like.ui.app.chat_list
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
@@ -19,20 +20,21 @@ fun ChatList(
 ) {
     Surface (
         modifier = modifier,
-        color = MaterialTheme.colorScheme.surfaceContainer
+        color = MaterialTheme.colorScheme.surfaceContainer,
+        shape = MaterialTheme.shapes.medium
     ) {
-        LazyColumn (
-            modifier = Modifier.padding(16.dp)
-        ) {
-            item {
-                ChatListSearchBar()
-            }
-            items (count = 15) {
-                ChatListCard(
-                    name = "Adi",
-                    lastMessage = "Hello this is Adi",
-                    onClick = onClickToChatPage
-                )
+        Column {
+            ChatListSearchBar()
+            LazyColumn (
+                modifier = Modifier.padding(8.dp)
+            ) {
+                items (count = 15) {
+                    ChatListCard(
+                        name = "Adi",
+                        lastMessage = "Hello this is Adi",
+                        onClick = onClickToChatPage
+                    )
+                }
             }
         }
     }
