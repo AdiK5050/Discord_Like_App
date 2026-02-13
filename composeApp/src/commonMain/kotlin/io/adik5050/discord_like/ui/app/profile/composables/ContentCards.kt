@@ -43,24 +43,17 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ContentCards (
     modifier: Modifier = Modifier,
-    orbs: Int,
     about: String,
     memberSince: String,
-    connections: Boolean,
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        OrbsCard(
-            orbs = orbs
-        )
         AboutMeCard(
             about = about,
             memberSince = memberSince
         )
-        if(connections)
-            ConnectionsCard()
         FriendsCard()
     }
 }
@@ -276,10 +269,8 @@ fun PreviewContentCards() {
     ) {
         Surface {
             ContentCards(
-                orbs = 0,
                 about = "Change Is Fated",
                 memberSince = "Jul 9, 2023",
-                connections = true,
             )
         }
     }
