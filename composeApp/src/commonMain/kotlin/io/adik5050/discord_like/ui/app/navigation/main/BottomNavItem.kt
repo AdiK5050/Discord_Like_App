@@ -1,5 +1,6 @@
 package io.adik5050.discord_like.ui.app.navigation.main
 
+import androidx.navigation3.runtime.NavKey
 import io.adik5050.discord_like.ui.app.navigation.Route
 import myapplication.composeapp.generated.resources.Res
 import myapplication.composeapp.generated.resources.bottom_navigation_home
@@ -17,15 +18,15 @@ data class BottomNavItem(
 )
 
 val TOP_LEVEL_DESTINATIONS = mapOf(
-    Route.Home to BottomNavItem(
+    Route.Home as NavKey to BottomNavItem(
         icon = Res.drawable.discord_home,
         title = Res.string.bottom_navigation_home
     ),
-    Route.Profile to BottomNavItem(
+    Route.Profile as NavKey to BottomNavItem(
         icon = Res.drawable.discord_logo,
         title = Res.string.bottom_navigation_profile,
     ),
-    Route.Settings to BottomNavItem(
+    Route.Settings as NavKey to BottomNavItem(
         icon = Res.drawable.discord_settings,
         title = Res.string.bottom_navigation_setting
     )
