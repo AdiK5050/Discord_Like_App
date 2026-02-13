@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -39,7 +40,7 @@ fun LoginPage(
     appDatabase: AppDatabase,
     userSession: UserSession,
     loginViewModel: LoginViewModel = viewModel { LoginViewModel(appDatabase, userSession) },
-    onNavigateToMainPage: (Int) -> Unit,
+    onNavigateToMainPage: () -> Unit,
     onNavigateToWelcomePage: () -> Unit,
     onNavigateToErrorPage:(String) -> Unit
 ) {
@@ -48,7 +49,7 @@ fun LoginPage(
 //        loginViewModel.fillDataInDatabase()
 //    }
     if(loginViewModel.loginSuccessful.value) {
-        if(loginViewModel.getUserId() != null) onNavigateToMainPage(loginViewModel.getUserId()!!)
+        if(loginViewModel.getUserId() != null) onNavigateToMainPage()
         else onNavigateToErrorPage("User Id Not Found")
     }
 
@@ -124,36 +125,6 @@ fun LoginError(
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.error,
             )
-        }
-    }
-}
-
-@Preview
-@Composable
-fun PreviewLoginPage() {
-    AppTheme(
-        darkTheme = false
-    ) {
-        Surface {
-//            LoginPage(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//            )
-        }
-    }
-}
-@Preview
-@Composable
-fun DarkPreviewLoginPage() {
-    AppTheme(
-        darkTheme = true
-    ) {
-        Surface {
-//            LoginPage(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//
-//            )
         }
     }
 }
