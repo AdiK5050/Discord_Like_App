@@ -3,6 +3,8 @@ package io.adik5050.discord_like.ui.app.navigation.main
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fitInside
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -10,10 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import androidx.window.core.layout.WindowSizeClass
+import androidx.window.core.layout.WindowSizeClass.Companion.HEIGHT_DP_MEDIUM_LOWER_BOUND
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
 import io.adik5050.discord_like.shared.composables.ErrorPage
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.ui.app.home_page.HomePage
+import io.adik5050.discord_like.ui.app.home_page.composables.CompactHomePageBar
+import io.adik5050.discord_like.ui.app.home_page.composables.WideHomePageBar
 import io.adik5050.discord_like.ui.app.navigation.Route
 import io.adik5050.discord_like.ui.app.profile.PersonalProfilePage
 
@@ -67,16 +72,32 @@ fun MainNavigation(
                     }
                 )
             )
-
-        if(!windowSizeClass.isWidthAtLeastBreakpoint(WIDTH_DP_MEDIUM_LOWER_BOUND)) {
+            if(!windowSizeClass.isWidthAtLeastBreakpoint(WIDTH_DP_MEDIUM_LOWER_BOUND)) {
                 MainBottomNavigationBar(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
+                        .fillMaxWidth(),
                     selectedKey = navigationState.topLevelRoute,
                     onSelectKey = {
                         navigator.navigate(it)
                     },
+                )
+            }
+            else if(!windowSizeClass.isHeightAtLeastBreakpoint(HEIGHT_DP_MEDIUM_LOWER_BOUND)) {
+                CompactHomePageBar(
+                    modifier = Modifier
+                        .padding(8.dp),
+                    onClickProfile = {
+                        navigator.navigate(Route.Profile)
+                    }
+                )
+            }
+            else {
+                WideHomePageBar(
+                    modifier = Modifier
+                        .padding(8.dp),
+                    onClickProfile = {
+                        navigator.navigate(Route.Profile)
+                    }
                 )
             }
         }

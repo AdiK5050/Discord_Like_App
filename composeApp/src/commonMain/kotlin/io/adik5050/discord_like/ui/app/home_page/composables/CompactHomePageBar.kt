@@ -1,0 +1,87 @@
+package io.adik5050.discord_like.ui.app.home_page.composables
+
+import androidx.compose.foundation.hoverable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import io.adik5050.discord_like.shared.composables.OnlineStatus
+import io.adik5050.discord_like.ui.theme.AppTheme
+
+@Composable
+fun CompactHomePageBar(
+    modifier: Modifier = Modifier,
+    name: String= "Adi",
+    username: String = "adi8299",
+    image: ByteArray? = null,
+    status: OnlineStatus = OnlineStatus.ONLINE,
+    onClickProfile: () -> Unit
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isHoveredCard by interactionSource.collectIsHoveredAsState()
+    OutlinedCard(
+        modifier = modifier
+            .hoverable(interactionSource),
+        shape = (MaterialTheme.shapes.medium),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
+            contentColor = MaterialTheme.colorScheme.onSurface
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            HomePageBarProfileCard(
+                modifier = Modifier
+                    .weight(1f),
+                isHoveredCard = isHoveredCard,
+                name = name,
+                username = username,
+                image = image,
+                status = status,
+                onClickProfile = onClickProfile
+            )
+            CompactHomePageBarButtons()
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewCompactHomePageBarFor() {
+    AppTheme {
+        Surface {
+            CompactHomePageBar(
+                modifier = Modifier.padding(8.dp),
+                onClickProfile = {}
+            )
+        }
+    }
+}
+@Preview
+@Composable
+fun PreviewDarkCompactHomePageBarFor() {
+    AppTheme(
+        darkTheme = true
+    ) {
+        Surface {
+            CompactHomePageBar(
+                modifier = Modifier.padding(8.dp),
+                onClickProfile = {}
+            )
+        }
+    }
+}
