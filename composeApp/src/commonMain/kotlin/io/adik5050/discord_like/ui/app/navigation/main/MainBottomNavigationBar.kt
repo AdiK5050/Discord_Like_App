@@ -38,8 +38,8 @@ fun MainBottomNavigationBar(
                         .size(24.dp)
                         .weight(1f),
                     icon = {
-                        var alpha by remember { mutableStateOf(1.5f) }
-                        if(selectedKey == topLevelDestination) alpha = 1.5f else alpha = 0.5f
+                        var alpha by remember { mutableStateOf(1f) }
+                        if(selectedKey == topLevelDestination) alpha = 1f else alpha = 0.5f
                         Icon(
                             painter = painterResource(data.icon),
                             contentDescription = stringResource(data.title),
