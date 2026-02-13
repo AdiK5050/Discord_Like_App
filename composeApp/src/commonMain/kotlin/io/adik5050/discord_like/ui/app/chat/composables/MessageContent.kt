@@ -27,7 +27,7 @@ fun MessageContent (
                 val user = channelMembers.firstOrNull { it.userId == message.senderId }
                 MessageCard(
                     image = user?.profileImage,
-                    status = OnlineStatus.INVISIBLE,
+                    status = OnlineStatus.OFFLINE,
                     name = user?.username,
                     time = message.sentAt,
                     message = message.message.decodeToString(),
@@ -81,42 +81,42 @@ val messageCardDataListData = listOf<MessageCardData>(
     ),
     MessageCardData(
         image = null,
-        status = OnlineStatus.INVISIBLE,
+        status = OnlineStatus.OFFLINE,
         name = "Roberto",
         time = "4:38",
         message = "Guess what? The slacker thinks he is in control."
     ),
     MessageCardData(
         image = null,
-        status = OnlineStatus.INVISIBLE,
+        status = OnlineStatus.OFFLINE,
         name = "Roberto",
         time = "4:38",
         message = "Guess what? The slacker thinks he is in control."
     ),
     MessageCardData(
         image = null,
-        status = OnlineStatus.INVISIBLE,
+        status = OnlineStatus.OFFLINE,
         name = "Roberto",
         time = "4:38",
         message = "Guess what? The slacker thinks he is in control."
     ),
     MessageCardData(
         image = null,
-        status = OnlineStatus.INVISIBLE,
+        status = OnlineStatus.OFFLINE,
         name = "Roberto",
         time = "4:38",
         message = "Guess what? The slacker thinks he is in control."
     ),
     MessageCardData(
         image = null,
-        status = OnlineStatus.INVISIBLE,
+        status = OnlineStatus.OFFLINE,
         name = "Roberto",
         time = "4:38",
         message = "Guess what? The slacker thinks he is in control."
     ),
     MessageCardData(
         image = null,
-        status = OnlineStatus.INVISIBLE,
+        status = OnlineStatus.OFFLINE,
         name = "Roberto",
         time = "4:38",
         message = "Guess what? The slacker thinks he is in control."
