@@ -22,7 +22,7 @@ fun WelcomeNavigation(
     modifier: Modifier = Modifier,
     appDatabase: AppDatabase,
     userSession: UserSession,
-    onNavigateToMainNavigation: (Int) -> Unit,
+    onNavigateToMainNavigation: () -> Unit,
     onNavigateToErrorPage: (String) -> Unit
 ) {
     val welcomeBackstack = rememberNavBackStack(
@@ -57,8 +57,8 @@ fun WelcomeNavigation(
                 LoginPage(
                     appDatabase = appDatabase,
                     userSession = userSession,
-                    onNavigateToMainPage = { userId ->
-                        onNavigateToMainNavigation(userId)
+                    onNavigateToMainPage = {
+                        onNavigateToMainNavigation()
                     },
                     onNavigateToWelcomePage = {
                         welcomeBackstack.add(Route.Welcome.WelcomePage)
