@@ -53,6 +53,8 @@ fun ChatNavigation(
             entry<Route.Chat.ChatInfo> {
                 ChatInfo(
                     modifier = Modifier,
+                    appDatabase = appDatabase,
+                    channelId = it.channelId,
                 )
             }
         }
