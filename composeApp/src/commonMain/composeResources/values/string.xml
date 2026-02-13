@@ -27,4 +27,15 @@
     <string name = "bottom_navigation_profile">You</string>
     <string name = "bottom_navigation_setting">Settings</string>
     <string name = "search">Search</string>
+    <string name = "microphone_on">Microphone On</string>
+    <string name = "microphone_off">Microphone Off</string>
+    <string name = "mic_input_options">Input Options</string>
+    <string name = "headphone_on">Headphone On</string>
+    <string name = "headphone_off">Headphone Off</string>
+    <string name = "options">Options</string>
+    <string name = "headphone_output_options">Output Options</string>
+    <string name = "status_online">Online</string>
+    <string name = "status_offline">Offline</string>
+    <string name = "status_edit">Edit</string>
+    <string name = "status_do_not_disturb">Do Not Disturb</string>
 </resources>
