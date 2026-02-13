@@ -19,6 +19,7 @@ import io.adik5050.discord_like.ui.app.navigation.home.HomePageSceneForWideScree
 import io.adik5050.discord_like.ui.app.navigation.home.rememberHomePageStrategy
 import io.adik5050.discord_like.ui.app.navigation.main.MainNavigation
 import io.adik5050.discord_like.ui.app.navigation.welcome.WelcomeNavigation
+import io.adik5050.discord_like.ui.app.profile.EditProfilePage
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
@@ -31,7 +32,6 @@ fun RootNavigation(
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     //userSession.clearUserSession()
     val startRoute = if(userSession.isLoggedIn()) Route.Home else Route.Welcome
-    val userId = userSession.getUserId()
     val rootBackstack = rememberNavBackStack(
         configuration = SavedStateConfiguration {
             serializersModule = SerializersModule {
@@ -39,6 +39,7 @@ fun RootNavigation(
                     subclass(Route.Welcome::class, Route.Welcome.serializer())
                     subclass(Route.Home::class, Route.Home.serializer())
                     subclass(Route.Chat::class, Route.Chat.serializer())
+                    subclass(Route.EditProfile::class, Route.EditProfile.serializer())
                     subclass(Route.Error::class, Route.Error.serializer())
                 }
             }
@@ -59,7 +60,7 @@ fun RootNavigation(
                     modifier = modifier,
                     appDatabase = appDatabase,
                     userSession = userSession,
-                    onNavigateToMainNavigation = { userId ->
+                    onNavigateToMainNavigation = {
                         rootBackstack.add(Route.Home)
                     },
                     onNavigateToErrorPage = { errorMessage ->
@@ -76,7 +77,10 @@ fun RootNavigation(
                     onNavigateToChat = {
                         rootBackstack.add(Route.Chat)
                     },
-                    userId = userId
+                    userSession = userSession,
+                    onNavigateToEditProfile = {
+                        rootBackstack.add(Route.EditProfile)
+                    }
                 )
             }
             entry<Route.Chat>(
@@ -89,11 +93,17 @@ fun RootNavigation(
                     }
                 )
             }
+            entry<Route.EditProfile> {
+                EditProfilePage(
+                    appDatabase = appDatabase,
+                    userSession = userSession
+                )
+            }
             entry<Route.Error> {
                 ErrorPage(
                     errorMessage = it.errorMessage,
                     onGoBackToLastDestination = {
-                        rootBackstack.dropLast(1)
+                        rootBackstack.removeLastOrNull()
                     }
                 )
             }
