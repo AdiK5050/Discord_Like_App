@@ -9,25 +9,29 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.WindowInsetsRulers
+import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import androidx.window.core.layout.WindowSizeClass
 import androidx.window.core.layout.WindowSizeClass.Companion.HEIGHT_DP_MEDIUM_LOWER_BOUND
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
-import io.adik5050.discord_like.shared.composables.ErrorPage
 import io.adik5050.discord_like.storage.AppDatabase
+import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.home_page.HomePage
 import io.adik5050.discord_like.ui.app.home_page.composables.CompactHomePageBar
 import io.adik5050.discord_like.ui.app.home_page.composables.WideHomePageBar
 import io.adik5050.discord_like.ui.app.navigation.Route
-import io.adik5050.discord_like.ui.app.profile.PersonalProfilePage
+import io.adik5050.discord_like.ui.app.profile.ProfilePage
 
 @Composable
 fun MainNavigation(
     modifier: Modifier = Modifier,
     appDatabase: AppDatabase,
+    userSession: UserSession,
     windowSizeClass: WindowSizeClass,
-    onNavigateToChat: () -> Unit
+    onNavigateToChat: () -> Unit,
+    onNavigateToEditProfile: () -> Unit,
 ) {
     val navigationState = rememberMainBottomNavigationState(
         startRoute = Route.Home,
@@ -37,36 +41,45 @@ fun MainNavigation(
         MainNavigator(navigationState)
     }
     Surface (
-        modifier = modifier,
+        modifier = modifier
+            .fitInside(WindowInsetsRulers.SafeDrawing.current)
+            .fillMaxSize(),
     ) {
         Column {
             NavDisplay(
                 modifier = Modifier
-                    .fillMaxSize()
                     .weight(8f),
                 onBack = navigator::goBack,
                 entries = navigationState.toEntries(
                     entryProvider {
                         entry<Route.Home> {
                             HomePage(
+                                appDatabase = appDatabase,
+                                userSession = userSession,
                                 onClickMessageIcon = {
                                     navigator.navigate(Route.Home)
                                 },
-                                onClickChatPage = onNavigateToChat
+                                onClickChatPage = onNavigateToChat,
                             )
                         }
                         entry<Route.Profile> {
-                            PersonalProfilePage()
+                            ProfilePage(
+                                appDatabase = appDatabase,
+                                userSession = userSession,
+                                onNavigateBack = {
+                                    navigator.goBack()
+                                },
+                                onNavigateToEditProfile = onNavigateToEditProfile
+                            )
                         }
                         entry<Route.Settings> {
-                            PersonalProfilePage()
-                        }
-                        entry<Route.Error> {
-                            ErrorPage(
-                                errorMessage = "",
-                                onGoBackToLastDestination = {
-                                    navigationState.stackInUse.dropLast(1)
-                                }
+                            ProfilePage(
+                                appDatabase = appDatabase,
+                                userSession = userSession,
+                                onNavigateBack = {
+                                    navigator.goBack()
+                                },
+                                onNavigateToEditProfile = onNavigateToEditProfile
                             )
                         }
                     }
