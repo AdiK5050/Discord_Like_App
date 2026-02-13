@@ -127,7 +127,6 @@ android {
 
 dependencies {
     debugImplementation(libs.ui.tooling)
-    add("kspCommonMainMetadata", libs.androidx.room.compiler)
     add("kspAndroid", libs.androidx.room.compiler)
     add("kspJvm", libs.androidx.room.compiler)
     add("kspIosX64", libs.androidx.room.compiler)
