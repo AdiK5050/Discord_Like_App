@@ -6,7 +6,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -16,22 +15,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wannaverse.imageselector.toImageBitmap
 import myapplication.composeapp.generated.resources.Res
 import myapplication.composeapp.generated.resources.discord
-import myapplication.composeapp.generated.resources.status_do_not_disturb
-import myapplication.composeapp.generated.resources.status_offline
-import myapplication.composeapp.generated.resources.status_online
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ImageWithStatus(modifier: Modifier = Modifier,
                     image: ByteArray?,
                     status: OnlineStatus,
+                    statusAlignment: Alignment = Alignment.BottomEnd,
                     clickable: Boolean = false,
                     onClick: () -> Unit= {}
 ) {
@@ -63,31 +60,15 @@ fun ImageWithStatus(modifier: Modifier = Modifier,
         }
         Box(
             modifier = Modifier
-                .align(Alignment.BottomEnd)
+                .align(statusAlignment)
                 .border(width = 4.dp, color = MaterialTheme.colorScheme.background, shape = CircleShape)
                 .background(color = MaterialTheme.colorScheme.background,shape = CircleShape)
         ) {
-            when (status) {
-                OnlineStatus.DO_NOT_DISTURB -> Icon(
-                    painterResource(Res.drawable.status_do_not_disturb),
-                    contentDescription = "Do Nod Disturb",
-                    tint = Color(0xfff02d2d),
-                    modifier = Modifier.align(alignment = Alignment.Center)
-                )
-                OnlineStatus.ONLINE -> Icon(
-                    painterResource(Res.drawable.status_online),
-                    contentDescription = "Online",
-                    tint = Color(0xff00c230),
-                    modifier = Modifier.align(alignment = Alignment.Center)
-                )
-                OnlineStatus.INVISIBLE -> Icon(
-                    painterResource(Res.drawable.status_offline),
-                    contentDescription = "Online",
-                    tint = Color.Gray,
-                    modifier = Modifier.align(alignment = Alignment.Center)
-                )
-                else -> {}
-            }
+            Icon(
+                painter = painterResource(status.icon),
+                contentDescription = stringResource(status.description),
+                tint = status.color
+            )
         }
     }
 }
@@ -100,9 +81,21 @@ fun Preview_Image_With_Status() {
     MaterialTheme(darkColorScheme()) {
         Surface {
             Column {
-                ImageWithStatus(Modifier.size(70.dp), null, OnlineStatus.ONLINE, false, {})
-                ImageWithStatus(Modifier.size(70.dp), null, OnlineStatus.DO_NOT_DISTURB, false, {})
-                ImageWithStatus(Modifier.size(70.dp), null, OnlineStatus.INVISIBLE, false, {})
+                ImageWithStatus(
+                    image = null,
+                    status = OnlineStatus.ONLINE,
+                    statusAlignment = Alignment.BottomEnd
+                    )
+                ImageWithStatus(
+                    image = null,
+                    status = OnlineStatus.DO_NOT_DISTURB,
+                    statusAlignment = Alignment.BottomEnd
+                    )
+                ImageWithStatus(
+                    image = null,
+                    status = OnlineStatus.OFFLINE,
+                    statusAlignment = Alignment.BottomEnd
+                    )
             }
         }
     }
