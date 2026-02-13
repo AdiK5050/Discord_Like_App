@@ -1,5 +1,8 @@
 package io.adik5050.discord_like
 
+import androidx.compose.foundation.layout.fitInside
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.WindowInsetsRulers
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import io.adik5050.discord_like.storage.getDatabase
@@ -15,7 +18,7 @@ fun main() = application {
         val appDatabase = getDatabase()
 
         App(
-            appDatabase
+            appDatabase = appDatabase
         )
     }
 }
