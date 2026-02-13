@@ -22,6 +22,8 @@ sealed interface Route : NavKey {
     data object Profile: Route
 
     @Serializable
+    data object EditProfile: Route
+    @Serializable
     data object Settings: Route
 
 
@@ -35,5 +37,5 @@ sealed interface Route : NavKey {
     }
 
     @Serializable
-    data object Error: Route
+    data class Error(val errorMessage: String): Route
 }
