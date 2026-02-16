@@ -30,19 +30,22 @@ class ChatViewModel(
             initialValue = emptyList()
         )
     fun addMessage(message: String) = viewModelScope.launch{
-        messageDao.insertMessage(
+        if(message.trim().isNotEmpty()) {
+            messageDao.insertMessage(
                 message = message.encodeToByteArray(),
                 senderId = 1,
                 channelId = 1,
                 repliedTo = null,
                 messageType = MessageType.TEXT,
             )
+        }
     }
 }
 
 data class UserInfo(
     val userId: Int,
-    val username: String,
+    val displayName: String,
+    val onlineStatus: String,
     val profileImage: ByteArray?
 ) {
     override fun equals(other: Any?): Boolean {
@@ -51,14 +54,14 @@ data class UserInfo(
 
         other as UserInfo
 
-        if (username != other.username) return false
+        if (displayName != other.displayName) return false
         if (!profileImage.contentEquals(other.profileImage)) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = username.hashCode()
+        var result = displayName.hashCode()
         result = 31 * result + profileImage.contentHashCode()
         return result
     }

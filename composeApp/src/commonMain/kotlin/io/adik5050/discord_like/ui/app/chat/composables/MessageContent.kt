@@ -8,8 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.shared.composables.OnlineStatus
+import io.adik5050.discord_like.shared.composables.convertToOnlineStatus
 import io.adik5050.discord_like.storage.MessageEntity
 import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
+import myapplication.composeapp.generated.resources.Res
 
 @Composable
 fun MessageContent (
@@ -27,8 +29,8 @@ fun MessageContent (
                 val user = channelMembers.firstOrNull { it.userId == message.senderId }
                 MessageCard(
                     image = user?.profileImage,
-                    status = OnlineStatus.OFFLINE,
-                    name = user?.username,
+                    status = convertToOnlineStatus(user?.onlineStatus),
+                    name = user?.displayName,
                     time = message.sentAt,
                     message = message.message.decodeToString(),
                 )
