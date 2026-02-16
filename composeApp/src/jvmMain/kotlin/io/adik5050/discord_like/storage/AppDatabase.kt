@@ -6,6 +6,7 @@ import io.adik5050.discord_like.storage.migrations.Migration_1_2
 import io.adik5050.discord_like.storage.migrations.Migration_2_3
 import io.adik5050.discord_like.storage.migrations.Migration_3_4
 import io.adik5050.discord_like.storage.migrations.Migration_4_5
+import io.adik5050.discord_like.storage.migrations.Migration_5_6
 import kotlinx.coroutines.Dispatchers
 import java.io.File
 
@@ -15,6 +16,6 @@ fun getDatabase(): AppDatabase {
         name = dbFile.absolutePath,
     ).setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
-        .addMigrations(Migration_1_2, Migration_2_3, Migration_3_4, Migration_4_5)
+        .addMigrations(Migration_1_2, Migration_2_3, Migration_3_4, Migration_4_5, Migration_5_6)
         .build()
 }

@@ -30,3 +30,13 @@ val Migration_4_5 = object : Migration(4, 5) {
         connection.execSQL("ALTER TABLE MessageEntity ADD COLUMN `sentAt` TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP")
     }
 }
+val Migration_5_6 = object : Migration(5, 6) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL("ALTER TABLE UserEntity ADD COLUMN 'displayName' TEXT")
+        connection.execSQL("ALTER TABLE UserEntity ADD COLUMN `pronouns` TEXT")
+        connection.execSQL("ALTER TABLE UserEntity ADD COLUMN `userThoughts` TEXT")
+        connection.execSQL("ALTER TABLE UserEntity ADD COLUMN `onlineStatus` TEXT NOT NULL DEFAULT `Offline`")
+        connection.execSQL("UPDATE UserEntity SET displayName = UserEntity.username")
+    }
+}
+
