@@ -11,6 +11,10 @@ data class UserEntity(
     @PrimaryKey(autoGenerate = true)val userId: Int = 0,
     val username: String,
     val password: String,
+    val displayName: String?,
+    val pronouns: String?,
+    val userThoughts: String?,
+    val onlineStatus: String,
     val profileImage: ByteArray? = ByteArray(0)
 ) {
     override fun equals(other: Any?): Boolean {

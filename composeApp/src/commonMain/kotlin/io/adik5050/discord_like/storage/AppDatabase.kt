@@ -13,7 +13,7 @@ import androidx.room.TypeConverters
     ChannelMembersEntity::class
                         ],
     exportSchema = true,
-    version = 5)
+    version = 6)
 @TypeConverters(MessageTypeConverter::class)
 @ConstructedBy (AppDatabaseConstructor::class)
 abstract class AppDatabase: RoomDatabase() {
@@ -23,7 +23,7 @@ abstract class AppDatabase: RoomDatabase() {
 }
 
 // The Room compiler generates the `actual` implementations.
-@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+@Suppress("KotlinNoActualForExpect","-Xexpect-actual-classes","EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase> {
     override fun initialize(): AppDatabase
 }
