@@ -11,6 +11,7 @@ import io.adik5050.discord_like.shared.composables.OnlineStatus
 import io.adik5050.discord_like.shared.composables.convertToOnlineStatus
 import io.adik5050.discord_like.storage.MessageEntity
 import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
+import myapplication.composeapp.generated.resources.Res
 
 @Composable
 fun MessageContent (
