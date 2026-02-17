@@ -31,7 +31,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun TopOptions(
+fun ProfileTopOptions(
     modifier: Modifier = Modifier,
     onLogout: () -> Unit,
     onNavigateBack: () -> Unit
@@ -149,7 +149,7 @@ fun PreviewTopOptions() {
         Surface(
             color = MaterialTheme.colorScheme.surface
         ) {
-//            TopOptions(
+//            ProfileTopOptions(
 //                modifier = Modifier
 //                    .padding(8.dp)
 //            )
