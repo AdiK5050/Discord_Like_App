@@ -18,6 +18,12 @@ interface UserDao {
 
     @Query("SELECT UserEntity.userId, UserEntity.displayName, UserEntity.onlineStatus, UserEntity.profileImage FROM UserEntity INNER JOIN main.ChannelEntity CE on UserEntity.userId = CE.userCreatedId WHERE CE.channelId = :channelId")
     fun getUserWithChannelId(channelId: Int): Flow<List<UserInfo>>
+
+    @Query("SELECT UserEntity.profileImage FROM UserEntity WHERE userId = :userId")
+    suspend fun getUserProfilePic(userId: Int): ByteArray?
+
+    @Query("UPDATE UserEntity SET profileImage = :profileImage WHERE userId = :userId")
+    suspend fun setUserProfilePic(userId: Int, profileImage: ByteArray?)
 }
 
 @Dao
