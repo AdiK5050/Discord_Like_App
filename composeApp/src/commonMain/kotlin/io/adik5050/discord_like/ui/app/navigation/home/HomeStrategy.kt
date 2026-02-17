@@ -17,13 +17,13 @@ class HomePageStrategy<T:Any>(
             val chatPageEntry = entries
                 .lastOrNull()
                 ?.takeIf {
-                    it.metadata.containsKey(HomePageSceneForWideScreen.`CHAT-PAGE_KEY`)
+                    it.metadata.containsKey(HomePageSceneForWideScreen.CHAT_PAGE_KEY)
                 }
                 ?: return null
 
             val homePageEntry = entries
                 .findLast {
-                    it.metadata.containsKey(HomePageSceneForWideScreen.`HOME-PAGE_KEY`)
+                    it.metadata.containsKey(HomePageSceneForWideScreen.HOME_PAGE_KEY)
                 }
                 ?: return null
 

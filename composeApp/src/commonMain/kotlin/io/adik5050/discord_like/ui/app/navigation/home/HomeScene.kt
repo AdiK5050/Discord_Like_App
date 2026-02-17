@@ -40,10 +40,10 @@ class HomePageSceneForWideScreen<T: Any>(
         }
     }
     companion object {
-        const val `HOME-PAGE_KEY` = "HomePageSceneForWideScreen-HomePage"
-        const val `CHAT-PAGE_KEY` = "HomePageSceneForWideScreen-ChatPage"
+        const val HOME_PAGE_KEY = "HomePageSceneForWideScreen-HomePage"
+        const val CHAT_PAGE_KEY = "HomePageSceneForWideScreen-ChatPage"
 
-        fun homePagePane() = mapOf(`HOME-PAGE_KEY` to true)
-        fun chatPagePane() = mapOf(`CHAT-PAGE_KEY` to true)
+        fun homePagePane() = mapOf(HOME_PAGE_KEY to true)
+        fun chatPagePane() = mapOf(CHAT_PAGE_KEY to true)
     }
 }
