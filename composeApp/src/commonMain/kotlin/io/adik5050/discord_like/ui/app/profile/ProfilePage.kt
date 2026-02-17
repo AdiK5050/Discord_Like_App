@@ -29,7 +29,8 @@ fun ProfilePage(
     userSession: UserSession,
     onNavigateBack: () -> Unit,
     onNavigateToEditProfile: () -> Unit,
-    profileViewModel: ProfileViewModel = viewModel { ProfileViewModel(appDatabase, userSession) }
+    onNavigateToWelcome: () -> Unit,
+    profileViewModel: ProfileViewModel = viewModel { ProfileViewModel(userSession) }
 ) {
     val image = remember { profileViewModel.image }
     val bitmap = image.value?.bytes?.toImageBitmap()
@@ -49,7 +50,7 @@ fun ProfilePage(
                         TopOptions(
                             modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                             onNavigateBack = onNavigateBack,
-                            onNavigateToSettings = {}
+                            onLogout = onNavigateToWelcome
                         )
                     }
                     item {

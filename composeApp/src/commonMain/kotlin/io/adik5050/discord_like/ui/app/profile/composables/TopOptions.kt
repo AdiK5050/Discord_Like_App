@@ -26,13 +26,14 @@ import myapplication.composeapp.generated.resources.discord_nitro
 import myapplication.composeapp.generated.resources.discord_quest
 import myapplication.composeapp.generated.resources.discord_settings
 import myapplication.composeapp.generated.resources.discord_store
+import myapplication.composeapp.generated.resources.logout
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TopOptions(
     modifier: Modifier = Modifier,
-    onNavigateToSettings: () -> Unit,
+    onLogout: () -> Unit,
     onNavigateBack: () -> Unit
 ) {
     Row (
@@ -53,10 +54,10 @@ fun TopOptions(
         )
         IconButton(
             shape = CircleShape,
-            onClick = onNavigateToSettings,
+            onClick = onLogout,
             content = {
                 Icon(
-                    painter = painterResource(Res.drawable.discord_settings),
+                    painter = painterResource(Res.drawable.logout),
                     contentDescription = "Settings"
                 )
             }

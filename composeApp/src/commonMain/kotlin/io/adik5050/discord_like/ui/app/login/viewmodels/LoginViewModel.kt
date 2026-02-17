@@ -14,7 +14,7 @@ class LoginViewModel(
     val userSession: UserSession
 ) : ViewModel() {
     val userDao = appDatabase.getUserDao()
-    private var _loginSuccessful = mutableStateOf(false)
+    private var _loginSuccessful = mutableStateOf(userSession.isLoggedIn())
     val loginSuccessful = _loginSuccessful
     private var _usernameTextFieldValue = mutableStateOf(TextFieldValue(""))
     val usernameTextFieldValue = _usernameTextFieldValue
@@ -43,9 +43,6 @@ class LoginViewModel(
         _isError.value = false
         _errorMessage.value = ""
     }
-    fun getUserId(): Int? {
-        return userFound?.userId
-    }
     suspend fun checkUsername(): Boolean {
         userFound = userDao.getUserWithName(_usernameTextFieldValue.value.text)
         if(userFound != null) return true
@@ -71,7 +68,8 @@ class LoginViewModel(
                 userSession.saveUserSession(
                     userID = userFound!!.userId,
                     username = userFound!!.username,
-                    password = userFound!!.password
+                    password = userFound!!.password,
+                    displayName = userFound!!.username,
                 )
                 _loginSuccessful.value = true
             }
@@ -89,34 +87,46 @@ class LoginViewModel(
 }
 
 val listOfUsers = listOf<UserEntity>(
-    UserEntity(
-        username = "Adi",
-        password = "Adi12345",
-        profileImage = null,
-    ),
-    UserEntity(
-        username = "Marko",
-        password = "Marko12345",
-        profileImage = null,
-    ),
-    UserEntity(
-        username = "Wazei",
-        password = "Wazei12345",
-        profileImage = null,
-    ),
-    UserEntity(
-        username = "Lucky",
-        password = "Lucky12345",
-        profileImage = null,
-    ),
-    UserEntity(
-        username = "Yui",
-        password = "Yui12345",
-        profileImage = null,
-    ),
-    UserEntity(
-        username = "Rias",
-        password = "Rias12345",
-        profileImage = null,
-    ),
+//    UserEntity(
+//        username = "adi8299",
+//        password = "Adi12345",
+//        profileImage = null,
+//        displayName = "Adi",
+//        pronouns = "He/Him",
+//    ),
+//    UserEntity(
+//        username = "therealmarko",
+//        password = "Marko12345",
+//        profileImage = null,
+//        displayName = "Marko",
+//        pronouns = "He/Him",
+//    ),
+//    UserEntity(
+//        username = "wazei",
+//        password = "Wazei12345",
+//        profileImage = null,
+//        displayName = "Wazei",
+//        pronouns = "He/Him",
+//    ),
+//    UserEntity(
+//        username = "sooluckyseven",
+//        password = "Lucky12345",
+//        profileImage = null,
+//        displayName = "Sooluckyseven",
+//        pronouns = "He/Him"
+//    ),
+//    UserEntity(
+//        username = "hyuu",
+//        password = "Yui12345",
+//        profileImage = null,
+//        displayName = "Yui",
+//        pronouns = "She/Her"
+//    ),
+//    UserEntity(
+//        username = "riassexy",
+//        password = "Rias12345",
+//        profileImage = null,
+//        displayName = "Rias",
+//        pronouns = "She/Her"
+//    ),
 )
