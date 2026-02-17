@@ -42,9 +42,9 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ProfileInfo(
     modifier: Modifier = Modifier,
-    name: String,
-    userId: String,
-    pronouns: String,
+    displayName: String,
+    username: String,
+    pronouns: String?,
     image: ByteArray?,
     clickableImage: Boolean,
     onClickImage: () -> Unit,
@@ -67,8 +67,8 @@ fun ProfileInfo(
             onClickNotes = onClickNotes
         )
         ProfileInfoTextRow(
-            name = name,
-            userId = userId,
+            displayName = displayName,
+            username = username,
             pronouns = pronouns,
         )
         ProfileEditButton(
@@ -134,8 +134,8 @@ fun ProfileInfoImageRow(
 @Composable
 fun ProfileInfoTextRow(
     modifier: Modifier = Modifier,
-    name: String,
-    userId: String,
+    displayName: String,
+    username: String,
     pronouns: String?,
     onClickName: () -> Unit = {}
 ) {
@@ -150,7 +150,7 @@ fun ProfileInfoTextRow(
                 )
         ) {
             Text(
-                text = name,
+                text = displayName,
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
@@ -164,7 +164,7 @@ fun ProfileInfoTextRow(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = userId,
+                text = username,
                 style = MaterialTheme.typography.bodyMedium
             )
             Spacer(modifier = Modifier.size(4.dp))
@@ -173,7 +173,7 @@ fun ProfileInfoTextRow(
             )
             Spacer(modifier = Modifier.size(4.dp))
             Text(
-                text = pronouns ?: "He/Him",
+                text = pronouns ?: "",
                 style = MaterialTheme.typography.bodyMedium
             )
             Spacer(modifier = Modifier.size(4.dp))
@@ -220,8 +220,8 @@ fun PreviewProfileInfo() {
         ){
             ProfileInfo(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                name = "Adi",
-                userId = "adi8299",
+                displayName = "Adi",
+                username = "adi8299",
                 pronouns = "He/Him",
                 image = null,
                 status = OnlineStatus.DO_NOT_DISTURB,
