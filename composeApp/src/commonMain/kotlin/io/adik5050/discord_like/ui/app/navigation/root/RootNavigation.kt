@@ -30,7 +30,6 @@ fun RootNavigation(
     userSession: UserSession,
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
-    //userSession.clearUserSession()
     val startRoute = if(userSession.isLoggedIn()) Route.Home else Route.Welcome
     val rootBackstack = rememberNavBackStack(
         configuration = SavedStateConfiguration {
@@ -61,6 +60,7 @@ fun RootNavigation(
                     appDatabase = appDatabase,
                     userSession = userSession,
                     onNavigateToMainNavigation = {
+                        rootBackstack.clear()
                         rootBackstack.add(Route.Home)
                     },
                     onNavigateToErrorPage = { errorMessage ->
@@ -80,6 +80,11 @@ fun RootNavigation(
                     userSession = userSession,
                     onNavigateToEditProfile = {
                         rootBackstack.add(Route.EditProfile)
+                    },
+                    onNavigateToWelcome = {
+                        userSession.clearUserSession()
+                        rootBackstack.clear()
+                        rootBackstack.add(Route.Welcome)
                     }
                 )
             }
