@@ -12,7 +12,4 @@ class ProfileViewModel (
     val pronouns = userSession.getPronouns()
     var userProfileImage: ByteArray? = null
 
-    init {
-        userProfileImage = userSession.getUserProfileImage()
-    }
 }
