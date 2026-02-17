@@ -19,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wannaverse.imageselector.toImageBitmap
+import com.wannaverse.imageselector.withAspectRatio
 import myapplication.composeapp.generated.resources.Res
 import myapplication.composeapp.generated.resources.discord
 import org.jetbrains.compose.resources.painterResource
@@ -43,17 +44,17 @@ fun ImageWithStatus(modifier: Modifier = Modifier,
                     onClick = { onClick() }
                 )
         ) {
-            if(image == null || image.contentEquals(ByteArray(0)))
+            image?.let {
                 Image(
-                    painterResource(Res.drawable.discord),
+                    bitmap = image.toImageBitmap().withAspectRatio(1f / 1f),
                     contentDescription = "Profile Picture",
                     contentScale = ContentScale.Crop,
                     modifier = modifier
                 )
-            else
-                Image (
-                    bitmap = image.toImageBitmap(),
-                    contentDescription = "A photo of a beauty.",
+            } ?:
+                Image(
+                    painterResource(Res.drawable.discord),
+                    contentDescription = "Profile Picture",
                     contentScale = ContentScale.Crop,
                     modifier = modifier
                 )
