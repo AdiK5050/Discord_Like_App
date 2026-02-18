@@ -172,11 +172,12 @@ fun ProfileInfoTextRow(
                 text = "•"
             )
             Spacer(modifier = Modifier.size(4.dp))
-            Text(
-                text = pronouns ?: "",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Spacer(modifier = Modifier.size(4.dp))
+            pronouns ?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
     }
 }
@@ -206,31 +207,4 @@ fun ProfileEditButton(
             )
         }
     )
-}
-
-
-@Preview
-@Composable
-fun PreviewProfileInfo() {
-    AppTheme(
-        darkTheme = true
-    ) {
-        Surface (
-            modifier = Modifier.padding(top = 24.dp)
-        ){
-            ProfileInfo(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                displayName = "Adi",
-                username = "adi8299",
-                pronouns = "He/Him",
-                image = null,
-                status = OnlineStatus.DO_NOT_DISTURB,
-                clickableImage = false,
-                onClickImage = {},
-                onEdit = {},
-                thoughts = "Your Favorite Anime?",
-                onClickNotes = {},
-            )
-        }
-    }
 }
