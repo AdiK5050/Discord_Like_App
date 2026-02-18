@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -28,7 +29,7 @@ import org.jetbrains.compose.resources.painterResource
 fun ChatInfoTopBar(
     modifier: Modifier = Modifier,
     name: String = "Mrs. Jennifer Lawrence",
-    image: ByteArray? = null,
+    image: ImageBitmap? = null,
     status: OnlineStatus = OnlineStatus.ONLINE,
     onClickSettings: () -> Unit = {},
     onClickNotifications: () -> Unit = {},

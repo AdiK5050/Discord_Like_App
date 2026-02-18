@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -42,7 +43,7 @@ fun ProfileInfo(
     displayName: String,
     username: String,
     pronouns: String?,
-    image: ByteArray?,
+    image: ImageBitmap?,
     clickableImage: Boolean,
     onClickImage: () -> Unit,
     status: OnlineStatus,
@@ -76,7 +77,7 @@ fun ProfileInfo(
 @Composable
 fun ProfileInfoImageRow(
     modifier: Modifier = Modifier,
-    image: ByteArray? = null,
+    image: ImageBitmap? = null,
     status: OnlineStatus = OnlineStatus.ONLINE,
     thoughts: String?,
     statusAlignment: Alignment,

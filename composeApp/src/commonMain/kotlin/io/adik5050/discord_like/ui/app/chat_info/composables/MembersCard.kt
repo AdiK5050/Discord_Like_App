@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import io.adik5050.discord_like.shared.composables.ImageWithStatus
 import io.adik5050.discord_like.shared.composables.OnlineStatus
 
@@ -16,7 +17,7 @@ import io.adik5050.discord_like.shared.composables.OnlineStatus
 fun MembersCard(
     modifier: Modifier = Modifier,
     name: String,
-    image: ByteArray?,
+    image: ImageBitmap?,
     status: OnlineStatus,
     about: String,
     activity: String,

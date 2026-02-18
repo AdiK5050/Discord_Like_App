@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.shared.composables.ImageWithStatus
 import io.adik5050.discord_like.shared.composables.OnlineStatus
@@ -20,7 +21,7 @@ import io.adik5050.discord_like.shared.composables.OnlineStatus
 @Composable
 fun ChatListCard(
     modifier: Modifier = Modifier,
-    image: ByteArray? = null,
+    image: ImageBitmap? = null,
     status: OnlineStatus = OnlineStatus.ONLINE,
     name: String,
     lastMessage: String,

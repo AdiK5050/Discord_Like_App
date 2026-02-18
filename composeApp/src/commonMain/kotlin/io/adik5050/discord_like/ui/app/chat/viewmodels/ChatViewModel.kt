@@ -54,15 +54,19 @@ data class UserInfo(
 
         other as UserInfo
 
+        if (userId != other.userId) return false
         if (displayName != other.displayName) return false
+        if (onlineStatus != other.onlineStatus) return false
         if (!profileImage.contentEquals(other.profileImage)) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = displayName.hashCode()
-        result = 31 * result + profileImage.contentHashCode()
+        var result = userId
+        result = 31 * result + displayName.hashCode()
+        result = 31 * result + onlineStatus.hashCode()
+        result = 31 * result + (profileImage?.contentHashCode() ?: 0)
         return result
     }
 }
