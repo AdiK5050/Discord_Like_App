@@ -87,20 +87,24 @@ class LoginViewModel(
 }
 
 val listOfUsers = listOf<UserEntity>(
-//    UserEntity(
-//        username = "adi8299",
-//        password = "Adi12345",
-//        profileImage = null,
-//        displayName = "Adi",
-//        pronouns = "He/Him",
-//    ),
-//    UserEntity(
-//        username = "therealmarko",
-//        password = "Marko12345",
-//        profileImage = null,
-//        displayName = "Marko",
-//        pronouns = "He/Him",
-//    ),
+    UserEntity(
+        username = "adi8299",
+        password = "Adi12345",
+        profileImage = null,
+        displayName = "Adi",
+        pronouns = "He/Him",
+        userThoughts = null,
+        onlineStatus = "Offline",
+    ),
+    UserEntity(
+        username = "therealmarko",
+        password = "Marko12345",
+        profileImage = null,
+        displayName = "Marko",
+        pronouns = "He/Him",
+        userThoughts =  null,
+        onlineStatus = "Offline",
+    ),
 //    UserEntity(
 //        username = "wazei",
 //        password = "Wazei12345",
