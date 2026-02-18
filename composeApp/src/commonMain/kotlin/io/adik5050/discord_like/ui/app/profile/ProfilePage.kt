@@ -17,41 +17,39 @@ import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.profile.composables.ContentCards
 import io.adik5050.discord_like.ui.app.profile.composables.ProfileInfo
-import io.adik5050.discord_like.ui.app.profile.composables.TopOptions
+import io.adik5050.discord_like.ui.app.profile.composables.ProfileTopOptions
 import io.adik5050.discord_like.ui.app.profile.viewmodels.ProfileViewModel
 
 @Composable
 fun ProfilePage(
     modifier: Modifier= Modifier,
+    appDatabase: AppDatabase,
     userSession: UserSession,
     onNavigateBack: () -> Unit,
     onNavigateToEditProfile: () -> Unit,
     onNavigateToWelcome: () -> Unit,
-    profileViewModel: ProfileViewModel = viewModel { ProfileViewModel(userSession) }
+    profileViewModel: ProfileViewModel = viewModel { ProfileViewModel(appDatabase,userSession) }
 ) {
-
     Surface (
         modifier = modifier
             .fitInside(WindowInsetsRulers.SafeDrawing.current)
             .fillMaxSize(),
         content = {
             Column (
-                modifier = Modifier
-            ) {
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+            ){
                 LazyColumn(
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     item {
-                        TopOptions(
-                            modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                        ProfileTopOptions(
                             onNavigateBack = onNavigateBack,
                             onLogout = onNavigateToWelcome
                         )
                     }
                     item {
                         ProfileInfo(
-                            modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                             displayName = profileViewModel.displayName,
                             username = profileViewModel.username,
                             pronouns = profileViewModel.pronouns,
@@ -66,7 +64,6 @@ fun ProfilePage(
                     }
                     item {
                         ContentCards(
-                            modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                             about = "Change Is Fated",
                             memberSince = "Jul 9, 2024"
                         )

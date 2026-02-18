@@ -65,6 +65,7 @@ fun MainNavigation(
                         }
                         entry<Route.Profile> {
                             ProfilePage(
+                                appDatabase = appDatabase,
                                 userSession = userSession,
                                 onNavigateBack = navigator::goBack,
                                 onNavigateToEditProfile = onNavigateToEditProfile,
@@ -73,6 +74,7 @@ fun MainNavigation(
                         }
                         entry<Route.Settings> {
                             ProfilePage(
+                                appDatabase = appDatabase,
                                 userSession = userSession,
                                 onNavigateBack = navigator::goBack,
                                 onNavigateToEditProfile = onNavigateToEditProfile,
