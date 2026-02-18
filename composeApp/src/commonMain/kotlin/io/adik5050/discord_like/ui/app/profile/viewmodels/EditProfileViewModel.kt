@@ -10,8 +10,6 @@ import com.wannaverse.imageselector.ImageData
 import com.wannaverse.imageselector.selectImage
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.storage.UserSession
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class EditProfileViewModel(

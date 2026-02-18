@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.storage.UserSession
 import kotlinx.coroutines.launch
-import kotlin.io.encoding.Base64
 
 class ProfileViewModel (
     appDatabase: AppDatabase,
