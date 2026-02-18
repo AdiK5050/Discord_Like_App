@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
-    @Query("INSERT INTO UserEntity (username, password, profileImage, displayName) VALUES(:username, :password, :profileImage, :username)" )
-    suspend fun insertUser(username: String, password: String, profileImage: ByteArray?)
+    @Query("INSERT INTO UserEntity (username, password, displayName, onlineStatus, profileImage) VALUES(:username, :password,:username, :onlineStatus, :profileImage)" )
+    suspend fun insertUser(username: String, password: String, onlineStatus: String, profileImage: ByteArray?)
 
     @Query("SELECT * FROM UserEntity WHERE username = :username")
     suspend fun getUserWithName(username: String): UserEntity?

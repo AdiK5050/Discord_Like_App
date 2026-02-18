@@ -81,7 +81,7 @@ class LoginViewModel(
     }
     fun fillDataInDatabase() = viewModelScope.launch{
         listOfUsers.forEach { userEntity ->
-            userDao.insertUser(userEntity.username, userEntity.password, userEntity.profileImage)
+            userDao.insertUser(userEntity.username, userEntity.password, userEntity.onlineStatus, userEntity.profileImage )
         }
     }
 }
