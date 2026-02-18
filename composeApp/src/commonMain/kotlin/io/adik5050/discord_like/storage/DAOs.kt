@@ -22,8 +22,8 @@ interface UserDao {
     @Query("SELECT UserEntity.profileImage FROM UserEntity WHERE userId = :userId")
     suspend fun getUserProfilePic(userId: Int): ByteArray?
 
-    @Query("UPDATE UserEntity SET profileImage = :profileImage WHERE userId = :userId")
-    suspend fun setUserProfilePic(userId: Int, profileImage: ByteArray?)
+    @Query("UPDATE UserEntity SET displayName = :displayName, pronouns = :pronouns, profileImage = :profileImage WHERE userId = :userId")
+    suspend fun setUserProfileInfo(userId: Int, displayName: String, pronouns: String, profileImage: ByteArray?)
 }
 
 @Dao
