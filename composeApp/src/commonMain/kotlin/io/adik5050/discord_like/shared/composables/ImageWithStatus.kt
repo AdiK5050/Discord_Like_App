@@ -7,6 +7,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -64,10 +67,14 @@ fun ImageWithStatus(modifier: Modifier = Modifier,
         Box(
             modifier = Modifier
                 .align(statusAlignment)
-                .border(width = 4.dp, color = MaterialTheme.colorScheme.background, shape = CircleShape)
-                .background(color = MaterialTheme.colorScheme.background,shape = CircleShape)
+                .border(width = 2.dp, color = MaterialTheme.colorScheme.background, shape = CircleShape)
+                .background(color = MaterialTheme.colorScheme.background,shape = CircleShape),
+            contentAlignment = Alignment.Center
         ) {
             Icon(
+                modifier = Modifier
+                    .size(20.dp)
+                    .padding(2.dp),
                 painter = painterResource(status.icon),
                 contentDescription = stringResource(status.description),
                 tint = status.color
@@ -98,6 +105,11 @@ fun Preview_Image_With_Status() {
                     image = null,
                     status = OnlineStatus.OFFLINE,
                     statusAlignment = Alignment.BottomEnd
+                    )
+                ImageWithStatus(
+                    image = null,
+                    status = OnlineStatus.EDIT,
+                    statusAlignment = Alignment.TopEnd
                     )
             }
         }
