@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.shared.composables.OnlineStatus
@@ -24,7 +25,7 @@ fun CompactHomePageBar(
     modifier: Modifier = Modifier,
     name: String= "Adi",
     username: String = "adi8299",
-    image: ByteArray? = null,
+    image: ImageBitmap? = null,
     status: OnlineStatus = OnlineStatus.ONLINE,
     onClickProfile: () -> Unit
 ) {

@@ -31,7 +31,8 @@ fun WelcomePage(
         Column(
             modifier = modifier
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceEvenly
+            verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.CenterHorizontally
         ){
             WelcomeContent(
                 modifier = Modifier.padding(start = 32.dp, end = 32.dp)

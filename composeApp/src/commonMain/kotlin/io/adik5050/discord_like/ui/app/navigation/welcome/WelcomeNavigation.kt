@@ -57,9 +57,7 @@ fun WelcomeNavigation(
                 LoginPage(
                     appDatabase = appDatabase,
                     userSession = userSession,
-                    onNavigateToMainPage = {
-                        onNavigateToMainNavigation()
-                    },
+                    onNavigateToMainPage = onNavigateToMainNavigation,
                     onNavigateToWelcomePage = {
                         welcomeBackstack.add(Route.Welcome.WelcomePage)
                     },

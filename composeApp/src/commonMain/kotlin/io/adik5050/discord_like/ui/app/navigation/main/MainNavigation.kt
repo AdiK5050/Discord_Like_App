@@ -32,6 +32,7 @@ fun MainNavigation(
     windowSizeClass: WindowSizeClass,
     onNavigateToChat: () -> Unit,
     onNavigateToEditProfile: () -> Unit,
+    onNavigateToWelcome: () -> Unit,
 ) {
     val navigationState = rememberMainBottomNavigationState(
         startRoute = Route.Home,
@@ -66,20 +67,24 @@ fun MainNavigation(
                             ProfilePage(
                                 appDatabase = appDatabase,
                                 userSession = userSession,
-                                onNavigateBack = {
-                                    navigator.goBack()
-                                },
-                                onNavigateToEditProfile = onNavigateToEditProfile
+                                onNavigateBack = navigator::goBack,
+                                onNavigateToEditProfile = onNavigateToEditProfile,
+                                onNavigateToWelcome = onNavigateToWelcome
                             )
                         }
                         entry<Route.Settings> {
                             ProfilePage(
                                 appDatabase = appDatabase,
                                 userSession = userSession,
-                                onNavigateBack = {
-                                    navigator.goBack()
+                                onNavigateBack = navigator::goBack,
+                                onNavigateToEditProfile = {
+                                    navigator.removeLastDestination()
+                                    onNavigateToEditProfile()
                                 },
-                                onNavigateToEditProfile = onNavigateToEditProfile
+                                onNavigateToWelcome = {
+                                    navigator.removeLastDestination()
+                                    onNavigateToWelcome()
+                                }
                             )
                         }
                     }
@@ -90,9 +95,7 @@ fun MainNavigation(
                     modifier = Modifier
                         .fillMaxWidth(),
                     selectedKey = navigationState.topLevelRoute,
-                    onSelectKey = {
-                        navigator.navigate(it)
-                    },
+                    onSelectKey = navigator::navigate,
                 )
             }
             else if(!windowSizeClass.isHeightAtLeastBreakpoint(HEIGHT_DP_MEDIUM_LOWER_BOUND)) {

@@ -30,7 +30,6 @@ fun RootNavigation(
     userSession: UserSession,
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
-    //userSession.clearUserSession()
     val startRoute = if(userSession.isLoggedIn()) Route.Home else Route.Welcome
     val rootBackstack = rememberNavBackStack(
         configuration = SavedStateConfiguration {
@@ -61,6 +60,7 @@ fun RootNavigation(
                     appDatabase = appDatabase,
                     userSession = userSession,
                     onNavigateToMainNavigation = {
+                        rootBackstack.clear()
                         rootBackstack.add(Route.Home)
                     },
                     onNavigateToErrorPage = { errorMessage ->
@@ -74,12 +74,16 @@ fun RootNavigation(
                 MainNavigation(
                     appDatabase = appDatabase,
                     windowSizeClass = windowSizeClass,
-                    onNavigateToChat = {
-                        rootBackstack.add(Route.Chat)
-                    },
+                    onNavigateToChat = { rootBackstack.add(Route.Chat) },
                     userSession = userSession,
                     onNavigateToEditProfile = {
+                        rootBackstack.clear()
                         rootBackstack.add(Route.EditProfile)
+                    },
+                    onNavigateToWelcome = {
+                        userSession.clearUserSession()
+                        rootBackstack.clear()
+                        rootBackstack.add(Route.Welcome)
                     }
                 )
             }
@@ -88,23 +92,23 @@ fun RootNavigation(
             ) {
                 ChatNavigation(
                     appDatabase = appDatabase,
-                    onNavigateToHome = {
-                        rootBackstack.add(Route.Home)
-                    }
+                    onNavigateToHome = { rootBackstack.add(Route.Home) }
                 )
             }
             entry<Route.EditProfile> {
                 EditProfilePage(
                     appDatabase = appDatabase,
-                    userSession = userSession
+                    userSession = userSession,
+                    onNavigateBack = {
+                        rootBackstack.removeLastOrNull()
+                        rootBackstack.add(Route.Home)
+                    }
                 )
             }
             entry<Route.Error> {
                 ErrorPage(
                     errorMessage = it.errorMessage,
-                    onGoBackToLastDestination = {
-                        rootBackstack.removeLastOrNull()
-                    }
+                    onGoBackToLastDestination = rootBackstack::removeLastOrNull
                 )
             }
         }

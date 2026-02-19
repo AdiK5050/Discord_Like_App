@@ -4,20 +4,28 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
+import io.adik5050.discord_like.ui.app.profile.viewmodels.User
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
-    @Query("INSERT INTO UserEntity (username, password, profileImage, displayName) VALUES(:username, :password, :profileImage, :username)" )
-    suspend fun insertUser(username: String, password: String, profileImage: ByteArray?)
+    @Query("INSERT INTO UserEntity (username, password, displayName, onlineStatus, profileImage) VALUES(:username, :password,:username, :onlineStatus, :profileImage)" )
+    suspend fun insertUser(username: String, password: String, onlineStatus: String, profileImage: ByteArray?)
 
     @Query("SELECT * FROM UserEntity WHERE username = :username")
     suspend fun getUserWithName(username: String): UserEntity?
-    @Query("SELECT * FROM UserEntity")
-    fun getAllUsersAsFlow(): Flow<List<UserEntity>>
 
     @Query("SELECT UserEntity.userId, UserEntity.displayName, UserEntity.onlineStatus, UserEntity.profileImage FROM UserEntity INNER JOIN main.ChannelEntity CE on UserEntity.userId = CE.userCreatedId WHERE CE.channelId = :channelId")
     fun getUserWithChannelId(channelId: Int): Flow<List<UserInfo>>
+
+    @Query("SELECT UserEntity.userId, UserEntity.username, UserEntity.displayName, UserEntity.pronouns, UserEntity.userThoughts, UserEntity.onlineStatus, UserEntity.profileImage FROM UserEntity WHERE userId = :userId")
+    suspend fun getUserWithUserId(userId: Int): User?
+
+    @Query("SELECT UserEntity.profileImage FROM UserEntity WHERE userId = :userId")
+    suspend fun getUserProfilePic(userId: Int): ByteArray?
+
+    @Query("UPDATE UserEntity SET displayName = :displayName, pronouns = :pronouns, profileImage = :profileImage WHERE userId = :userId")
+    suspend fun setUserProfileInfo(userId: Int, displayName: String, pronouns: String, profileImage: ByteArray?)
 }
 
 @Dao

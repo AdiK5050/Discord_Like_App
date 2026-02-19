@@ -4,11 +4,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.shared.composables.ImageWithStatus
 import io.adik5050.discord_like.shared.composables.OnlineStatus
@@ -16,7 +19,7 @@ import io.adik5050.discord_like.shared.composables.OnlineStatus
 @Composable
 fun MessageCard (
     modifier: Modifier = Modifier,
-    image: ByteArray? = null,
+    image: ImageBitmap? = null,
     status: OnlineStatus,
     name: String?,
     time: String,
@@ -28,6 +31,9 @@ fun MessageCard (
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         ImageWithStatus(
+            modifier = Modifier
+                .padding(4.dp)
+                .size(56.dp),
             image = image,
             clickable = false,
             status = status,

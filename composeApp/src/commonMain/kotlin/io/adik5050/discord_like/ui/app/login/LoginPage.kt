@@ -44,10 +44,8 @@ fun LoginPage(
 //    LaunchedEffect(Unit) {
 //        loginViewModel.fillDataInDatabase()
 //    }
-    if(loginViewModel.loginSuccessful.value) {
-        if(loginViewModel.getUserId() != null) onNavigateToMainPage()
-        else onNavigateToErrorPage("User Id Not Found")
-    }
+
+    if(loginViewModel.loginSuccessful.value) onNavigateToMainPage()
 
     WelcomeBackground()
     Column(

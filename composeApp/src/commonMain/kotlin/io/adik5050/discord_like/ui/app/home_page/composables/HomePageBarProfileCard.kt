@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.shared.composables.ImageWithStatus
 import io.adik5050.discord_like.shared.composables.OnlineStatus
@@ -25,7 +26,7 @@ fun HomePageBarProfileCard(
     isHoveredCard: Boolean,
     name: String,
     username: String,
-    image: ByteArray?,
+    image: ImageBitmap?,
     status: OnlineStatus,
     onClickProfile: () -> Unit
 ) {

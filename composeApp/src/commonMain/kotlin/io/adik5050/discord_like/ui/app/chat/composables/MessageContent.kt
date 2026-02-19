@@ -6,12 +6,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.decodeToImageBitmap
 import androidx.compose.ui.unit.dp
-import io.adik5050.discord_like.shared.composables.OnlineStatus
 import io.adik5050.discord_like.shared.composables.convertToOnlineStatus
 import io.adik5050.discord_like.storage.MessageEntity
 import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
-import myapplication.composeapp.generated.resources.Res
 
 @Composable
 fun MessageContent (
@@ -28,7 +27,7 @@ fun MessageContent (
             items(messageHistory) { message ->
                 val user = channelMembers.firstOrNull { it.userId == message.senderId }
                 MessageCard(
-                    image = user?.profileImage,
+                    image = user?.profileImage?.decodeToImageBitmap(),
                     status = convertToOnlineStatus(user?.onlineStatus),
                     name = user?.displayName,
                     time = message.sentAt,
