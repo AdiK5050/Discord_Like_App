@@ -18,7 +18,7 @@ interface UserDao {
     @Query("SELECT UserEntity.userId, UserEntity.displayName, UserEntity.onlineStatus, UserEntity.profileImage FROM UserEntity INNER JOIN main.ChannelEntity CE on UserEntity.userId = CE.userCreatedId WHERE CE.channelId = :channelId")
     fun getUserWithChannelId(channelId: Int): Flow<List<UserInfo>>
 
-    @Query("SELECT UserEntity.userId, UserEntity.username, UserEntity.displayName, UserEntity.pronouns, UserEntity.userThoughts, UserEntity.onlineStatus, UserEntity.profileImage FROM UserEntity WHERE userId = :userId")
+    @Query("SELECT UserEntity.userId, UserEntity.username, UserEntity.displayName, UserEntity.pronouns, UserEntity.thoughts, UserEntity.onlineStatus FROM UserEntity WHERE userId = :userId")
     suspend fun getUserWithUserId(userId: Int): User?
 
     @Query("SELECT UserEntity.profileImage FROM UserEntity WHERE userId = :userId")
