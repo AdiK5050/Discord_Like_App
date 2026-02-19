@@ -10,7 +10,11 @@ class MainNavigator(val state: MainBottomNavigationState) {
             state.backStacks[state.topLevelRoute]?.add(route)
         }
     }
-
+    fun removeLastDestination() {
+        val currentStack = state.backStacks[state.topLevelRoute]
+            ?: error("Back stack for ${state.topLevelRoute} doesn't exist")
+        currentStack.removeLastOrNull()
+    }
     fun goBack() {
         val currentStack = state.backStacks[state.topLevelRoute]
             ?: error("Back stack for ${state.topLevelRoute} doesn't exist")

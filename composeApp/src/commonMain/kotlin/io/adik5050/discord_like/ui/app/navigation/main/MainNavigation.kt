@@ -77,8 +77,14 @@ fun MainNavigation(
                                 appDatabase = appDatabase,
                                 userSession = userSession,
                                 onNavigateBack = navigator::goBack,
-                                onNavigateToEditProfile = onNavigateToEditProfile,
-                                onNavigateToWelcome = onNavigateToWelcome
+                                onNavigateToEditProfile = {
+                                    navigator.removeLastDestination()
+                                    onNavigateToEditProfile()
+                                },
+                                onNavigateToWelcome = {
+                                    navigator.removeLastDestination()
+                                    onNavigateToWelcome()
+                                }
                             )
                         }
                     }

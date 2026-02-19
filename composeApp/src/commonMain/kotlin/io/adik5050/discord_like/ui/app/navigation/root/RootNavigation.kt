@@ -99,7 +99,10 @@ fun RootNavigation(
                 EditProfilePage(
                     appDatabase = appDatabase,
                     userSession = userSession,
-                    onNavigateBack = { rootBackstack.add(Route.Home)}
+                    onNavigateBack = {
+                        rootBackstack.removeLastOrNull()
+                        rootBackstack.add(Route.Home)
+                    }
                 )
             }
             entry<Route.Error> {

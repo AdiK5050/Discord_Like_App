@@ -1,16 +1,12 @@
 package io.adik5050.discord_like.ui.app.profile
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fitInside
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -20,22 +16,20 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.WindowInsetsRulers
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.wannaverse.imageselector.toImageBitmap
-import com.wannaverse.imageselector.withAspectRatio
 import io.adik5050.discord_like.shared.composables.OnlineStatus
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.profile.composables.ProfileInfoImageRow
 import io.adik5050.discord_like.ui.app.profile.composables.ProfileInfoTextRow
-import io.adik5050.discord_like.ui.app.profile.viewmodels.EditProfileViewModel
+import io.adik5050.discord_like.ui.app.profile.viewmodels.ProfileViewModel
 import myapplication.composeapp.generated.resources.Res
 import myapplication.composeapp.generated.resources.about_me
 import myapplication.composeapp.generated.resources.arrow_back_24dp_e3e3e3_fill0_wght400_grad0_opsz24
@@ -51,10 +45,12 @@ fun EditProfilePage(
     modifier: Modifier = Modifier,
     appDatabase: AppDatabase,
     userSession: UserSession,
-    editProfileViewModel: EditProfileViewModel = viewModel { EditProfileViewModel(appDatabase, userSession) },
+    profileViewModel: ProfileViewModel= viewModel { ProfileViewModel(appDatabase, userSession) },
     onNavigateBack: () -> Unit
 ) {
-
+    LaunchedEffect(Unit) {
+        profileViewModel.loadResources()
+    }
     Surface(
         modifier = modifier
             .fitInside(WindowInsetsRulers.SafeDrawing.current)
@@ -67,50 +63,29 @@ fun EditProfilePage(
             EditProfileTopOptions(
                 onNavigateBack = onNavigateBack,
                 onSave = {
-                    editProfileViewModel.onSave()
+                    profileViewModel.onSave()
                     onNavigateBack()
                 }
             )
-            editProfileViewModel.userProfileImage?.let {
-                Box (
-                    modifier = Modifier
-                        .size(70.dp)
-                        .clip(CircleShape)
-                ) {
-                    Image(
-                        bitmap = it.toImageBitmap().withAspectRatio(1f),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop
-                    )
-                }
-            }
-//            ImageWithStatus(
-//                modifier = Modifier.size(82.dp),
-//                image = editProfileViewModel.userProfileImage,
-//                status = OnlineStatus.ONLINE,
-//                statusAlignment = Alignment.TopEnd,
-//                clickable = true,
-//                onClick = { editProfileViewModel.chooseImage() }
-//            )
             EditProfileInfo(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                username = editProfileViewModel.username,
-                displayName = editProfileViewModel.displayName.text,
-                pronouns = editProfileViewModel.pronouns.text,
-                image = null,
+                username = profileViewModel.newUsername.text,
+                displayName = profileViewModel.newDisplayName.text,
+                pronouns = profileViewModel.newPronouns.text,
+                image = profileViewModel.newUserProfileImage,
                 clickableImage = true,
-                onClickImage = { editProfileViewModel.chooseImage() },
+                onClickImage = { profileViewModel.chooseImage() },
                 status = OnlineStatus.EDIT,
                 thoughts = "What's new in Christmas?",
                 onClickNotes = {},
             )
             EditProfileTextFieldCard(
-                displayName = editProfileViewModel.displayName,
-                pronouns = editProfileViewModel.pronouns,
-                aboutMe = editProfileViewModel.about,
-                onDisplayNameChanged = editProfileViewModel::updateDisplayName,
-                onPronounsChanged = editProfileViewModel::updatePronouns,
-                onAboutMeChanged = editProfileViewModel::updateAbout
+                displayName = profileViewModel.newDisplayName,
+                pronouns = profileViewModel.newPronouns,
+                aboutMe = profileViewModel.newAbout,
+                onDisplayNameChanged = profileViewModel::updateDisplayName,
+                onPronounsChanged = profileViewModel::updatePronouns,
+                onAboutMeChanged = profileViewModel::updateAbout
             )
         }
     }
@@ -151,7 +126,7 @@ fun EditProfileInfo (
     username: String,
     displayName: String,
     pronouns: String?,
-    image: ByteArray?,
+    image: ImageBitmap?,
     clickableImage: Boolean,
     onClickImage: () -> Unit,
     status: OnlineStatus,
