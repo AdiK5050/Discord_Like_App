@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
+import io.adik5050.discord_like.ui.app.profile.viewmodels.User
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -13,11 +14,12 @@ interface UserDao {
 
     @Query("SELECT * FROM UserEntity WHERE username = :username")
     suspend fun getUserWithName(username: String): UserEntity?
-    @Query("SELECT * FROM UserEntity")
-    fun getAllUsersAsFlow(): Flow<List<UserEntity>>
 
     @Query("SELECT UserEntity.userId, UserEntity.displayName, UserEntity.onlineStatus, UserEntity.profileImage FROM UserEntity INNER JOIN main.ChannelEntity CE on UserEntity.userId = CE.userCreatedId WHERE CE.channelId = :channelId")
     fun getUserWithChannelId(channelId: Int): Flow<List<UserInfo>>
+
+    @Query("SELECT UserEntity.userId, UserEntity.username, UserEntity.displayName, UserEntity.pronouns, UserEntity.userThoughts, UserEntity.onlineStatus, UserEntity.profileImage FROM UserEntity WHERE userId = :userId")
+    suspend fun getUserWithUserId(userId: Int): User?
 
     @Query("SELECT UserEntity.profileImage FROM UserEntity WHERE userId = :userId")
     suspend fun getUserProfilePic(userId: Int): ByteArray?
