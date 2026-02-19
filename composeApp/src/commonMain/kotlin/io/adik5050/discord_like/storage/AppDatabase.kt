@@ -13,7 +13,7 @@ import androidx.room.TypeConverters
     ChannelMembersEntity::class
                         ],
     exportSchema = true,
-    version = 6)
+    version = 7)
 @TypeConverters(MessageTypeConverter::class)
 @ConstructedBy (AppDatabaseConstructor::class)
 abstract class AppDatabase: RoomDatabase() {
