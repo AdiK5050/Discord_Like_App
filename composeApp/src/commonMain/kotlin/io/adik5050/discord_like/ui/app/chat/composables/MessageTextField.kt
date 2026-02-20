@@ -1,15 +1,14 @@
 package io.adik5050.discord_like.ui.app.chat.composables
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,12 +36,9 @@ fun MessageTextField(
 ) {
     var message by rememberSaveable(stateSaver = TextFieldValue.Saver) { mutableStateOf(TextFieldValue("")) }
 
-    TextField(
+    OutlinedTextField(
         modifier = modifier
-            .fillMaxWidth()
-            .border(width = 0.2.dp,
-                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
-                shape =  MaterialTheme.shapes.medium),
+            .fillMaxWidth(),
         shape =  MaterialTheme.shapes.medium,
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
