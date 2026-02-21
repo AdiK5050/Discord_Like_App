@@ -43,7 +43,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ContentCards (
     modifier: Modifier = Modifier,
-    about: String,
+    about: String?,
     memberSince: String,
 ) {
     Column(
@@ -111,7 +111,7 @@ fun OrbsCard(
 @Composable
 fun AboutMeCard(
     modifier: Modifier = Modifier,
-    about: String = "Your About",
+    about: String?,
     memberSince: String = "Jan 1, 2023"
 ) {
     Card(
@@ -133,10 +133,12 @@ fun AboutMeCard(
                     text = stringResource(Res.string.about_me),
                     style = MaterialTheme.typography.titleSmall
                 )
-                Text (
-                    text = about,
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                about?.trim()?.let {
+                    Text (
+                        text = it.ifEmpty { "Tell your friends about yourself..." },
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)

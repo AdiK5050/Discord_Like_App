@@ -18,14 +18,14 @@ interface UserDao {
     @Query("SELECT UserEntity.userId, UserEntity.displayName, UserEntity.onlineStatus, UserEntity.profileImage FROM UserEntity INNER JOIN main.ChannelEntity CE on UserEntity.userId = CE.userCreatedId WHERE CE.channelId = :channelId")
     fun getUserWithChannelId(channelId: Int): Flow<List<UserInfo>>
 
-    @Query("SELECT UserEntity.userId, UserEntity.username, UserEntity.displayName, UserEntity.pronouns, UserEntity.thoughts, UserEntity.onlineStatus FROM UserEntity WHERE userId = :userId")
+    @Query("SELECT UserEntity.userId, UserEntity.username, UserEntity.displayName, UserEntity.pronouns, UserEntity.thoughts, UserEntity.about, UserEntity.onlineStatus FROM UserEntity WHERE userId = :userId")
     suspend fun getUserWithUserId(userId: Int): User?
 
     @Query("SELECT UserEntity.profileImage FROM UserEntity WHERE userId = :userId")
     suspend fun getUserProfilePic(userId: Int): ByteArray?
 
-    @Query("UPDATE UserEntity SET displayName = :displayName, pronouns = :pronouns, profileImage = :profileImage WHERE userId = :userId")
-    suspend fun setUserProfileInfo(userId: Int, displayName: String, pronouns: String, profileImage: ByteArray?)
+    @Query("UPDATE UserEntity SET displayName = :displayName, pronouns = :pronouns, thoughts = :thoughts, about = :about, profileImage = :profileImage WHERE userId = :userId")
+    suspend fun setUserProfileInfo(userId: Int, displayName: String, pronouns: String, thoughts: String?, about: String?, profileImage: ByteArray?)
 }
 
 @Dao

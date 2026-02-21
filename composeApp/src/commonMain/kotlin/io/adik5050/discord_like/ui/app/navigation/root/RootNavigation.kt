@@ -11,6 +11,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import io.adik5050.discord_like.shared.composables.ErrorPage
+import io.adik5050.discord_like.shared.composables.KeyboardAware
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.navigation.Route
@@ -77,7 +78,6 @@ fun RootNavigation(
                     onNavigateToChat = { rootBackstack.add(Route.Chat) },
                     userSession = userSession,
                     onNavigateToEditProfile = {
-                        rootBackstack.clear()
                         rootBackstack.add(Route.EditProfile)
                     },
                     onNavigateToWelcome = {
@@ -96,14 +96,15 @@ fun RootNavigation(
                 )
             }
             entry<Route.EditProfile> {
-                EditProfilePage(
-                    appDatabase = appDatabase,
-                    userSession = userSession,
-                    onNavigateBack = {
-                        rootBackstack.removeLastOrNull()
-                        rootBackstack.add(Route.Home)
-                    }
-                )
+                KeyboardAware {
+                    EditProfilePage(
+                        appDatabase = appDatabase,
+                        userSession = userSession,
+                        onNavigateBack = {
+                            rootBackstack.removeLastOrNull()
+                        }
+                    )
+                }
             }
             entry<Route.Error> {
                 ErrorPage(

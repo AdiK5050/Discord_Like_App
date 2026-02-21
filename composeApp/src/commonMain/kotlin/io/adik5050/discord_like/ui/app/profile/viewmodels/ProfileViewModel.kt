@@ -24,6 +24,7 @@ data class User(
     val displayName: String,
     val pronouns: String?,
     val thoughts: String?,
+    val about: String?,
     val onlineStatus: String,
 )
 
@@ -36,9 +37,9 @@ class ProfileViewModel(
     val userId = userSession.getUserId()
     var userInfo by mutableStateOf<User?>(null)
     var username by mutableStateOf("")
-    var newUsername by mutableStateOf(TextFieldValue(""))
-        private set
 
+    var isInfoChanged by mutableStateOf(false)
+    var changesSaved by mutableStateOf(false)
     var displayName by mutableStateOf("")
     var newDisplayName by mutableStateOf(TextFieldValue(""))
         private set
@@ -50,6 +51,10 @@ class ProfileViewModel(
     var about: String? by mutableStateOf(null)
     var newAbout by mutableStateOf(TextFieldValue(""))
         private set
+
+    var thoughts: String? by mutableStateOf(null)
+    var newThoughts by mutableStateOf(TextFieldValue(""))
+        private set
     var userProfileImage: ImageBitmap? by mutableStateOf(null)
     var newUserProfileImage: ImageBitmap? by mutableStateOf(null)
 
@@ -59,12 +64,19 @@ class ProfileViewModel(
         userInfo = userDao.getUserWithUserId(userId)
         userInfo?.let {
             username = it.username
-            newUsername = TextFieldValue(it.username)
             displayName = it.displayName
             newDisplayName = TextFieldValue(it.displayName)
             it.pronouns?.let { pro ->
                 pronouns = pro
                 newPronouns = TextFieldValue(pro)
+            }
+            it.about?.let { abo ->
+                about = abo
+                newAbout = TextFieldValue(abo)
+            }
+            it.thoughts?.let { tho ->
+                thoughts = tho
+                newThoughts = TextFieldValue(tho)
             }
         }
     }
@@ -81,22 +93,50 @@ class ProfileViewModel(
     }
     fun updateDisplayName(newValue: TextFieldValue) {
         newDisplayName = newValue
+        hasChanges()
     }
     fun updatePronouns(newValue: TextFieldValue) {
         newPronouns = newValue
+        hasChanges()
+    }
+    fun updateThoughts(newValue: TextFieldValue) {
+        newThoughts = newValue
+        hasChanges()
     }
     fun updateAbout(newValue: TextFieldValue) {
         newAbout = newValue
+        hasChanges()
+    }
+
+    fun hasChanges() {
+        isInfoChanged = if(
+            displayName.trim() != newDisplayName.text.trim() ||
+            pronouns?.trim() != newPronouns.text.trim() ||
+            thoughts?.trim() != newThoughts.text.trim() ||
+            about?.trim() != newAbout.text.trim()
+        ) true
+        else {
+            false
+        }
     }
     fun onSave() = viewModelScope.launch {
-        userDao.setUserProfileInfo(userId, newDisplayName.text, newPronouns.text, newUserProfileImage?.toByteArray())
+        userDao.setUserProfileInfo(
+            userId = userId,
+            displayName = newDisplayName.text.trim().ifEmpty { username },
+            pronouns = newPronouns.text.trim(),
+            thoughts = newThoughts.text.trim(),
+            about = newAbout.text.trim(),
+            profileImage = newUserProfileImage?.toByteArray())
         userSession.setPronouns(newPronouns.text)
         userSession.setDisplayName(newDisplayName.text)
+        changesSaved = true
+        isInfoChanged = false
     }
     fun chooseImage() = viewModelScope.launch {
         image = selectImage()
         if(image != null) {
             newUserProfileImage = image?.bytes?.toImageBitmap()
+            isInfoChanged = true
         }
     }
 }

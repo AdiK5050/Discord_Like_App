@@ -9,6 +9,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
+import io.adik5050.discord_like.shared.composables.KeyboardAware
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.ui.app.chat.ChatPage
 import io.adik5050.discord_like.ui.app.chat_info.ChatInfo
@@ -42,13 +43,15 @@ fun ChatNavigation(
         ),
         entryProvider = entryProvider {
             entry<Route.Chat.ChatPage> {
-                ChatPage(
-                    modifier = Modifier,
-                    appDatabase = appDatabase,
-                    onNavigateToHome = {
-                        onNavigateToHome()
-                    }
-                )
+                KeyboardAware {
+                    ChatPage(
+                        modifier = Modifier,
+                        appDatabase = appDatabase,
+                        onNavigateToHome = {
+                            onNavigateToHome()
+                        }
+                    )
+                }
             }
             entry<Route.Chat.ChatInfo> {
                 ChatInfo(
