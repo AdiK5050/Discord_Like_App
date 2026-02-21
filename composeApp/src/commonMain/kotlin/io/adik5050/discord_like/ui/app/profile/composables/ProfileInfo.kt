@@ -43,13 +43,12 @@ fun ProfileInfo(
     displayName: String,
     username: String,
     pronouns: String?,
+    thoughts: String?,
     image: ImageBitmap?,
+    status: OnlineStatus,
     clickableImage: Boolean,
     onClickImage: () -> Unit,
-    status: OnlineStatus,
     onEdit: () -> Unit,
-    thoughts: String? = null,
-    onClickNotes: () -> Unit = {}
 ) {
     Column(
         modifier = modifier,
@@ -62,7 +61,6 @@ fun ProfileInfo(
             thoughts = thoughts,
             clickableImage = clickableImage,
             onClickImage = onClickImage,
-            onClickNotes = onClickNotes
         )
         ProfileInfoTextRow(
             displayName = displayName,
@@ -83,7 +81,6 @@ fun ProfileInfoImageRow(
     statusAlignment: Alignment,
     clickableImage: Boolean,
     onClickImage: () -> Unit,
-    onClickNotes: () -> Unit,
 ) {
     Row (
         modifier = modifier,
@@ -102,8 +99,7 @@ fun ProfileInfoImageRow(
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceContainer,
                 contentColor = MaterialTheme.colorScheme.onSurface
-            ),
-            onClick = onClickNotes,
+            )
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

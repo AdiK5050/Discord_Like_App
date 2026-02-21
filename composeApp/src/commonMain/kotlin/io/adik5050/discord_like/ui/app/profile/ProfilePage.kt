@@ -3,14 +3,12 @@ package io.adik5050.discord_like.ui.app.profile
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fitInside
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.WindowInsetsRulers
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.adik5050.discord_like.shared.composables.OnlineStatus
@@ -36,7 +34,6 @@ fun ProfilePage(
     }
     Surface (
         modifier = modifier
-            .fitInside(WindowInsetsRulers.SafeDrawing.current)
             .fillMaxSize(),
         content = {
             Column (
@@ -57,18 +54,17 @@ fun ProfilePage(
                             displayName = profileViewModel.displayName,
                             username = profileViewModel.username,
                             pronouns = profileViewModel.pronouns,
+                            thoughts = profileViewModel.thoughts,
                             image = profileViewModel.userProfileImage,
                             clickableImage = true,
                             onClickImage = {},
                             status = OnlineStatus.ONLINE,
                             onEdit = onNavigateToEditProfile,
-                            thoughts = "What's new in Christmas?",
-                            onClickNotes = {},
                         )
                     }
                     item {
                         ContentCards(
-                            about = "Change Is Fated",
+                            about = profileViewModel.about,
                             memberSince = "Jul 9, 2024"
                         )
                     }
