@@ -3,13 +3,11 @@ package io.adik5050.discord_like.ui.app.navigation.main
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.fitInside
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.WindowInsetsRulers
 import androidx.compose.ui.unit.dp
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
@@ -43,7 +41,6 @@ fun MainNavigation(
     }
     Surface (
         modifier = modifier
-            .fitInside(WindowInsetsRulers.SafeDrawing.current)
             .fillMaxSize(),
     ) {
         Column {
@@ -78,11 +75,9 @@ fun MainNavigation(
                                 userSession = userSession,
                                 onNavigateBack = navigator::goBack,
                                 onNavigateToEditProfile = {
-                                    navigator.removeLastDestination()
                                     onNavigateToEditProfile()
                                 },
                                 onNavigateToWelcome = {
-                                    navigator.removeLastDestination()
                                     onNavigateToWelcome()
                                 }
                             )

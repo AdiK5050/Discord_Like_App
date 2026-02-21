@@ -41,12 +41,16 @@
     <string name="status_edit">Edit</string>
     <string name="status_do_not_disturb">Do Not Disturb</string>
     <string name="save_icon">Save</string>
+    <string name="logout_icon">Save</string>
+    <string name="delete_icon">Save</string>
     <string name="confirm_button">Confirm</string>
     <string name="cancel_button">Cancel</string>
     <string name="discard_button">Discard</string>
     <string name="keep_editing_button">Keep editing</string>
     <string name="save_profile_alert_title">Save Changes</string>
     <string name="discard_profile_alert_title">Discard Changes</string>
+    <string name="logout_account_alert_title">Logout Account</string>
     <string name="save_profile_alert_body">Do you want to save the changes?</string>
     <string name="discard_profile_alert_body">Do you want to discard the changes?</string>
+    <string name="logout_account_alert_body">Do you want to log out of your account?</string>
 </resources>
