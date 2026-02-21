@@ -25,7 +25,7 @@ kotlinxSerializationJson = "1.10.0"
 
 material3 = "1.9.0"
 material3WindowSizeClass = "1.4.0"
-cmpNavigation3 = "1.0.0-alpha06"
+cmpNavigation3 = "1.1.0-alpha01"
 material3AdaptiveCompose = "1.2.0"
 
 room = "2.8.4"
