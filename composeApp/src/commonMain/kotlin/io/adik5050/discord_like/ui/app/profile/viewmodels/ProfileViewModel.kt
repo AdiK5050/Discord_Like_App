@@ -130,6 +130,7 @@ class ProfileViewModel(
         userSession.setPronouns(newPronouns.text)
         userSession.setDisplayName(newDisplayName.text)
         changesSaved = true
+        isInfoChanged = false
     }
     fun chooseImage() = viewModelScope.launch {
         image = selectImage()
