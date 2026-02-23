@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,17 +17,14 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.adik5050.discord_like.ui.app.create_channel.composables.MemberInfo
-import io.adik5050.discord_like.ui.theme.AppTheme
 import myapplication.composeapp.generated.resources.Res
 import myapplication.composeapp.generated.resources.check_box_blank
 import myapplication.composeapp.generated.resources.check_box_filled
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun MemberCard(
+fun UserCard(
     modifier: Modifier = Modifier,
     username: String,
     displayName: String?,
@@ -101,52 +97,5 @@ fun MemberCard(
                 .padding(start = 56.dp)
                 .align(Alignment.End)
         )
-    }
-}
-
-@Composable
-@Preview
-fun PreviewMemberCard() {
-    AppTheme {
-        Surface {
-            Column {
-                listOf(
-                    MemberInfo(memberId = 1, username = "adi8299", displayName = "Adi", image = null),
-                    MemberInfo(memberId = 2, username = "therealmarko", displayName = "Marko", image = null)
-                ).forEach { memberInfo ->
-                    MemberCard(
-                        username = memberInfo.username,
-                        displayName = memberInfo.displayName,
-                        image = memberInfo.image,
-                        useToggle = true,
-                        selected = false,
-                    )
-                }
-            }
-        }
-    }
-}
-@Composable
-@Preview
-fun PreviewDarkMemberCard() {
-    AppTheme(
-        darkTheme = true
-    ) {
-        Surface {
-            Column {
-                listOf(
-                    MemberInfo(memberId = 1, username = "adi8299", displayName = "Adi", image = null),
-                    MemberInfo(memberId = 2, username = "therealmarko", displayName = "Marko", image = null)
-                ).forEach { memberInfo ->
-                    MemberCard(
-                        username = memberInfo.username,
-                        displayName = memberInfo.displayName,
-                        image = memberInfo.image,
-                        useToggle = true,
-                        selected = false,
-                    )
-                }
-            }
-        }
     }
 }

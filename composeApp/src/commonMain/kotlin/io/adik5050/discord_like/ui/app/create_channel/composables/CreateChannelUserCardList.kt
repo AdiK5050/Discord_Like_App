@@ -9,14 +9,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.wannaverse.imageselector.toImageBitmap
-import io.adik5050.discord_like.shared.composables.MemberCard
-import io.adik5050.discord_like.ui.app.chat.viewmodels.RawUserInfo
+import io.adik5050.discord_like.shared.composables.UserCard
+import io.adik5050.discord_like.ui.app.create_channel.viewmodels.ModUserInfo
 
 @Composable
-fun CreateChannelMemberCardList(
+fun CreateChannelUserCardList(
     modifier: Modifier = Modifier,
-    memberList: List<RawUserInfo>,
+    userList: List<ModUserInfo>,
     onClickCard: (memberId: Int, selected: Boolean) -> Unit
 ) {
     Card(
@@ -25,12 +24,12 @@ fun CreateChannelMemberCardList(
         Column(
             modifier = modifier
         ) {
-            memberList.forEach { user ->
+            userList.forEach { user ->
                 var selected by remember { mutableStateOf(false) }
-                MemberCard(
+                UserCard(
                     username = user.username,
                     displayName = user.displayName,
-                    image = user.profileImage?.toImageBitmap(),
+                    image = user.profileImage,
                     useToggle = true,
                     selected = selected,
                     clickable = true,
