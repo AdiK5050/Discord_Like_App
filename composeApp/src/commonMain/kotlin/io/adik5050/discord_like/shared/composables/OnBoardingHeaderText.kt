@@ -19,7 +19,7 @@ import myapplication.composeapp.generated.resources.arrow_back_24dp_e3e3e3_fill0
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun LoginOrRegisterHeaderText(
+fun OnBoardingHeaderText(
     modifier: Modifier = Modifier,
     heading: String,
     onClickBack: () -> Unit
