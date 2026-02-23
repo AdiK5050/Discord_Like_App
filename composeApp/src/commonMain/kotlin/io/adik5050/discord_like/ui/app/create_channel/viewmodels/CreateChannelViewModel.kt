@@ -12,7 +12,6 @@ data class ModUserInfo(
     val username: String,
     val displayName: String,
     val onlineStatus: OnlineStatus,
-    val profileImage: ImageBitmap?
 )
 class CreateChannelViewModel(
     appDatabase: AppDatabase,

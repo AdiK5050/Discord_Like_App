@@ -47,27 +47,4 @@ data class RawUserInfo(
     val username: String,
     val displayName: String,
     val onlineStatus: String,
-    val profileImage: ByteArray?
-) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || this::class != other::class) return false
-
-        other as RawUserInfo
-
-        if (userId != other.userId) return false
-        if (displayName != other.displayName) return false
-        if (onlineStatus != other.onlineStatus) return false
-        if (!profileImage.contentEquals(other.profileImage)) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = userId
-        result = 31 * result + displayName.hashCode()
-        result = 31 * result + onlineStatus.hashCode()
-        result = 31 * result + (profileImage?.contentHashCode() ?: 0)
-        return result
-    }
-}
+)

@@ -29,7 +29,7 @@ fun CreateChannelUserCardList(
                 UserCard(
                     username = user.username,
                     displayName = user.displayName,
-                    image = user.profileImage,
+                    image = null,
                     useToggle = true,
                     selected = selected,
                     clickable = true,

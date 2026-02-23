@@ -27,7 +27,7 @@ fun MessageContent (
             items(messageHistory) { message ->
                 val user = channelMembers.firstOrNull { it.userId == message.senderId }
                 MessageCard(
-                    image = user?.profileImage?.decodeToImageBitmap(),
+                    image = null,
                     status = convertToOnlineStatus(user?.onlineStatus),
                     name = user?.displayName,
                     time = message.sentAt,
