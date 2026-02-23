@@ -10,12 +10,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import io.adik5050.discord_like.shared.composables.UserCard
-import io.adik5050.discord_like.ui.app.create_channel.viewmodels.ModUserInfo
+import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
 
 @Composable
 fun CreateChannelUserCardList(
     modifier: Modifier = Modifier,
-    userList: List<ModUserInfo>,
+    userList: List<UserInfo>,
     onClickCard: (memberId: Int, selected: Boolean) -> Unit
 ) {
     Card(

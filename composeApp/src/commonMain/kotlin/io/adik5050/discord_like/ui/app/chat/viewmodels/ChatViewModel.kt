@@ -42,7 +42,7 @@ class ChatViewModel(
     }
 }
 
-data class RawUserInfo(
+data class UserInfo(
     val userId: Int,
     val username: String,
     val displayName: String,

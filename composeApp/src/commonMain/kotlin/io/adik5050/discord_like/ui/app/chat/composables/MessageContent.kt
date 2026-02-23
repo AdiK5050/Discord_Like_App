@@ -9,12 +9,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.shared.composables.stringToOnlineStatus
 import io.adik5050.discord_like.storage.MessageEntity
-import io.adik5050.discord_like.ui.app.chat.viewmodels.RawUserInfo
+import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
 
 @Composable
 fun MessageContent (
     modifier: Modifier = Modifier,
-    channelMembers: List<RawUserInfo>,
+    channelMembers: List<UserInfo>,
     messageHistory: List<MessageEntity>
 ) {
     Surface (
