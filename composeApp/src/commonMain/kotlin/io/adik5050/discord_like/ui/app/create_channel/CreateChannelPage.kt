@@ -5,19 +5,23 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import io.adik5050.discord_like.storage.AppDatabase
+import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.create_channel.composables.CreateChannelHeader
-import io.adik5050.discord_like.ui.app.create_channel.composables.CreateChannelMemberCardList
 import io.adik5050.discord_like.ui.app.create_channel.composables.CreateChannelOptionsCard
-import io.adik5050.discord_like.ui.theme.AppTheme
+import io.adik5050.discord_like.ui.app.create_channel.composables.CreateChannelUserCardList
+import io.adik5050.discord_like.ui.app.create_channel.viewmodels.CreateChannelViewModel
 
 @Composable
 fun CreateChannelPage(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    appDatabase: AppDatabase,
+    userSession: UserSession,
+    createChannelViewModel: CreateChannelViewModel = viewModel { CreateChannelViewModel(appDatabase, userSession) }
 ) {
     Column (
         modifier = modifier
@@ -41,8 +45,8 @@ fun CreateChannelPage(
                 )
             }
             item {
-                CreateChannelMemberCardList(
-
+                CreateChannelUserCardList(
+                    userList = createChannelViewModel.modUserInfo,
                     onClickCard = { memberId, selected ->
 
                     }
@@ -52,23 +56,3 @@ fun CreateChannelPage(
     }
 }
 
-@Preview
-@Composable
-fun PreviewCreateChannelPage() {
-    AppTheme {
-        Surface {
-            CreateChannelPage()
-        }
-    }
-}
-@Preview
-@Composable
-fun PreviewDarkCreateChannelPage() {
-    AppTheme (
-        darkTheme = true
-    ) {
-        Surface {
-            CreateChannelPage()
-        }
-    }
-}
