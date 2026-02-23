@@ -17,10 +17,12 @@ enum class OnlineStatus(val icon: DrawableResource, val description: StringResou
     OFFLINE(Res.drawable.status_offline, Res.string.status_offline, Color.Gray),
     EDIT(Res.drawable.edit, Res.string.status_edit, Color.Gray)
 }
-fun convertToOnlineStatus(onlineStatus: String?) : OnlineStatus {
-    if(onlineStatus.equals(null)) return OnlineStatus.OFFLINE
-    OnlineStatus.entries.forEach {
-        if(onlineStatus!!.equals(it.description)) return it
+fun onlineStatusToString(status: OnlineStatus): String {
+    return status.description.toString()
+}
+fun stringToOnlineStatus(string: String?): OnlineStatus {
+    OnlineStatus.entries.forEach { onlineStatus ->
+        if(onlineStatus.description.toString().equals(string, ignoreCase = true)) return onlineStatus
     }
-    return ONLINE
+    return OnlineStatus.OFFLINE
 }
