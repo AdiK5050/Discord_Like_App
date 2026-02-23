@@ -53,4 +53,7 @@
     <string name="save_profile_alert_body">Do you want to save the changes?</string>
     <string name="discard_profile_alert_body">Do you want to discard the changes?</string>
     <string name="logout_account_alert_body">Do you want to log out of your account?</string>
+    <string name="add_friend">Add a Friend</string>
+    <string name="new_channel">New Channel</string>
+    <string name="create">Create</string>
 </resources>
