@@ -10,12 +10,12 @@ import androidx.compose.ui.graphics.decodeToImageBitmap
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.shared.composables.convertToOnlineStatus
 import io.adik5050.discord_like.storage.MessageEntity
-import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
+import io.adik5050.discord_like.ui.app.chat.viewmodels.RawUserInfo
 
 @Composable
 fun MessageContent (
     modifier: Modifier = Modifier,
-    channelMembers: List<UserInfo>,
+    channelMembers: List<RawUserInfo>,
     messageHistory: List<MessageEntity>
 ) {
     Surface (
