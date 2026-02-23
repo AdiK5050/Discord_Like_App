@@ -1,9 +1,8 @@
 package io.adik5050.discord_like.storage
 
 import androidx.room.Dao
-import androidx.room.Insert
 import androidx.room.Query
-import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
+import io.adik5050.discord_like.ui.app.chat.viewmodels.RawUserInfo
 import io.adik5050.discord_like.ui.app.profile.viewmodels.User
 import kotlinx.coroutines.flow.Flow
 
@@ -15,8 +14,10 @@ interface UserDao {
     @Query("SELECT * FROM UserEntity WHERE username = :username")
     suspend fun getUserWithName(username: String): UserEntity?
 
+    @Query("SELECT UserEntity.userId, UserEntity.username, UserEntity.displayName, UserEntity.onlineStatus, UserEntity.profileImage FROM UserEntity")
+    fun getAllUsersAsFlow(): Flow<List<RawUserInfo>>
     @Query("SELECT UserEntity.userId, UserEntity.displayName, UserEntity.onlineStatus, UserEntity.profileImage FROM UserEntity INNER JOIN main.ChannelEntity CE on UserEntity.userId = CE.userCreatedId WHERE CE.channelId = :channelId")
-    fun getUserWithChannelId(channelId: Int): Flow<List<UserInfo>>
+    fun getUserWithChannelId(channelId: Int): Flow<List<RawUserInfo>>
 
     @Query("SELECT UserEntity.userId, UserEntity.username, UserEntity.displayName, UserEntity.pronouns, UserEntity.thoughts, UserEntity.about, UserEntity.onlineStatus FROM UserEntity WHERE userId = :userId")
     suspend fun getUserWithUserId(userId: Int): User?
@@ -30,8 +31,11 @@ interface UserDao {
 
 @Dao
 interface ChannelDao {
-    @Insert
-    suspend fun insertChannel(channel: ChannelEntity)
+    @Query("INSERT INTO ChannelEntity (channelName, userCreatedId) VALUES (:channelName, :userCreatedId)")
+    suspend fun insertChannel(channelName: String, userCreatedId: Int)
+
+    @Query("INSERT INTO ChannelMembersEntity (channelId, memberId) VALUES (:channelId, :memberId)")
+    suspend fun insertChannelMember(channelId: Int, memberId: Int)
 
 }
 
