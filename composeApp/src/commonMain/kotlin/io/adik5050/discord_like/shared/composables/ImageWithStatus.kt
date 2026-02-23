@@ -32,8 +32,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ImageWithStatus(modifier: Modifier = Modifier,
-                    image: ImageBitmap?,
-                    status: OnlineStatus,
+                    image: ImageBitmap? = null,
+                    status: OnlineStatus?= null,
                     statusAlignment: Alignment = Alignment.BottomEnd,
                     clickable: Boolean = false,
                     onClick: () -> Unit= {}
@@ -64,21 +64,23 @@ fun ImageWithStatus(modifier: Modifier = Modifier,
                     modifier = modifier
                 )
         }
-        Box(
-            modifier = Modifier
-                .align(statusAlignment)
-                .border(width = 2.dp, color = MaterialTheme.colorScheme.background, shape = CircleShape)
-                .background(color = MaterialTheme.colorScheme.background,shape = CircleShape),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
+        status?.let {
+            Box(
                 modifier = Modifier
-                    .size(20.dp)
-                    .padding(2.dp),
-                painter = painterResource(status.icon),
-                contentDescription = stringResource(status.description),
-                tint = status.color
-            )
+                    .align(statusAlignment)
+                    .border(width = 2.dp, color = MaterialTheme.colorScheme.background, shape = CircleShape)
+                    .background(color = MaterialTheme.colorScheme.background,shape = CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(20.dp)
+                        .padding(2.dp),
+                    painter = painterResource(status.icon),
+                    contentDescription = stringResource(status.description),
+                    tint = status.color
+                )
+            }
         }
     }
 }
