@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import io.adik5050.discord_like.shared.composables.LoginOrRegisterHeaderText
+import io.adik5050.discord_like.shared.composables.OnBoardingHeaderText
 import io.adik5050.discord_like.shared.composables.WelcomeBackground
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.storage.UserSession
@@ -54,7 +54,7 @@ fun LoginPage(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(32.dp)
     ) {
-        LoginOrRegisterHeaderText(
+        OnBoardingHeaderText(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp, start = 16.dp, end = 16.dp),
