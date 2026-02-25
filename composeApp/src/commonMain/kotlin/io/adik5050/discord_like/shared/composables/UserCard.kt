@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -55,7 +56,8 @@ fun UserCard(
             ) {
                 ImageWithStatus(
                     modifier = Modifier
-                        .padding(4.dp),
+                        .padding(4.dp)
+                        .size(40.dp),
                     image = image
                 )
                 Column {
