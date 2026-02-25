@@ -22,6 +22,7 @@ fun HomePage(
     homeViewModel: HomeViewModel = viewModel { HomeViewModel(appDatabase, userSession) },
     onClickMessageIcon: () -> Unit,
     onClickChatPage: () -> Unit,
+    onNavigateToCreateChannel: () -> Unit
 ) {
     Row (
         modifier = modifier
@@ -36,7 +37,8 @@ fun HomePage(
             modifier = Modifier
                 .fillMaxSize()
                 .weight(1f),
-            onClickToChatPage = onClickChatPage
+            onClickToChatPage = onClickChatPage,
+            onClickSearchBar = onNavigateToCreateChannel
         )
     }
 }

@@ -26,6 +26,8 @@ sealed interface Route : NavKey {
     @Serializable
     data object Settings: Route
 
+    @Serializable
+    data object CreateChannel: Route
 
     @Serializable
     data object Chat: Route {

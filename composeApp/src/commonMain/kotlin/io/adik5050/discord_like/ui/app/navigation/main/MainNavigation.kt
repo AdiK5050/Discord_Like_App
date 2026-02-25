@@ -31,6 +31,7 @@ fun MainNavigation(
     onNavigateToChat: () -> Unit,
     onNavigateToEditProfile: () -> Unit,
     onNavigateToWelcome: () -> Unit,
+    onNavigateToCreateChannel: () -> Unit,
 ) {
     val navigationState = rememberMainBottomNavigationState(
         startRoute = Route.Home,
@@ -58,6 +59,7 @@ fun MainNavigation(
                                     navigator.navigate(Route.Home)
                                 },
                                 onClickChatPage = onNavigateToChat,
+                                onNavigateToCreateChannel = onNavigateToCreateChannel
                             )
                         }
                         entry<Route.Profile> {

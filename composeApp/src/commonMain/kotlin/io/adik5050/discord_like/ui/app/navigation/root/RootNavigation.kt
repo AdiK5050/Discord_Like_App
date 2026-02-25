@@ -14,6 +14,7 @@ import io.adik5050.discord_like.shared.composables.ErrorPage
 import io.adik5050.discord_like.shared.composables.KeyboardAware
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.storage.UserSession
+import io.adik5050.discord_like.ui.app.create_channel.CreateChannelPage
 import io.adik5050.discord_like.ui.app.navigation.Route
 import io.adik5050.discord_like.ui.app.navigation.chat.ChatNavigation
 import io.adik5050.discord_like.ui.app.navigation.home.HomePageSceneForWideScreen
@@ -40,6 +41,7 @@ fun RootNavigation(
                     subclass(Route.Home::class, Route.Home.serializer())
                     subclass(Route.Chat::class, Route.Chat.serializer())
                     subclass(Route.EditProfile::class, Route.EditProfile.serializer())
+                    subclass(Route.CreateChannel::class, Route.CreateChannel.serializer())
                     subclass(Route.Error::class, Route.Error.serializer())
                 }
             }
@@ -84,6 +86,9 @@ fun RootNavigation(
                         userSession.clearUserSession()
                         rootBackstack.clear()
                         rootBackstack.add(Route.Welcome)
+                    },
+                    onNavigateToCreateChannel = {
+                        rootBackstack.add(Route.CreateChannel)
                     }
                 )
             }
@@ -93,6 +98,15 @@ fun RootNavigation(
                 ChatNavigation(
                     appDatabase = appDatabase,
                     onNavigateToHome = { rootBackstack.add(Route.Home) }
+                )
+            }
+            entry<Route.CreateChannel> {
+                CreateChannelPage(
+                    appDatabase = appDatabase,
+                    userSession = userSession,
+                    onNavigateBack = {
+                        rootBackstack.add(Route.Home)
+                    }
                 )
             }
             entry<Route.EditProfile> {

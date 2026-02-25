@@ -3,6 +3,7 @@ package io.adik5050.discord_like.ui.app.chat_list
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -16,7 +17,8 @@ import io.adik5050.discord_like.ui.theme.AppTheme
 @Composable
 fun ChatList(
     modifier: Modifier = Modifier,
-    onClickToChatPage: () -> Unit
+    onClickToChatPage: () -> Unit,
+    onClickSearchBar: () -> Unit,
 ) {
     Surface (
         modifier = modifier,
@@ -24,7 +26,9 @@ fun ChatList(
         shape = MaterialTheme.shapes.medium
     ) {
         Column {
-            ChatListSearchBar()
+            ChatListSearchBar(
+                onClickSearchBar = onClickSearchBar
+            )
             LazyColumn (
                 modifier = Modifier.padding(8.dp)
             ) {
@@ -49,7 +53,8 @@ fun PreviewChatList() {
     AppTheme {
         Surface {
             ChatList(
-                onClickToChatPage = {}
+                onClickToChatPage = {},
+                onClickSearchBar = {}
             )
         }
     }
@@ -62,7 +67,8 @@ fun PreviewChatListCard() {
     ) {
         Surface {
             ChatList(
-                onClickToChatPage = {}
+                onClickToChatPage = {},
+                onClickSearchBar = {}
             )
         }
     }
