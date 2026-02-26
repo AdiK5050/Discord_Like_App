@@ -13,6 +13,7 @@ import com.wannaverse.imageselector.toImageBitmap
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 data class EntityImage (
@@ -47,6 +48,7 @@ class CreateChannelViewModel(
 
     var newChannelId: Int? by mutableStateOf(null)
         private set
+
     init {
         viewModelScope.launch {
             loadUserInfo().join()
@@ -54,11 +56,18 @@ class CreateChannelViewModel(
         }
     }
 
+    fun showLoader() {
+        uiStates = CreateChannelUiStates.Loading
+    }
+    suspend fun hideLoader() {
+        delay(1000)
+        uiStates = CreateChannelUiStates.Loaded
+    }
     fun loadUserInfo() = viewModelScope.launch {
         userDao.getAllUsers().forEach {
             userInfoList.add(it)
         }
-        uiStates = CreateChannelUiStates.Loaded
+        hideLoader()
     }
 
     fun loadProfileImages() = viewModelScope.launch {
@@ -108,7 +117,7 @@ class CreateChannelViewModel(
     fun insertChannel() = viewModelScope.launch {
         if (channelName.text.trim().isNotEmpty())
             channelDao.getChannelIdByName(channelName.text.trim(), userId)?.let {
-                error = "Channel Already exists. Channel Name: $channelName"
+                error = "Channel Already exists. Channel Name: ${channelName.text}"
             } ?: channelDao.insertChannel(channelName = channelName.text.trim(), userCreatedId = userId)
     }
     fun insertMembers() = viewModelScope.launch {
@@ -120,15 +129,13 @@ class CreateChannelViewModel(
         }
     }
     fun createChannel() = viewModelScope.launch {
-
-        uiStates = CreateChannelUiStates.Loading
-
+        showLoader()
         initChannelName()
 
         insertChannel().join()
 
         insertMembers().join()
-
+        hideLoader()
         if (newChannelId != null) uiStates = CreateChannelUiStates.ChannelCreated(channelId = newChannelId!!)
         else error = "Couldn't generate or fetch Channel ID."
     }
