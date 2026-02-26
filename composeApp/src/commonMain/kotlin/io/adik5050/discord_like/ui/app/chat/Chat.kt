@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.adik5050.discord_like.storage.AppDatabase
+import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.chat.composables.ChatTopBar
 import io.adik5050.discord_like.ui.app.chat.composables.MessageContent
 import io.adik5050.discord_like.ui.app.chat.composables.MessageTextField
@@ -28,7 +29,9 @@ import io.adik5050.discord_like.ui.theme.AppTheme
 fun ChatPage(
     modifier: Modifier = Modifier,
     appDatabase: AppDatabase,
-    chatViewModel: ChatViewModel = viewModel { ChatViewModel(appDatabase, 1) },
+    userSession: UserSession,
+    channelId: Int,
+    chatViewModel: ChatViewModel = viewModel { ChatViewModel(appDatabase, userSession,channelId) },
     onNavigateToHome: () -> Unit
 ) {
     val channelMembers by chatViewModel.channelMembers.collectAsStateWithLifecycle()

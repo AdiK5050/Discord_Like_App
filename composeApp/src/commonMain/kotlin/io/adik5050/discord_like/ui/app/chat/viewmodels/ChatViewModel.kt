@@ -6,14 +6,18 @@ import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.storage.MessageDao
 import io.adik5050.discord_like.storage.MessageType
 import io.adik5050.discord_like.storage.UserDao
+import io.adik5050.discord_like.storage.UserSession
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ChatViewModel(
     appDatabase: AppDatabase,
+    userSession: UserSession,
     val channelId: Int,
 ) : ViewModel() {
+
+    val userId = userSession.getUserId()
     val userDao: UserDao = appDatabase.getUserDao()
     val messageDao: MessageDao = appDatabase.getMessageDao()
     val channelMembers = userDao.getUserWithChannelId(channelId)
@@ -33,8 +37,8 @@ class ChatViewModel(
         if(message.trim().isNotEmpty()) {
             messageDao.insertMessage(
                 message = message.encodeToByteArray(),
-                senderId = 1,
-                channelId = 1,
+                senderId = userId,
+                channelId = channelId,
                 repliedTo = null,
                 messageType = MessageType.TEXT,
             )

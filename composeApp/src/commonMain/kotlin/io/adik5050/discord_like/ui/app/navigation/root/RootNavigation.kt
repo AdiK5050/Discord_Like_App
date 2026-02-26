@@ -77,7 +77,7 @@ fun RootNavigation(
                 MainNavigation(
                     appDatabase = appDatabase,
                     windowSizeClass = windowSizeClass,
-                    onNavigateToChat = { rootBackstack.add(Route.Chat) },
+                    onNavigateToChat = {  },
                     userSession = userSession,
                     onNavigateToEditProfile = {
                         rootBackstack.add(Route.EditProfile)
@@ -97,6 +97,8 @@ fun RootNavigation(
             ) {
                 ChatNavigation(
                     appDatabase = appDatabase,
+                    userSession = userSession,
+                    channelId = it.channelId,
                     onNavigateToHome = { rootBackstack.add(Route.Home) }
                 )
             }

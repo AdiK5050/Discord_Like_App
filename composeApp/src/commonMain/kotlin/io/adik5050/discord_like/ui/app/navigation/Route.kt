@@ -30,10 +30,9 @@ sealed interface Route : NavKey {
     data object CreateChannel: Route
 
     @Serializable
-    data object Chat: Route {
-
+    data class Chat(val channelId: Int): Route {
         @Serializable
-        data object ChatPage: Route
+        data class ChatPage(val channelId: Int): Route
         @Serializable
         data class ChatInfo( val channelId: Int): Route
     }

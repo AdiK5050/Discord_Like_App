@@ -15,7 +15,7 @@ interface UserDao {
     suspend fun getUserWithName(username: String): UserEntity?
 
     @Query("SELECT UserEntity.userId, UserEntity.username, UserEntity.displayName, UserEntity.onlineStatus FROM UserEntity")
-    fun getAllUsersAsFlow(): Flow<List<UserInfo>>
+    suspend fun getAllUsers(): List<UserInfo>
     @Query("SELECT UserEntity.userId, UserEntity.username, UserEntity.displayName, UserEntity.onlineStatus FROM UserEntity INNER JOIN main.ChannelEntity CE on UserEntity.userId = CE.userCreatedId WHERE CE.channelId = :channelId")
     fun getUserWithChannelId(channelId: Int): Flow<List<UserInfo>>
 
@@ -37,6 +37,8 @@ interface ChannelDao {
     @Query("INSERT INTO ChannelMembersEntity (channelId, memberId) VALUES (:channelId, :memberId)")
     suspend fun insertChannelMember(channelId: Int, memberId: Int)
 
+    @Query("SELECT channelId FROM ChannelEntity WHERE channelName = :channelName AND userCreatedId = :userCreatedId")
+    suspend fun getChannelIdByName(channelName: String, userCreatedId: Int): Int?
 }
 
 @Dao

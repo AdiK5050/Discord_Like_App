@@ -11,6 +11,7 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import io.adik5050.discord_like.shared.composables.KeyboardAware
 import io.adik5050.discord_like.storage.AppDatabase
+import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.chat.ChatPage
 import io.adik5050.discord_like.ui.app.chat_info.ChatInfo
 import io.adik5050.discord_like.ui.app.navigation.Route
@@ -21,6 +22,8 @@ import kotlinx.serialization.modules.polymorphic
 fun ChatNavigation(
     modifier: Modifier = Modifier,
     appDatabase: AppDatabase,
+    userSession: UserSession,
+    channelId: Int,
     onNavigateToHome: () -> Unit
 ) {
     val chatPageBackStack = rememberNavBackStack(
@@ -32,7 +35,7 @@ fun ChatNavigation(
                 }
             }
         },
-        Route.Chat.ChatPage
+        Route.Chat.ChatPage(channelId)
     )
     NavDisplay(
         modifier = modifier,
@@ -47,6 +50,8 @@ fun ChatNavigation(
                     ChatPage(
                         modifier = Modifier,
                         appDatabase = appDatabase,
+                        userSession = userSession,
+                        channelId = it.channelId,
                         onNavigateToHome = {
                             onNavigateToHome()
                         }
