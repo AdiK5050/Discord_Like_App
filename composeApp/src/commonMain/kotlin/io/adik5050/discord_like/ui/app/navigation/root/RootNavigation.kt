@@ -104,8 +104,17 @@ fun RootNavigation(
                 CreateChannelPage(
                     appDatabase = appDatabase,
                     userSession = userSession,
+                    onNavigateToChannel = {
+                        rootBackstack.removeLastOrNull()
+                        rootBackstack.add(Route.Chat(it))
+                    },
                     onNavigateBack = {
+                        rootBackstack.removeLastOrNull()
                         rootBackstack.add(Route.Home)
+                    },
+                    onNavigateToError = {
+                        rootBackstack.removeLastOrNull()
+                        rootBackstack.add(Route.Error(it))
                     }
                 )
             }
