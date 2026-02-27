@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy.Companion.ABORT
 import androidx.room.Query
 import androidx.room.Transaction
 import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
+import io.adik5050.discord_like.ui.app.home_page.viewmodels.ChannelInfo
 import io.adik5050.discord_like.ui.app.profile.viewmodels.User
 import kotlinx.coroutines.flow.Flow
 
@@ -51,6 +52,11 @@ interface ChannelDao {
         return channelId
     }
 
+    @Query("SELECT CE.channelId, CE.channelName, CE.userCreatedId, ME.message, ME.messageType, ME.sentAt FROM ChannelEntity CE INNER JOIN ChannelMembersEntity CM  ON CM.channelId = CE.channelId LEFT JOIN MessageEntity ME ON ME.messageId = ( SELECT m2.messageId  FROM MessageEntity m2  WHERE m2.channelId = CE.channelId ORDER BY m2.sentAt DESC LIMIT 1 ) WHERE CM.memberId = :memberId ORDER BY ME.sentAt DESC;")
+    fun getChannelInfo(memberId: Int): Flow<List<ChannelInfo>>
+
+    @Query("SELECT channelImage FROM ChannelEntity WHERE channelId = :channelId")
+    suspend fun getChannelImage(channelId: Int): ByteArray?
 }
 
 @Dao
