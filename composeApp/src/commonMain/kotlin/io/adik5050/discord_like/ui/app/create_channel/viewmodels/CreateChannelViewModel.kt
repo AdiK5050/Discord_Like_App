@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wannaverse.imageselector.toImageBitmap
 import io.adik5050.discord_like.storage.AppDatabase
+import io.adik5050.discord_like.storage.ChannelEntity
 import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
 import kotlinx.coroutines.delay
@@ -40,6 +41,7 @@ class CreateChannelViewModel(
     var channelMembersList: SnapshotStateList<Int> = mutableStateListOf(userId)
         private set
 
+    var isError by mutableStateOf(false)
     var error by mutableStateOf("")
         private set
 
@@ -115,25 +117,27 @@ class CreateChannelViewModel(
     }
 
     fun insertChannel() = viewModelScope.launch {
+        if(isError) return@launch
         if (channelName.text.trim().isNotEmpty())
-            channelDao.getChannelIdByName(channelName.text.trim(), userId)?.let {
-                error = "Channel Already exists. Channel Name: ${channelName.text}"
-            } ?: channelDao.insertChannel(channelName = channelName.text.trim(), userCreatedId = userId)
+            newChannelId = channelDao.insertAndGetChannelId(
+                ChannelEntity(
+                channelName = channelName.text.trim(),
+                userCreatedId = userId,
+                channelImage = null
+                )
+            )
+        if (newChannelId == null || newChannelId == -1) error = "Couldn't fetch or create channel"
     }
     fun insertMembers() = viewModelScope.launch {
-        channelDao.getChannelIdByName(channelName.text.trim(), userId)?.let {
-            newChannelId = it
-            channelMembersList.forEach { memberId ->
-                channelDao.insertChannelMember(channelId = it, memberId)
-            }
+        if(newChannelId == null || newChannelId == -1) error = "Couldn't fetch or created channel Id"
+        else channelMembersList.forEach { memberId ->
+            channelDao.insertChannelMember(channelId = newChannelId!!, memberId)
         }
     }
     fun createChannel() = viewModelScope.launch {
         showLoader()
         initChannelName()
-
         insertChannel().join()
-
         insertMembers().join()
         hideLoader()
         if (newChannelId != null) uiStates = CreateChannelUiStates.ChannelCreated(channelId = newChannelId!!)

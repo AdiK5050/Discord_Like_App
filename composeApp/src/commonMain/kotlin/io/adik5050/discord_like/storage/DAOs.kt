@@ -1,7 +1,10 @@
 package io.adik5050.discord_like.storage
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy.Companion.ABORT
 import androidx.room.Query
+import androidx.room.Transaction
 import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
 import io.adik5050.discord_like.ui.app.profile.viewmodels.User
 import kotlinx.coroutines.flow.Flow
@@ -31,14 +34,23 @@ interface UserDao {
 
 @Dao
 interface ChannelDao {
-    @Query("INSERT INTO ChannelEntity (channelName, userCreatedId) VALUES (:channelName, :userCreatedId)")
-    suspend fun insertChannel(channelName: String, userCreatedId: Int)
+
+    @Insert(onConflict = ABORT)
+    suspend fun insertChannel(channelEntity: ChannelEntity): Long
 
     @Query("INSERT INTO ChannelMembersEntity (channelId, memberId) VALUES (:channelId, :memberId)")
     suspend fun insertChannelMember(channelId: Int, memberId: Int)
 
-    @Query("SELECT channelId FROM ChannelEntity WHERE channelName = :channelName AND userCreatedId = :userCreatedId")
-    suspend fun getChannelIdByName(channelName: String, userCreatedId: Int): Int?
+    @Query("SELECT channelId FROM CHANNELENTITY WHERE rowId = :rowId")
+    suspend fun getChannelIdByRowId(rowId: Long): Int
+
+    @Transaction
+    suspend fun insertAndGetChannelId(channelEntity: ChannelEntity): Int {
+        val rowId = insertChannel(channelEntity)
+        val channelId = getChannelIdByRowId(rowId)
+        return channelId
+    }
+
 }
 
 @Dao
