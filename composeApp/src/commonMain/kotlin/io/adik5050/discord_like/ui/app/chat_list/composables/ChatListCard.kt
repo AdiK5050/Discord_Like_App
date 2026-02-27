@@ -17,7 +17,6 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.shared.composables.ImageWithStatus
-import io.adik5050.discord_like.shared.composables.OnlineStatus
 
 @Composable
 fun ChatListCard(
