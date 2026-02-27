@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -17,14 +18,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.ui.app.chat_list.composables.ChatListCard
 import io.adik5050.discord_like.ui.app.chat_list.composables.ChatListSearchBar
-import io.adik5050.discord_like.ui.theme.AppTheme
+import io.adik5050.discord_like.ui.app.create_channel.viewmodels.EntityImage
+import io.adik5050.discord_like.ui.app.home_page.viewmodels.ChannelInfo
 import myapplication.composeapp.generated.resources.Res
 import myapplication.composeapp.generated.resources.group_add
 import myapplication.composeapp.generated.resources.new_channel
@@ -34,8 +38,10 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ChatList(
     modifier: Modifier = Modifier,
+    channelList: List<ChannelInfo>,
+    entityImageList: SnapshotStateList<EntityImage>,
     onClickSearchBar: () -> Unit,
-    onNavigateToChannel: () -> Unit,
+    onNavigateToChannel: (Int) -> Unit,
     onNavigateToCreateChannel: () -> Unit,
 ) {
     Surface (
@@ -55,11 +61,21 @@ fun ChatList(
                     modifier = Modifier.padding(8.dp),
                     state = scrollState
                 ) {
-                    items (count = 15) {
+                    items(channelList) { channel ->
+                        var image: ImageBitmap? by remember { mutableStateOf(null) }
+                        entityImageList
+                            .forEach { entity ->
+                                if(entity.entityId == channel.channelId) {
+                                    image = entity.image
+                                }
+                            }
                         ChatListCard(
-                            name = "Adi",
-                            lastMessage = "Hello this is Adi",
-                            onClick = onNavigateToChannel
+                            image = image,
+                            name = channel.channelName,
+                            lastMessage = channel.message?.decodeToString(),
+                            onClick = {
+                                onNavigateToChannel(channel.channelId)
+                            }
                         )
                     }
                 }
@@ -88,7 +104,6 @@ fun ChatList(
                     }
                 }
             }
-
         }
     }
 }
