@@ -77,7 +77,9 @@ fun RootNavigation(
                 MainNavigation(
                     appDatabase = appDatabase,
                     windowSizeClass = windowSizeClass,
-                    onNavigateToChat = {  },
+                    onNavigateToChat = {
+                        rootBackstack.add(Route.Chat(it))
+                    },
                     userSession = userSession,
                     onNavigateToEditProfile = {
                         rootBackstack.add(Route.EditProfile)

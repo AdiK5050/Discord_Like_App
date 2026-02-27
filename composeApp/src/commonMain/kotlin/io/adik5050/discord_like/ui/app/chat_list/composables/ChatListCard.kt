@@ -14,17 +14,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.shared.composables.ImageWithStatus
-import io.adik5050.discord_like.shared.composables.OnlineStatus
 
 @Composable
 fun ChatListCard(
     modifier: Modifier = Modifier,
-    image: ImageBitmap? = null,
-    status: OnlineStatus = OnlineStatus.ONLINE,
+    image: ImageBitmap?,
     name: String,
-    lastMessage: String,
+    lastMessage: String?,
     onClick: () -> Unit
 ) {
     Card (
@@ -44,20 +43,29 @@ fun ChatListCard(
                     .padding(4.dp)
                     .size(56.dp),
                 image = image,
-                status = status,
-                clickable = false,
-                onClick = {}
             )
             Column (
                 modifier = Modifier.padding(8.dp)
             ) {
                 Text(
                     text = name,
-                    style = MaterialTheme.typography.labelLarge
+                    style = MaterialTheme.typography.labelLarge,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
+                lastMessage?.let {
+                    Text(
+                        text = lastMessage,
+                        style = MaterialTheme.typography.bodyMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                } ?:
                 Text(
-                    text = lastMessage,
-                    style = MaterialTheme.typography.bodyMedium
+                    text = "Start a convo!",
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }

@@ -1,8 +1,12 @@
 package io.adik5050.discord_like.storage
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy.Companion.ABORT
 import androidx.room.Query
+import androidx.room.Transaction
 import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
+import io.adik5050.discord_like.ui.app.home_page.viewmodels.ChannelInfo
 import io.adik5050.discord_like.ui.app.profile.viewmodels.User
 import kotlinx.coroutines.flow.Flow
 
@@ -31,14 +35,28 @@ interface UserDao {
 
 @Dao
 interface ChannelDao {
-    @Query("INSERT INTO ChannelEntity (channelName, userCreatedId) VALUES (:channelName, :userCreatedId)")
-    suspend fun insertChannel(channelName: String, userCreatedId: Int)
+
+    @Insert(onConflict = ABORT)
+    suspend fun insertChannel(channelEntity: ChannelEntity): Long
 
     @Query("INSERT INTO ChannelMembersEntity (channelId, memberId) VALUES (:channelId, :memberId)")
     suspend fun insertChannelMember(channelId: Int, memberId: Int)
 
-    @Query("SELECT channelId FROM ChannelEntity WHERE channelName = :channelName AND userCreatedId = :userCreatedId")
-    suspend fun getChannelIdByName(channelName: String, userCreatedId: Int): Int?
+    @Query("SELECT channelId FROM CHANNELENTITY WHERE rowId = :rowId")
+    suspend fun getChannelIdByRowId(rowId: Long): Int
+
+    @Transaction
+    suspend fun insertAndGetChannelId(channelEntity: ChannelEntity): Int {
+        val rowId = insertChannel(channelEntity)
+        val channelId = getChannelIdByRowId(rowId)
+        return channelId
+    }
+
+    @Query("SELECT CE.channelId, CE.channelName, CE.userCreatedId, ME.message, ME.messageType, ME.sentAt FROM ChannelEntity CE INNER JOIN ChannelMembersEntity CM  ON CM.channelId = CE.channelId LEFT JOIN MessageEntity ME ON ME.messageId = ( SELECT m2.messageId  FROM MessageEntity m2  WHERE m2.channelId = CE.channelId ORDER BY m2.sentAt DESC LIMIT 1 ) WHERE CM.memberId = :memberId ORDER BY ME.sentAt DESC;")
+    fun getChannelInfo(memberId: Int): Flow<List<ChannelInfo>>
+
+    @Query("SELECT channelImage FROM ChannelEntity WHERE channelId = :channelId")
+    suspend fun getChannelImage(channelId: Int): ByteArray?
 }
 
 @Dao

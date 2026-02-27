@@ -31,7 +31,7 @@ fun MainNavigation(
     appDatabase: AppDatabase,
     userSession: UserSession,
     windowSizeClass: WindowSizeClass,
-    onNavigateToChat: () -> Unit,
+    onNavigateToChat: (Int) -> Unit,
     onNavigateToEditProfile: () -> Unit,
     onNavigateToWelcome: () -> Unit,
     onNavigateToCreateChannel: () -> Unit,
