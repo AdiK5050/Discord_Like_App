@@ -3,6 +3,7 @@ package io.adik5050.discord_like.ui.app.navigation.root
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -22,6 +23,7 @@ import io.adik5050.discord_like.ui.app.navigation.home.rememberHomePageStrategy
 import io.adik5050.discord_like.ui.app.navigation.main.MainNavigation
 import io.adik5050.discord_like.ui.app.navigation.welcome.WelcomeNavigation
 import io.adik5050.discord_like.ui.app.profile.EditProfilePage
+import io.adik5050.discord_like.ui.app.profile.viewmodels.ProfileViewModel
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
@@ -30,6 +32,7 @@ fun RootNavigation(
     modifier: Modifier = Modifier,
     appDatabase: AppDatabase,
     userSession: UserSession,
+    profileViewModel: ProfileViewModel = viewModel { ProfileViewModel(appDatabase, userSession) }
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val startRoute = if(userSession.isLoggedIn()) Route.Home else Route.Welcome
@@ -77,6 +80,7 @@ fun RootNavigation(
                 MainNavigation(
                     appDatabase = appDatabase,
                     windowSizeClass = windowSizeClass,
+                    profileViewModel = profileViewModel,
                     onNavigateToChat = {
                         rootBackstack.add(Route.Chat(it))
                     },
@@ -125,8 +129,7 @@ fun RootNavigation(
             entry<Route.EditProfile> {
                 KeyboardAware {
                     EditProfilePage(
-                        appDatabase = appDatabase,
-                        userSession = userSession,
+                        profileViewModel = profileViewModel,
                         onNavigateBack = {
                             rootBackstack.removeLastOrNull()
                         }

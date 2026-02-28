@@ -24,12 +24,14 @@ import io.adik5050.discord_like.ui.app.home_page.composables.CompactHomePageBar
 import io.adik5050.discord_like.ui.app.home_page.composables.WideHomePageBar
 import io.adik5050.discord_like.ui.app.navigation.Route
 import io.adik5050.discord_like.ui.app.profile.ProfilePage
+import io.adik5050.discord_like.ui.app.profile.viewmodels.ProfileViewModel
 
 @Composable
 fun MainNavigation(
     modifier: Modifier = Modifier,
     appDatabase: AppDatabase,
     userSession: UserSession,
+    profileViewModel: ProfileViewModel,
     windowSizeClass: WindowSizeClass,
     onNavigateToChat: (Int) -> Unit,
     onNavigateToEditProfile: () -> Unit,
@@ -68,8 +70,7 @@ fun MainNavigation(
                         }
                         entry<Route.Profile> {
                             ProfilePage(
-                                appDatabase = appDatabase,
-                                userSession = userSession,
+                                profileViewModel = profileViewModel,
                                 onNavigateBack = navigator::goBack,
                                 onNavigateToEditProfile = onNavigateToEditProfile,
                                 onNavigateToWelcome = onNavigateToWelcome
@@ -77,8 +78,7 @@ fun MainNavigation(
                         }
                         entry<Route.Settings> {
                             ProfilePage(
-                                appDatabase = appDatabase,
-                                userSession = userSession,
+                                profileViewModel = profileViewModel,
                                 onNavigateBack = navigator::goBack,
                                 onNavigateToEditProfile = {
                                     onNavigateToEditProfile()
@@ -103,6 +103,9 @@ fun MainNavigation(
                 CompactHomePageBar(
                     modifier = Modifier
                         .padding(8.dp),
+                    username = profileViewModel.username,
+                    displayName = profileViewModel.displayName,
+                    image = profileViewModel.userProfileImage,
                     onClickProfile = {
                         navigator.navigate(Route.Profile)
                     }
@@ -112,6 +115,9 @@ fun MainNavigation(
                 WideHomePageBar(
                     modifier = Modifier
                         .padding(8.dp),
+                    username = profileViewModel.username,
+                    displayName = profileViewModel.displayName,
+                    image = profileViewModel.userProfileImage,
                     onClickProfile = {
                         navigator.navigate(Route.Profile)
                     }

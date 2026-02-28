@@ -27,10 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import io.adik5050.discord_like.shared.composables.OnlineStatus
-import io.adik5050.discord_like.storage.AppDatabase
-import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.profile.composables.ContentCards
 import io.adik5050.discord_like.ui.app.profile.composables.ProfileInfo
 import io.adik5050.discord_like.ui.app.profile.composables.ProfileTopOptions
@@ -48,12 +45,10 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ProfilePage(
     modifier: Modifier= Modifier,
-    appDatabase: AppDatabase,
-    userSession: UserSession,
+    profileViewModel: ProfileViewModel,
     onNavigateBack: () -> Unit,
     onNavigateToEditProfile: () -> Unit,
-    onNavigateToWelcome: () -> Unit,
-    profileViewModel: ProfileViewModel = viewModel { ProfileViewModel(appDatabase,userSession) }
+    onNavigateToWelcome: () -> Unit
 ) {
     var showLogoutDialog by remember { mutableStateOf(false) }
     LaunchedEffect(Unit, profileViewModel.isInfoChanged) {

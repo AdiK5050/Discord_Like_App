@@ -44,13 +44,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigationevent.NavigationEventInfo
 import androidx.navigationevent.compose.NavigationBackHandler
 import androidx.navigationevent.compose.rememberNavigationEventState
 import io.adik5050.discord_like.shared.composables.OnlineStatus
-import io.adik5050.discord_like.storage.AppDatabase
-import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.profile.composables.ProfileInfoImageRow
 import io.adik5050.discord_like.ui.app.profile.composables.ProfileInfoTextRow
 import io.adik5050.discord_like.ui.app.profile.viewmodels.ProfileViewModel
@@ -79,11 +76,10 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun EditProfilePage(
     modifier: Modifier = Modifier,
-    appDatabase: AppDatabase,
-    userSession: UserSession,
-    profileViewModel: ProfileViewModel= viewModel { ProfileViewModel(appDatabase, userSession) },
+    profileViewModel: ProfileViewModel,
     onNavigateBack: () -> Unit
 ) {
+
     var showSaveDialog by remember { mutableStateOf(false) }
     var discardChangesDialog by remember { mutableStateOf(false) }
 

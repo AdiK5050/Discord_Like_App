@@ -11,33 +11,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import myapplication.composeapp.generated.resources.Res
-import myapplication.composeapp.generated.resources.bottom_navigation_notifications
 import myapplication.composeapp.generated.resources.bottom_navigation_setting
-import myapplication.composeapp.generated.resources.discord_notifications
 import myapplication.composeapp.generated.resources.discord_settings
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun CompactHomePageBarButtons() {
+fun CompactHomePageBarButtons(
+    onClickSettings: () -> Unit
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
     ) {
+//        IconButton(
+//            onClick = onClickNotifications,
+//            content = {
+//                Icon(
+//                    modifier = Modifier
+//                        .sizeIn(maxWidth = 24.dp, maxHeight = 24.dp)
+//                        .alpha(1f),
+//                    painter = painterResource(Res.drawable.discord_notifications),
+//                    contentDescription = stringResource(Res.string.bottom_navigation_notifications)
+//                )
+//            }
+//        )
         IconButton(
-            onClick = {},
-            content = {
-                Icon(
-                    modifier = Modifier
-                        .sizeIn(maxWidth = 24.dp, maxHeight = 24.dp)
-                        .alpha(1f),
-                    painter = painterResource(Res.drawable.discord_notifications),
-                    contentDescription = stringResource(Res.string.bottom_navigation_notifications)
-                )
-            }
-        )
-        IconButton(
-            onClick = {},
+            onClick = onClickSettings,
             content = {
                 Icon(
                     modifier = Modifier
@@ -48,6 +48,5 @@ fun CompactHomePageBarButtons() {
                 )
             }
         )
-
     }
 }
