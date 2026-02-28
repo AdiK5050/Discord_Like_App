@@ -51,9 +51,7 @@ fun ProfilePage(
     onNavigateToWelcome: () -> Unit
 ) {
     var showLogoutDialog by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit, profileViewModel.isInfoChanged) {
-        profileViewModel.loadResources()
-    }
+
     Surface (
         modifier = modifier
             .fillMaxSize()

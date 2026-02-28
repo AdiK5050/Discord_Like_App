@@ -105,9 +105,6 @@ fun EditProfilePage(
             scrollState.scrollBy(keyboardHeight.toFloat())
         }
     }
-    LaunchedEffect(Unit) {
-        profileViewModel.loadResources()
-    }
     Surface(
         modifier = modifier
             .fillMaxSize()

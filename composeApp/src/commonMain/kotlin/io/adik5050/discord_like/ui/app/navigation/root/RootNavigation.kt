@@ -2,6 +2,7 @@ package io.adik5050.discord_like.ui.app.navigation.root
 
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
@@ -34,6 +35,9 @@ fun RootNavigation(
     userSession: UserSession,
     profileViewModel: ProfileViewModel = viewModel { ProfileViewModel(appDatabase, userSession) }
 ) {
+    LaunchedEffect(Unit,profileViewModel.changesSaved) {
+        profileViewModel.loadResources()
+    }
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val startRoute = if(userSession.isLoggedIn()) Route.Home else Route.Welcome
     val rootBackstack = rememberNavBackStack(
