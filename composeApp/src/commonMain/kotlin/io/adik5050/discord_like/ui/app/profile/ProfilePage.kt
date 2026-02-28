@@ -54,7 +54,7 @@ fun ProfilePage(
     Surface (
         modifier = modifier
             .fillMaxSize()
-            .windowInsetsPadding(WindowInsets.safeContent.only(WindowInsetsSides.Bottom + WindowInsetsSides.Top)),
+            .windowInsetsPadding(WindowInsets.safeContent.only(WindowInsetsSides.Top)),
         content = {
             Column (
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp)
