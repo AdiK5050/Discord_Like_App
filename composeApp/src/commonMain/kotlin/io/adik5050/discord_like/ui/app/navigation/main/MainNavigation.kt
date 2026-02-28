@@ -17,6 +17,7 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.window.core.layout.WindowSizeClass
 import androidx.window.core.layout.WindowSizeClass.Companion.HEIGHT_DP_MEDIUM_LOWER_BOUND
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
+import io.adik5050.discord_like.shared.composables.BottomNavigation
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.home_page.HomePage
@@ -91,12 +92,14 @@ fun MainNavigation(
                     }
                 )
             )
+
             if(!windowSizeClass.isWidthAtLeastBreakpoint(WIDTH_DP_MEDIUM_LOWER_BOUND)) {
-                MainBottomNavigationBar(
+                BottomNavigation(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .padding(8.dp),
+                    image = profileViewModel.userProfileImage,
                     selectedKey = navigationState.topLevelRoute,
-                    onSelectKey = navigator::navigate,
+                    onSelectedKey =  navigator::navigate
                 )
             }
             else if(!windowSizeClass.isHeightAtLeastBreakpoint(HEIGHT_DP_MEDIUM_LOWER_BOUND)) {
