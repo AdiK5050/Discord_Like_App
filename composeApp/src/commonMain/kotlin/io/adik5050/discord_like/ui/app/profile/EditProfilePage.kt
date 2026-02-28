@@ -49,7 +49,6 @@ import myapplication.composeapp.generated.resources.delete_icon
 import myapplication.composeapp.generated.resources.discard_profile_alert_body
 import myapplication.composeapp.generated.resources.discard_profile_alert_title
 import myapplication.composeapp.generated.resources.keep_editing_button
-import myapplication.composeapp.generated.resources.pronouns
 import myapplication.composeapp.generated.resources.save
 import myapplication.composeapp.generated.resources.save_icon
 import myapplication.composeapp.generated.resources.save_profile_alert_body

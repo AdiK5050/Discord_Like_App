@@ -11,7 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import io.adik5050.discord_like.ui.app.profile.EditProfileTextField
 import myapplication.composeapp.generated.resources.Res
 import myapplication.composeapp.generated.resources.about_me
 import myapplication.composeapp.generated.resources.display_name
