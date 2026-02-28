@@ -1,6 +1,8 @@
 package io.adik5050.discord_like.ui.app.login.viewmodels
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -80,13 +82,17 @@ class LoginViewModel(
         else _loginButtonEnabled.value = false
     }
     fun fillDataInDatabase() = viewModelScope.launch{
-        listOfUsers.forEach { userEntity ->
+        var numberOfUsers by mutableStateOf(0)
+        viewModelScope.launch {
+            numberOfUsers = userDao.getAllUsers().size
+        }.join()
+        if(numberOfUsers == 0) listOfUsers.forEach { userEntity ->
             userDao.insertUser(userEntity.username, userEntity.password, userEntity.onlineStatus, userEntity.profileImage )
         }
     }
 }
 
-val listOfUsers = listOf<UserEntity>(
+val listOfUsers = listOf(
     UserEntity(
         username = "adi8299",
         password = "Adi12345",
