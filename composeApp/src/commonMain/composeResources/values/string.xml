@@ -56,4 +56,5 @@
     <string name="add_friend">Add a Friend</string>
     <string name="new_channel">New Channel</string>
     <string name="create">Create</string>
+    <string name="no_channels_present">Start a new convo with your friends! \nClick the button below.</string>
 </resources>

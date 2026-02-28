@@ -19,7 +19,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,10 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import io.adik5050.discord_like.shared.composables.OnlineStatus
-import io.adik5050.discord_like.storage.AppDatabase
-import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.profile.composables.ContentCards
 import io.adik5050.discord_like.ui.app.profile.composables.ProfileInfo
 import io.adik5050.discord_like.ui.app.profile.composables.ProfileTopOptions
@@ -48,21 +44,17 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ProfilePage(
     modifier: Modifier= Modifier,
-    appDatabase: AppDatabase,
-    userSession: UserSession,
+    profileViewModel: ProfileViewModel,
     onNavigateBack: () -> Unit,
     onNavigateToEditProfile: () -> Unit,
-    onNavigateToWelcome: () -> Unit,
-    profileViewModel: ProfileViewModel = viewModel { ProfileViewModel(appDatabase,userSession) }
+    onNavigateToWelcome: () -> Unit
 ) {
     var showLogoutDialog by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit, profileViewModel.isInfoChanged) {
-        profileViewModel.loadResources()
-    }
+
     Surface (
         modifier = modifier
             .fillMaxSize()
-            .windowInsetsPadding(WindowInsets.safeContent.only(WindowInsetsSides.Bottom + WindowInsetsSides.Top)),
+            .windowInsetsPadding(WindowInsets.safeContent.only(WindowInsetsSides.Top)),
         content = {
             Column (
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp)

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,6 +25,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.ui.app.chat_list.composables.ChatListCard
 import io.adik5050.discord_like.ui.app.chat_list.composables.ChatListSearchBar
@@ -32,6 +34,7 @@ import io.adik5050.discord_like.ui.app.home_page.viewmodels.ChannelInfo
 import myapplication.composeapp.generated.resources.Res
 import myapplication.composeapp.generated.resources.group_add
 import myapplication.composeapp.generated.resources.new_channel
+import myapplication.composeapp.generated.resources.no_channels_present
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -57,6 +60,20 @@ fun ChatList(
                 ChatListSearchBar(
                     onClickSearchBar = onClickSearchBar
                 )
+                if(channelList.isEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .weight(1f),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = stringResource(Res.string.no_channels_present),
+                            style = MaterialTheme.typography.titleMedium,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
                 LazyColumn (
                     modifier = Modifier.padding(8.dp),
                     state = scrollState

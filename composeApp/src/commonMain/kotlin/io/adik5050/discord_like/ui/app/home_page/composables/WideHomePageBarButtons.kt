@@ -34,7 +34,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun WideHomePageBarButtons(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickSettings: () -> Unit
 ) {
     var toggleMicrophone by remember { mutableStateOf(true) }
     var toggleHeadphone by remember { mutableStateOf(true) }
@@ -73,7 +74,7 @@ fun WideHomePageBarButtons(
         IconButton(
             modifier = Modifier
                 .pointerHoverIcon(PointerIcon.Hand),
-            onClick = {},
+            onClick = onClickSettings,
             shape = MaterialTheme.shapes.small,
             content = {
                 Icon(

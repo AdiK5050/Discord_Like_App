@@ -30,7 +30,7 @@ fun MainBottomNavigationBar(
     BottomAppBar(
         modifier = modifier
     ) {
-        Row{
+        Row {
             TOP_LEVEL_DESTINATIONS.forEach { (topLevelDestination, data ) ->
                 NavigationBarItem(
                     modifier = Modifier
@@ -39,7 +39,7 @@ fun MainBottomNavigationBar(
                         .weight(1f),
                     icon = {
                         var alpha by remember { mutableStateOf(1f) }
-                        if(selectedKey == topLevelDestination) alpha = 1f else alpha = 0.5f
+                        alpha = if(selectedKey == topLevelDestination) 1f else 0.5f
                         Icon(
                             painter = painterResource(data.icon),
                             contentDescription = stringResource(data.title),

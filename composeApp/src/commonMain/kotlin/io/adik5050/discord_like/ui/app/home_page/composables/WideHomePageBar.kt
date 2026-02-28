@@ -8,26 +8,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.shared.composables.OnlineStatus
-import io.adik5050.discord_like.ui.theme.AppTheme
 
 @Composable
 fun WideHomePageBar(
     modifier: Modifier = Modifier,
-    name: String= "Adi",
-    username: String = "adi8299",
-    image: ImageBitmap? = null,
+    displayName: String,
+    username: String,
+    image: ImageBitmap?,
     status: OnlineStatus = OnlineStatus.ONLINE,
-    onClickProfile: () -> Unit
+    onClickProfile: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isHoveredCard by interactionSource.collectIsHoveredAsState()
@@ -49,7 +46,7 @@ fun WideHomePageBar(
                 modifier = Modifier
                     .weight(1f),
                 isHoveredCard = isHoveredCard,
-                name = name,
+                name = displayName,
                 username = username,
                 image = image,
                 status = status,
@@ -57,35 +54,10 @@ fun WideHomePageBar(
             )
             WideHomePageBarButtons(
                 modifier = Modifier
-                    .weight(1f)
+                    .weight(1f),
+                onClickSettings = onClickProfile
             )
         }
     }
 }
 
-@Preview
-@Composable
-fun PreviewWideHomePageBar() {
-    AppTheme {
-        Surface {
-            WideHomePageBar(
-                modifier = Modifier.padding(8.dp),
-                onClickProfile = {}
-            )
-        }
-    }
-}
-@Preview
-@Composable
-fun PreviewDarkWideHomePageBar() {
-    AppTheme(
-        darkTheme = true
-    ) {
-        Surface {
-            WideHomePageBar(
-                modifier = Modifier.padding(8.dp),
-                onClickProfile = {}
-            )
-        }
-    }
-}
