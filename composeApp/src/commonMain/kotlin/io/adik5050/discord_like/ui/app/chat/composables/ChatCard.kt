@@ -17,7 +17,7 @@ import io.adik5050.discord_like.shared.composables.ImageWithStatus
 import io.adik5050.discord_like.shared.composables.OnlineStatus
 
 @Composable
-fun MessageCard (
+fun ChatCard (
     modifier: Modifier = Modifier,
     image: ImageBitmap? = null,
     status: OnlineStatus,

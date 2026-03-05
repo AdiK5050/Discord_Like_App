@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import myapplication.composeapp.generated.resources.Res
 import myapplication.composeapp.generated.resources.arrow_back
 import myapplication.composeapp.generated.resources.call
@@ -53,8 +54,9 @@ fun ChatTopBar (
             )
             Text(
                 text = channelName ?: "",
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                overflow = TextOverflow.Ellipsis
             )
         }
         Row(verticalAlignment = Alignment.CenterVertically,) {

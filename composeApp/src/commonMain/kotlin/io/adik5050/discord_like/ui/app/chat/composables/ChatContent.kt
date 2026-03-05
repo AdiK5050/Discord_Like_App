@@ -12,7 +12,7 @@ import io.adik5050.discord_like.storage.MessageEntity
 import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
 
 @Composable
-fun MessageContent (
+fun ChatContent (
     modifier: Modifier = Modifier,
     channelMembers: List<UserInfo>,
     messageHistory: List<MessageEntity>
@@ -25,7 +25,7 @@ fun MessageContent (
         ) {
             items(messageHistory) { message ->
                 val user = channelMembers.firstOrNull { it.userId == message.senderId }
-                MessageCard(
+                ChatCard(
                     image = null,
                     status = stringToOnlineStatus(user?.onlineStatus),
                     name = user?.displayName,
