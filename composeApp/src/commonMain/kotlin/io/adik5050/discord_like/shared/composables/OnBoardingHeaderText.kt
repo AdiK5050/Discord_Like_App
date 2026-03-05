@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import myapplication.composeapp.generated.resources.Res
-import myapplication.composeapp.generated.resources.arrow_back_24dp_e3e3e3_fill0_wght400_grad0_opsz24
+import myapplication.composeapp.generated.resources.arrow_back
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -34,7 +34,7 @@ fun OnBoardingHeaderText(
             onClick = onClickBack,
             content = {
                 Icon(
-                    painter = painterResource(Res.drawable.arrow_back_24dp_e3e3e3_fill0_wght400_grad0_opsz24),
+                    painter = painterResource(Res.drawable.arrow_back),
                     contentDescription = "Back Arrow"
                 )
             }

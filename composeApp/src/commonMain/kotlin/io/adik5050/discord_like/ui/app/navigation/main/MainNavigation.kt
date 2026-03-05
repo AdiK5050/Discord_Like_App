@@ -3,6 +3,7 @@ package io.adik5050.discord_like.ui.app.navigation.main
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -48,6 +49,7 @@ fun MainNavigation(
     Surface (
         modifier = modifier
             .windowInsetsPadding(WindowInsets.statusBars)
+            .windowInsetsPadding(WindowInsets.navigationBars)
             .fillMaxSize(),
     ) {
         Column {
