@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.ui.theme.AppTheme
 import myapplication.composeapp.generated.resources.Res
-import myapplication.composeapp.generated.resources.arrow_back_24dp_e3e3e3_fill0_wght400_grad0_opsz24
+import myapplication.composeapp.generated.resources.arrow_back
 import myapplication.composeapp.generated.resources.discord_nitro
 import myapplication.composeapp.generated.resources.discord_quest
 import myapplication.composeapp.generated.resources.discord_settings
@@ -47,7 +47,7 @@ fun ProfileTopOptions(
             onClick = onNavigateBack,
             content = {
                 Icon(
-                    painter = painterResource(Res.drawable.arrow_back_24dp_e3e3e3_fill0_wght400_grad0_opsz24),
+                    painter = painterResource(Res.drawable.arrow_back),
                     contentDescription = "Back"
                 )
             }
