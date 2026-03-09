@@ -26,6 +26,7 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import myapplication.composeapp.generated.resources.Res
 import myapplication.composeapp.generated.resources.attachment
@@ -56,11 +57,9 @@ fun ChatTextField(
             modifier = Modifier
                 .heightIn(min = 72.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             IconButton(
                 modifier = Modifier
-                    .padding(8.dp)
                     .pointerHoverIcon(PointerIcon.Hand),
                 shape = MaterialTheme.shapes.medium,
                 onClick = onClickAttachment,
@@ -101,14 +100,16 @@ fun ChatTextField(
                 },
                 placeholder = {
                     Text(
-                        text = "Message $messagePlaceHolder"
+                        text = "Message $messagePlaceHolder",
+                        style = MaterialTheme.typography.labelMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
             )
 
             IconButton (
                 modifier = Modifier
-                    .padding(8.dp)
                     .pointerHoverIcon(PointerIcon.Hand),
                 shape = MaterialTheme.shapes.medium,
                 onClick = onClickSmiley,
@@ -122,7 +123,6 @@ fun ChatTextField(
 
             IconButton (
                 modifier = Modifier
-                    .padding(8.dp)
                     .pointerHoverIcon(PointerIcon.Hand),
                 shape = MaterialTheme.shapes.medium,
                 onClick = {
