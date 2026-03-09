@@ -1,17 +1,32 @@
 package io.adik5050.discord_like.ui.app.chat.composables
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.hoverable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.shared.composables.ImageWithStatus
 import io.adik5050.discord_like.shared.composables.OnlineStatus
@@ -24,41 +39,72 @@ fun ChatCard (
     name: String?,
     time: String,
     message: String,
+    onLongPressed: () -> Unit,
+    onClickOption: (Int) -> Unit
 ) {
-    Row (
+    val interactionSource by remember { mutableStateOf(MutableInteractionSource() ) }
+    val isHovered by interactionSource.collectIsHoveredAsState()
+    Box(
         modifier = modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+            .fillMaxWidth()
+            .combinedClickable(
+                enabled = true,
+                onLongClick = { onLongPressed() },
+                onClick = {},
+                interactionSource = interactionSource
+            )
+            .hoverable(
+                interactionSource = interactionSource
+            )
     ) {
-        ImageWithStatus(
+        if(isHovered) {
+            MessageOptionsBar(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(end = 8.dp)
+                    .offset(y = (-24).dp)
+                    .hoverable(
+                        interactionSource = interactionSource
+                    ),
+                onClickOption = onClickOption
+            )
+        }
+        Row (
             modifier = Modifier
-                .padding(4.dp)
-                .size(56.dp),
-            image = image,
-            clickable = false,
-            status = status,
-            onClick = {}
-        )
-        Column (
-            verticalArrangement = Arrangement.Center
-        ){
-            Row (
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            ImageWithStatus(
+                modifier = Modifier
+                    .padding(4.dp)
+                    .size(56.dp),
+                image = image,
+                clickable = false,
+                status = status,
+                onClick = {}
+            )
+            Column (
+                verticalArrangement = Arrangement.Center
+            ){
+                Row (
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = name?:"User",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        text = time,
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                }
                 Text(
-                    text = name?:"User",
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                Text(
-                    text = time,
-                    style = MaterialTheme.typography.labelSmall
+                    text = message,
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
-            Text(
-                text = message,
-                style = MaterialTheme.typography.bodyMedium
-            )
         }
     }
 }

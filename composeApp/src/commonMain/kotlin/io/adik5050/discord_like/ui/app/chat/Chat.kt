@@ -62,7 +62,6 @@ fun ChatPage(
 
         Column (
             modifier = Modifier
-                .padding(8.dp)
                 .verticalScroll(scrollState),
         ) {
             ChatTopBar(
@@ -73,9 +72,13 @@ fun ChatPage(
                 modifier = Modifier
                     .weight(1f),
                 channelMembers,
-                messageHistory
+                messageHistory,
+                onClickOption = { optionId, messageId ->
+
+                }
             )
             ChatTextField(
+                modifier = Modifier.padding(bottom = 8.dp),
                 message = chatViewModel.message,
                 messagePlaceHolder = chatViewModel.channelInfo?.channelName,
                 onMessageChanged = chatViewModel::updateMessage,
