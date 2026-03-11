@@ -57,4 +57,11 @@
     <string name="new_channel">New Channel</string>
     <string name="create">Create</string>
     <string name="no_channels_present">Start a new convo with your friends! \nClick the button below.</string>
+
+
+    <string name="message_option_edit">Edit</string>
+    <string name="message_option_reply">Reply</string>
+    <string name="message_option_forward">Forward</string>
+    <string name="message_option_delete">Delete</string>
+    <string name="message_option_copy">Copy</string>
 </resources>

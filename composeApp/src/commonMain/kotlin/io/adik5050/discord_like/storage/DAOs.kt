@@ -69,4 +69,7 @@ interface MessageDao {
 
     @Query("SELECT messageId, message, senderId, channelId, repliedTo, messageType, strftime('%I:%M',sentAt, 'localtime') as sentAt FROM MessageEntity WHERE channelID = :channelID")
     fun getAllMessagesByChannelID(channelID: Int): Flow<List<MessageEntity>>
+
+    @Query("UPDATE MessageEntity SET message = :newMessage WHERE messageId = :messageId")
+    suspend fun updateMessage(messageId: Int, newMessage: ByteArray)
 }
