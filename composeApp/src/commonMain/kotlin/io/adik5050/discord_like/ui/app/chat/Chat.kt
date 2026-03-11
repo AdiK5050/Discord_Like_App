@@ -1,6 +1,8 @@
 package io.adik5050.discord_like.ui.app.chat
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollBy
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +29,7 @@ import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.chat.composables.ChatContent
 import io.adik5050.discord_like.ui.app.chat.composables.ChatTextField
 import io.adik5050.discord_like.ui.app.chat.composables.ChatTopBar
+import io.adik5050.discord_like.ui.app.chat.composables.TextFieldMessageOption
 import io.adik5050.discord_like.ui.app.chat.viewmodels.ChatViewModel
 import kotlinx.coroutines.launch
 
@@ -41,7 +44,14 @@ fun ChatPage(
     onNavigateToHome: () -> Unit
 ) {
     val channelMembers by chatViewModel.channelMembers.collectAsStateWithLifecycle()
-    val messageHistory by chatViewModel.messageHistory.collectAsStateWithLifecycle() 
+    val messageHistory by chatViewModel.messageHistory.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        chatViewModel.loadProfileImages()
+    }
+    LaunchedEffect(chatViewModel.error) {
+        println(chatViewModel.error)
+    }
     Surface (
         modifier = modifier
             .fillMaxSize()
@@ -71,21 +81,35 @@ fun ChatPage(
             ChatContent(
                 modifier = Modifier
                     .weight(1f),
+                chatViewModel.userId,
                 channelMembers,
                 messageHistory,
-                onClickOption = { optionId, messageId ->
-
-                }
+                chatViewModel.memberProfileImages,
+                onClickOption = chatViewModel::onClickOption
             )
-            ChatTextField(
-                modifier = Modifier.padding(bottom = 8.dp),
-                message = chatViewModel.message,
-                messagePlaceHolder = chatViewModel.channelInfo?.channelName,
-                onMessageChanged = chatViewModel::updateMessage,
-                onCLickSend = {
-                    chatViewModel.addMessage(null)
+            Box(
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
+                    .background(color = MaterialTheme.colorScheme.surfaceContainerLowest,shape = MaterialTheme.shapes.medium)
+            ) {
+                Column {
+                    if(chatViewModel.showTextFieldMessageOption) {
+                        TextFieldMessageOption(
+                            displayName = chatViewModel.currentUserInfo?.displayName ?: "",
+                            messageOption = chatViewModel.currentMessageOption,
+                            onClickCancel = chatViewModel::clearCurrentOption
+                        )
+                    }
+                    ChatTextField(
+                        message = chatViewModel.message,
+                        messagePlaceHolder = chatViewModel.channelInfo?.channelName,
+                        onMessageChanged = chatViewModel::updateMessage,
+                        onCLickSend = {
+                            chatViewModel.addMessage()
+                        }
+                    )
                 }
-            )
+            }
         }
     }
 }

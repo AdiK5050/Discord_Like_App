@@ -20,9 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import myapplication.composeapp.generated.resources.Res
 import myapplication.composeapp.generated.resources.content_copy
+import myapplication.composeapp.generated.resources.delete
 import myapplication.composeapp.generated.resources.edit
 import myapplication.composeapp.generated.resources.forward
 import myapplication.composeapp.generated.resources.message_option_copy
+import myapplication.composeapp.generated.resources.message_option_delete
 import myapplication.composeapp.generated.resources.message_option_edit
 import myapplication.composeapp.generated.resources.message_option_forward
 import myapplication.composeapp.generated.resources.message_option_reply
@@ -36,6 +38,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun MessageOptionsBottomSheet(
     onDismissRequest: () -> Unit,
+    ownMessage: Boolean,
     onClickOption: (Int) -> Unit
 ) {
     ModalBottomSheet(
@@ -46,7 +49,7 @@ fun MessageOptionsBottomSheet(
         ) {
             item {
                 MessageOptionCard(
-                    contentList = basicMessageOptions,
+                    contentList = if(ownMessage) ownMessageOptions else otherMessageOptions,
                     onClickOption = onClickOption
                 )
             }
@@ -113,10 +116,25 @@ enum class MessageOption(val optionId: Int, val icon: DrawableResource, val desc
     REPLY(optionId = 2, icon = Res.drawable.reply, description = Res.string.message_option_reply),
     FORWARD(optionId = 3, icon = Res.drawable.forward, description = Res.string.message_option_forward),
     COPY(optionId = 4, icon = Res.drawable.content_copy, description = Res.string.message_option_copy),
+    DELETE(optionId = 5, icon = Res.drawable.delete, description = Res.string.message_option_delete)
 }
 
-val basicMessageOptions = listOf(
+val allMessageOptions = listOf(
     MessageOption.EDIT,
+    MessageOption.REPLY,
+    MessageOption.FORWARD,
+    MessageOption.COPY,
+    MessageOption.DELETE
+)
+val ownMessageOptions = listOf(
+    MessageOption.EDIT,
+    MessageOption.REPLY,
+    MessageOption.FORWARD,
+    MessageOption.COPY,
+    MessageOption.DELETE
+)
+
+val otherMessageOptions = listOf(
     MessageOption.REPLY,
     MessageOption.FORWARD,
     MessageOption.COPY

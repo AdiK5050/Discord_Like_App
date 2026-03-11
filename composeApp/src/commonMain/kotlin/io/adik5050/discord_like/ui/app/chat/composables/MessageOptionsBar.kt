@@ -16,6 +16,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun MessageOptionsBar(
     modifier: Modifier = Modifier,
+    optionList: List<MessageOption>,
     onClickOption: (Int) -> Unit
 ) {
     Card(
@@ -25,7 +26,7 @@ fun MessageOptionsBar(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            basicMessageOptions.forEach {
+            optionList.forEach {
                 IconButton(
                     onClick = {
                         onClickOption(it.optionId)
