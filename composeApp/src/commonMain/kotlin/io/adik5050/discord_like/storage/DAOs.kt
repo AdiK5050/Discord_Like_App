@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.ABORT
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
 import io.adik5050.discord_like.ui.app.home_page.viewmodels.ChannelInfo
 import io.adik5050.discord_like.ui.app.profile.viewmodels.User
@@ -69,4 +70,7 @@ interface MessageDao {
 
     @Query("SELECT messageId, message, senderId, channelId, repliedTo, messageType, strftime('%I:%M',sentAt, 'localtime') as sentAt FROM MessageEntity WHERE channelID = :channelID")
     fun getAllMessagesByChannelID(channelID: Int): Flow<List<MessageEntity>>
+
+    @Query("UPDATE MessageEntity SET message = :newMessage WHERE messageId = :messageId")
+    suspend fun updateMessage(messageId: Int, newMessage: ByteArray)
 }
