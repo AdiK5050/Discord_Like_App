@@ -71,7 +71,6 @@ class LoginViewModel(
                     userID = userFound!!.userId,
                     username = userFound!!.username,
                     password = userFound!!.password,
-                    displayName = userFound!!.username,
                 )
                 _loginSuccessful.value = true
             }
