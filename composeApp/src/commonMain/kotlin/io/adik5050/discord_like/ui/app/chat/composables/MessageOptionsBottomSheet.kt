@@ -2,6 +2,7 @@ package io.adik5050.discord_like.ui.app.chat.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -87,27 +88,31 @@ fun MessageOption(
     icon: DrawableResource,
     onClick: () -> Unit,
 ) {
-    Row(
+    Box (
         modifier = modifier
-            .padding(8.dp)
             .fillMaxWidth()
             .clickable(
                 onClick = onClick
-            ),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+            )
     ) {
-        Icon(
-            modifier = Modifier
-                .size(32.dp)
+        Row(
+            modifier = modifier
                 .padding(8.dp),
-            painter = painterResource(icon),
-            contentDescription = stringResource(label)
-        )
-        Text(
-            text = stringResource(label),
-            style = MaterialTheme.typography.labelLarge,
-        )
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Icon(
+                modifier = Modifier
+                    .size(32.dp)
+                    .padding(8.dp),
+                painter = painterResource(icon),
+                contentDescription = stringResource(label)
+            )
+            Text(
+                text = stringResource(label),
+                style = MaterialTheme.typography.labelLarge,
+            )
+        }
     }
 }
 
