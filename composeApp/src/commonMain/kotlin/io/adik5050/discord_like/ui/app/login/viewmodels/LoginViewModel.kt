@@ -68,9 +68,7 @@ class LoginViewModel(
             if(checkPassword()) {
                 resetErrorStatus()
                 userSession.saveUserSession(
-                    userID = userFound!!.userId,
-                    username = userFound!!.username,
-                    password = userFound!!.password,
+                    userID = userFound!!.userId
                 )
                 _loginSuccessful.value = true
             }
