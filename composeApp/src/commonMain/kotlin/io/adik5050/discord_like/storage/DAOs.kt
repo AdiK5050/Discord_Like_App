@@ -1,6 +1,7 @@
 package io.adik5050.discord_like.storage
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.ABORT
 import androidx.room.Query
@@ -72,4 +73,7 @@ interface MessageDao {
 
     @Query("UPDATE MessageEntity SET message = :newMessage WHERE messageId = :messageId")
     suspend fun updateMessage(messageId: Int, newMessage: ByteArray)
+
+    @Query("DELETE FROM MessageEntity WHERE messageId = :messageId")
+    suspend fun deleteMessage(messageId: Int)
 }

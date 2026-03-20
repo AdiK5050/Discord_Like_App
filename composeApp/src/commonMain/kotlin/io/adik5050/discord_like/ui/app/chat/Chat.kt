@@ -1,5 +1,6 @@
 package io.adik5050.discord_like.ui.app.chat
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Box
@@ -22,6 +23,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.adik5050.discord_like.storage.AppDatabase
@@ -29,6 +31,7 @@ import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.chat.composables.ChatContent
 import io.adik5050.discord_like.ui.app.chat.composables.ChatTextField
 import io.adik5050.discord_like.ui.app.chat.composables.ChatTopBar
+import io.adik5050.discord_like.ui.app.chat.composables.DeleteMessageDialog
 import io.adik5050.discord_like.ui.app.chat.composables.TextFieldMessageOption
 import io.adik5050.discord_like.ui.app.chat.viewmodels.ChatViewModel
 import kotlinx.coroutines.launch
@@ -110,6 +113,14 @@ fun ChatPage(
                     )
                 }
             }
+        }
+        AnimatedVisibility(chatViewModel.deleteMessageDialogState) {
+            DeleteMessageDialog(
+                onCancel = { chatViewModel.updateDeleteMessageDialogState(false) },
+                onConfirm = chatViewModel::deleteMessage,
+                displayName = chatViewModel.currentUserInfo?.displayName,
+                message = chatViewModel.currentMessageInfo?.message?.decodeToString()
+            )
         }
     }
 }

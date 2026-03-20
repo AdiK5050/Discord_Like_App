@@ -41,7 +41,7 @@ class ChatViewModel(
     var message by mutableStateOf(TextFieldValue(""))
         private set
 
-    var error by mutableStateOf("")
+    var error: String? by mutableStateOf(null)
         private set
 
     var showTextFieldMessageOption by mutableStateOf(false)
@@ -51,6 +51,8 @@ class ChatViewModel(
     var currentMessageInfo: MessageEntity? by mutableStateOf(null)
         private set
     var currentUserInfo: UserInfo? by mutableStateOf(null)
+        private set
+    var deleteMessageDialogState: Boolean by mutableStateOf(false)
         private set
     val memberProfileImages: SnapshotStateList<EntityImage> = mutableStateListOf()
 
@@ -105,40 +107,61 @@ class ChatViewModel(
         }
 
         updateShowTextFieldMessageOption()
+        setCurrentMessageInfo(messageId)
+        setCurrentUserInfo(messageId)
 
         when(currentMessageOption) {
-            MessageOption.EDIT -> editMessage(messageId)
-            MessageOption.REPLY -> replyToMessage(messageId)
-            else -> { error = "Message Option Missing!" }
+            MessageOption.EDIT -> editMessage()
+            MessageOption.REPLY -> { /* No Action Needed */ }
+            MessageOption.DELETE -> updateDeleteMessageDialogState(true)
+            else -> {
+                error = "Message Option Missing!"
+            }
         }
     }
 
-    fun replyToMessage(messageId: Int) {
+    fun setCurrentMessageInfo(messageId: Int) {
+        messageHistory.value.firstOrNull { it.messageId == messageId }?.let {
+            currentMessageInfo = it
+        } ?: {
+            error = "Message Info Missing"
+        }
+    }
+
+    fun setCurrentUserInfo(messageId: Int) {
         messageHistory.value.firstOrNull { it.messageId == messageId } ?.let { message ->
             channelMembers.value.firstOrNull {  it.userId == message.senderId }?.let {
                 currentUserInfo = it
                 println(currentUserInfo)
             } ?: {
-                error = "replyToMessage: sender not found"
+                error = "sender not found"
             }
         }  ?: {
-                error = "replyToMessage: message not found"
-            }
-        messageHistory.value.firstOrNull { it.messageId == messageId }?.let {
-            currentMessageInfo = it
-        } ?: {
-            error = "Message Info Missing"
+            error = "message not found"
         }
     }
-
-    fun editMessage(messageId: Int) {
-        messageHistory.value.firstOrNull { it.messageId == messageId }?.let {
-            currentMessageInfo = it
+    fun editMessage() {
+        currentMessageInfo?.let {
             val messageToEdit = it.message.decodeToString()
             message = TextFieldValue(text = messageToEdit, selection = TextRange(messageToEdit.length))
         } ?: {
             error = "Message Info Missing"
         }
+    }
+
+    fun updateDeleteMessageDialogState(state: Boolean) {
+        deleteMessageDialogState = state
+    }
+    fun deleteMessage() {
+        currentMessageInfo?.let {
+            viewModelScope.launch {
+                messageDao.deleteMessage(it.messageId)
+            }
+        } ?: {
+            error = "Couldn't delete message"
+        }
+        updateDeleteMessageDialogState(false)
+        clearCurrentOption()
     }
 
     fun forwardMessage() {
@@ -172,7 +195,7 @@ class ChatViewModel(
         if(message.text.trim().isEmpty()) return@launch
         else if(currentMessageOption == MessageOption.EDIT) {
             currentMessageInfo?.messageId?.let {
-                messageDao.updateMessage(it, message.text.encodeToByteArray())
+                messageDao.updateMessage(it, message.text.trim().encodeToByteArray())
             } ?: {
                 error = "Invalid or Missing Message Id!"
             }
@@ -182,7 +205,7 @@ class ChatViewModel(
                 error = "Missing user info replying to."
             }
             messageDao.insertMessage(
-                message = message.text.encodeToByteArray(),
+                message = message.text.trim().encodeToByteArray(),
                 senderId = userId,
                 channelId = channelId,
                 repliedTo = currentMessageInfo?.messageId,
@@ -191,7 +214,7 @@ class ChatViewModel(
         }
         else {
             messageDao.insertMessage(
-                message = message.text.encodeToByteArray(),
+                message = message.text.trim().encodeToByteArray(),
                 senderId = userId,
                 channelId = channelId,
                 repliedTo = null,
