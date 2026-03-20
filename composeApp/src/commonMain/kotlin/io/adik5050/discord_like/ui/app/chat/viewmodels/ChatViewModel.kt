@@ -100,6 +100,7 @@ class ChatViewModel(
     }
 
     fun onClickOption(messageOptionId: Int, messageId: Int) {
+        clearCurrentOption()
         allMessageOptions.firstOrNull { messageOptionId == it.optionId } ?.let {
             currentMessageOption = it
         } ?: {
@@ -132,7 +133,6 @@ class ChatViewModel(
         messageHistory.value.firstOrNull { it.messageId == messageId } ?.let { message ->
             channelMembers.value.firstOrNull {  it.userId == message.senderId }?.let {
                 currentUserInfo = it
-                println(currentUserInfo)
             } ?: {
                 error = "sender not found"
             }
@@ -164,13 +164,6 @@ class ChatViewModel(
         clearCurrentOption()
     }
 
-    fun forwardMessage() {
-
-    }
-
-    fun copyMessage() {
-
-    }
     fun updateShowTextFieldMessageOption() {
         showTextFieldMessageOption = when (currentMessageOption) {
             MessageOption.REPLY, MessageOption.EDIT -> true
@@ -184,6 +177,7 @@ class ChatViewModel(
         currentMessageInfo = null
         currentUserInfo = null
         updateShowTextFieldMessageOption()
+        clearTextField()
     }
     fun clearTextField() {
         message = TextFieldValue("")
@@ -199,6 +193,7 @@ class ChatViewModel(
             } ?: {
                 error = "Invalid or Missing Message Id!"
             }
+            clearCurrentOption()
         }
         else if(currentMessageOption == MessageOption.REPLY) {
             if(currentUserInfo == null)  {
@@ -211,6 +206,7 @@ class ChatViewModel(
                 repliedTo = currentMessageInfo?.messageId,
                 messageType = MessageType.TEXT,
             )
+            clearCurrentOption()
         }
         else {
             messageDao.insertMessage(
@@ -222,7 +218,6 @@ class ChatViewModel(
             )
         }
         clearTextField()
-        clearCurrentOption()
     }
 }
 
