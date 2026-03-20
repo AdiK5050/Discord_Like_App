@@ -72,4 +72,7 @@ interface MessageDao {
 
     @Query("UPDATE MessageEntity SET message = :newMessage WHERE messageId = :messageId")
     suspend fun updateMessage(messageId: Int, newMessage: ByteArray)
+
+    @Query("DELETE FROM MessageEntity WHERE messageId = :messageId")
+    suspend fun deleteMessage(messageId: Int)
 }

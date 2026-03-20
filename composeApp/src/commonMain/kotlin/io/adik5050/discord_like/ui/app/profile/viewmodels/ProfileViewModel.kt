@@ -127,8 +127,6 @@ class ProfileViewModel(
             thoughts = newThoughts.text.trim(),
             about = newAbout.text.trim(),
             profileImage = newUserProfileImage?.toByteArray())
-        userSession.setPronouns(newPronouns.text)
-        userSession.setDisplayName(newDisplayName.text)
         changesSaved = true
         isInfoChanged = false
     }
