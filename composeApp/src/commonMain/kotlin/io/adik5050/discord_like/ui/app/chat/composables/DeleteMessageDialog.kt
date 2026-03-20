@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import myapplication.composeapp.generated.resources.Res
@@ -66,12 +67,13 @@ fun DeleteMessageDialog(
         text = {
             Column (
                 modifier = Modifier.padding(start = 8.dp, end = 8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
                     text = displayName ?: "Couldn't load name",
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.ExtraBold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
