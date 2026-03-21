@@ -21,10 +21,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import io.adik5050.discord_like.platform_specific.toClipEntry
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.chat.composables.ChatContent
@@ -47,6 +49,16 @@ fun ChatPage(
 ) {
     val channelMembers by chatViewModel.channelMembers.collectAsStateWithLifecycle()
     val messageHistory by chatViewModel.messageHistory.collectAsStateWithLifecycle()
+
+    // adding copy to clipboard functionality
+    val clipboard = LocalClipboard.current
+
+    LaunchedEffect(chatViewModel.currentMessageOption) {
+        chatViewModel.copyMessage()?.let {
+            clipboard.setClipEntry(it.toClipEntry())
+        }
+        chatViewModel.clearCurrentOption()
+    }
 
     LaunchedEffect(Unit) {
         chatViewModel.loadProfileImages()

@@ -107,14 +107,16 @@ class ChatViewModel(
             error = "Message Option Missing!"
         }
 
-        updateShowTextFieldMessageOption()
         setCurrentMessageInfo(messageId)
         setCurrentUserInfo(messageId)
+        updateShowTextFieldMessageOption()
 
         when(currentMessageOption) {
             MessageOption.EDIT -> editMessage()
             MessageOption.REPLY -> { /* No Action Needed */ }
             MessageOption.DELETE -> updateDeleteMessageDialogState(true)
+            MessageOption.COPY -> { /* No Action Needed */ }
+            MessageOption.FORWARD -> { /* Not implemented yet */ }
             else -> {
                 error = "Message Option Missing!"
             }
@@ -149,6 +151,21 @@ class ChatViewModel(
         }
     }
 
+    fun copyMessage(): String? {
+        currentMessageOption?.let { option ->
+            if(option.optionId == MessageOption.COPY.optionId) {
+                currentMessageInfo?.let {
+                    if (it.messageType == MessageType.TEXT || it.messageType == MessageType.URL) {
+                    val textToCopy = it.message.decodeToString().trim()
+                    return textToCopy
+                } else {
+                        error = "Couldn't copy message"
+                    }
+                }
+            }
+        }
+        return null
+    }
     fun updateDeleteMessageDialogState(state: Boolean) {
         deleteMessageDialogState = state
     }
@@ -173,11 +190,13 @@ class ChatViewModel(
     }
 
     fun clearCurrentOption() {
+        currentMessageOption?.let {
+            if(it.optionId == MessageOption.EDIT.optionId) clearTextField()
+        }
         currentMessageOption = null
         currentMessageInfo = null
         currentUserInfo = null
         updateShowTextFieldMessageOption()
-        clearTextField()
     }
     fun clearTextField() {
         message = TextFieldValue("")
