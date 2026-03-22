@@ -33,6 +33,7 @@ import io.adik5050.discord_like.ui.app.chat.composables.ChatContent
 import io.adik5050.discord_like.ui.app.chat.composables.ChatTextField
 import io.adik5050.discord_like.ui.app.chat.composables.ChatTopBar
 import io.adik5050.discord_like.ui.app.chat.composables.DeleteMessageDialog
+import io.adik5050.discord_like.ui.app.chat.composables.MessageOption
 import io.adik5050.discord_like.ui.app.chat.composables.TextFieldMessageOption
 import io.adik5050.discord_like.ui.app.chat.viewmodels.ChatViewModel
 import kotlinx.coroutines.launch
@@ -53,11 +54,15 @@ fun ChatPage(
     // adding copy to clipboard functionality
     val clipboard = LocalClipboard.current
 
-    LaunchedEffect(chatViewModel.currentMessageOption) {
-        chatViewModel.copyMessage()?.let {
-            clipboard.setClipEntry(it.toClipEntry())
+    LaunchedEffect(chatViewModel.currentMessageOption ) {
+        chatViewModel.currentMessageOption?.let { option ->
+            if(option.optionId == MessageOption.COPY.optionId) {
+                chatViewModel.copyMessage()?.let {
+                    clipboard.setClipEntry(it.toClipEntry())
+                }
+                chatViewModel.clearCurrentOption()
+            }
         }
-        chatViewModel.clearCurrentOption()
     }
 
     LaunchedEffect(Unit) {
