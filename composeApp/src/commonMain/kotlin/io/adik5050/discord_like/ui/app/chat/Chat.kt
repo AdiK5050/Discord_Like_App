@@ -65,11 +65,13 @@ fun ChatPage(
         }
     }
 
-    LaunchedEffect(Unit) {
-        chatViewModel.loadProfileImages()
+    LaunchedEffect(channelMembers) {
+        chatViewModel.loadProfileImages(channelMembers)
     }
     LaunchedEffect(chatViewModel.error) {
-        println(chatViewModel.error)
+        chatViewModel.error?.let {
+            println(chatViewModel.error)
+        }
     }
     Surface (
         modifier = modifier
@@ -103,7 +105,7 @@ fun ChatPage(
                 chatViewModel.userId,
                 channelMembers,
                 messageHistory,
-                chatViewModel.memberProfileImages,
+                chatViewModel.memberProfileImages ,
                 onClickOption = chatViewModel::onClickOption
             )
             Box(
