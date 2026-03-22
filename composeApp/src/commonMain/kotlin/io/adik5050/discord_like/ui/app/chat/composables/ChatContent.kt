@@ -12,14 +12,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.shared.composables.stringToOnlineStatus
 import io.adik5050.discord_like.storage.MessageEntity
 import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
-import io.adik5050.discord_like.ui.app.create_channel.viewmodels.EntityImage
 
 @Composable
 fun ChatContent (
@@ -27,7 +25,7 @@ fun ChatContent (
     userId: Int,
     channelMembers: List<UserInfo>,
     messageHistory: List<MessageEntity>,
-    memberProfileImages: SnapshotStateList<EntityImage>,
+    memberProfileImages: Map<Int, ImageBitmap>,
     onClickOption: (optionId: Int, messageId: Int) -> Unit,
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }

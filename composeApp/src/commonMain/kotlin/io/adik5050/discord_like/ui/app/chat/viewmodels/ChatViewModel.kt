@@ -1,10 +1,10 @@
 package io.adik5050.discord_like.ui.app.chat.viewmodels
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
@@ -20,7 +20,6 @@ import io.adik5050.discord_like.storage.UserDao
 import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.chat.composables.MessageOption
 import io.adik5050.discord_like.ui.app.chat.composables.allMessageOptions
-import io.adik5050.discord_like.ui.app.create_channel.viewmodels.EntityImage
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -54,8 +53,7 @@ class ChatViewModel(
         private set
     var deleteMessageDialogState: Boolean by mutableStateOf(false)
         private set
-    val memberProfileImages: SnapshotStateList<EntityImage> = mutableStateListOf()
-
+    val memberProfileImages = mutableStateMapOf<Int, ImageBitmap>()
     val channelMembers = userDao.getUserWithChannelId(channelId)
         .stateIn(
             scope = viewModelScope,
@@ -82,21 +80,14 @@ class ChatViewModel(
         }
     }
 
-    fun loadProfileImages() = viewModelScope.launch {
-        channelMembers.value
-            .filter { user ->
-                user.userId != userId
-            }
-            .forEach { user ->
-                userDao.getUserProfilePic(user.userId)?.let {
-                    memberProfileImages.add(
-                        EntityImage(
-                            entityId = user.userId,
-                            image = it.toImageBitmap()
-                        )
-                    )
+    fun loadProfileImages(members: List<UserInfo>) = viewModelScope.launch {
+        members.forEach { member ->
+            if(!memberProfileImages.keys.contains(member.userId)) {
+                userDao.getUserProfilePic(member.userId)?.toImageBitmap()?.let {
+                    memberProfileImages[member.userId] = it
                 }
             }
+        }
     }
 
     fun onClickOption(messageOptionId: Int, messageId: Int) {
