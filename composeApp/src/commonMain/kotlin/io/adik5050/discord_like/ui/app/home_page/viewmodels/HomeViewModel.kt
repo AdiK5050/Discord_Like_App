@@ -58,7 +58,7 @@ class HomeViewModel(
     val userId = userSession.getUserId()
     val channelDao = appDatabase.getChannelDao()
 
-    val channelList = channelDao.getChannelInfo(userId)
+    val channelList = channelDao.getChannelInfoByMemberIdAsFlow(userId)
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
