@@ -56,7 +56,10 @@ interface ChannelDao {
     suspend fun getChannelById(channelId: Int): ChannelEntity?
 
     @Query("SELECT CE.channelId, CE.channelName, CE.userCreatedId, ME.message, ME.messageType, ME.sentAt FROM ChannelEntity CE INNER JOIN ChannelMembersEntity CM  ON CM.channelId = CE.channelId LEFT JOIN MessageEntity ME ON ME.messageId = ( SELECT m2.messageId  FROM MessageEntity m2  WHERE m2.channelId = CE.channelId ORDER BY m2.sentAt DESC LIMIT 1 ) WHERE CM.memberId = :memberId ORDER BY ME.sentAt DESC;")
-    fun getChannelInfo(memberId: Int): Flow<List<ChannelInfo>>
+    fun getChannelInfoByMemberIdAsFlow(memberId: Int): Flow<List<ChannelInfo>>
+
+    @Query("SELECT CE.channelId, CE.channelName, CE.userCreatedId, CE.channelImage FROM ChannelEntity CE JOIN ChannelMembersEntity CM ON CE.channelId = CM.channelId JOIN MessageEntity ME ON ME.messageId = (SELECT ME2.messageId From MessageEntity ME2 WHERE ME2.channelId = CE.channelId ORDER BY ME2.sentAt DESC LIMIT 1) WHERE CM.memberId == :memberId ORDER BY ME.sentAt DESC;")
+    suspend fun getChannelsByMemberId(memberId: Int): List<ChannelEntity>
 
     @Query("SELECT channelImage FROM ChannelEntity WHERE channelId = :channelId")
     suspend fun getChannelImage(channelId: Int): ByteArray?

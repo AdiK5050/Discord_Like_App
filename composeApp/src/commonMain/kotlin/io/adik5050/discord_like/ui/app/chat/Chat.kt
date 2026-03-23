@@ -33,6 +33,7 @@ import io.adik5050.discord_like.ui.app.chat.composables.ChatContent
 import io.adik5050.discord_like.ui.app.chat.composables.ChatTextField
 import io.adik5050.discord_like.ui.app.chat.composables.ChatTopBar
 import io.adik5050.discord_like.ui.app.chat.composables.DeleteMessageDialog
+import io.adik5050.discord_like.ui.app.chat.composables.ForwardMessageBottomSheet
 import io.adik5050.discord_like.ui.app.chat.composables.MessageOption
 import io.adik5050.discord_like.ui.app.chat.composables.TextFieldMessageOption
 import io.adik5050.discord_like.ui.app.chat.viewmodels.ChatViewModel
@@ -138,6 +139,13 @@ fun ChatPage(
                 onConfirm = chatViewModel::deleteMessage,
                 displayName = chatViewModel.currentUserInfo?.displayName,
                 message = chatViewModel.currentMessageInfo?.message?.decodeToString()
+            )
+        }
+        AnimatedVisibility(chatViewModel.forwardMessageSheetState) {
+            ForwardMessageBottomSheet(
+                onCancel = { chatViewModel.updateForwardMessageSheetState(false) },
+                channelList = chatViewModel.channelList,
+                onForward =  chatViewModel::forwardMessage
             )
         }
     }

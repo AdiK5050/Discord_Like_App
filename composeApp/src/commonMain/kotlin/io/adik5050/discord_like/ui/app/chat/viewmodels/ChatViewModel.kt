@@ -53,6 +53,9 @@ class ChatViewModel(
         private set
     var deleteMessageDialogState: Boolean by mutableStateOf(false)
         private set
+    var forwardMessageSheetState by mutableStateOf(false)
+        private set
+    var channelList = emptyList<ChannelEntity>()
     val memberProfileImages = mutableStateMapOf<Int, ImageBitmap>()
     val channelMembers = userDao.getUserWithChannelId(channelId)
         .stateIn(
@@ -107,13 +110,15 @@ class ChatViewModel(
             MessageOption.REPLY -> { /* No Action Needed */ }
             MessageOption.DELETE -> updateDeleteMessageDialogState(true)
             MessageOption.COPY -> { /* No Action Needed */ }
-            MessageOption.FORWARD -> { /* Not implemented yet */ }
+            MessageOption.FORWARD -> {
+                loadChannelList()
+                updateForwardMessageSheetState(true)
+            }
             else -> {
                 error = "Message Option Missing!"
             }
         }
     }
-
     fun setCurrentMessageInfo(messageId: Int) {
         messageHistory.value.firstOrNull { it.messageId == messageId }?.let {
             currentMessageInfo = it
@@ -172,6 +177,39 @@ class ChatViewModel(
         clearCurrentOption()
     }
 
+    fun updateForwardMessageSheetState(state: Boolean) {
+        forwardMessageSheetState = state
+    }
+    fun loadChannelList() {
+        viewModelScope.launch {
+            channelList = channelDao.getChannelsByMemberId(userId).filter {
+                it.channelId != channelInfo?.channelId
+            }
+        }
+    }
+    fun clearChannelList() {
+        channelList = emptyList()
+    }
+    fun forwardMessage(selectedChannels: Map<Int, Boolean>) {
+        currentMessageInfo?.let { messageInfo ->
+            selectedChannels.forEach {
+                if(it.value) {
+                    viewModelScope.launch {
+                        messageDao.insertMessage(
+                            senderId = userId,
+                            channelId = it.key,
+                            repliedTo = null,
+                            messageType = messageInfo.messageType,
+                            message = messageInfo.message
+                        )
+                    }
+                }
+            }
+        }
+        updateForwardMessageSheetState(false)
+        clearCurrentOption()
+        clearChannelList()
+    }
     fun updateShowTextFieldMessageOption() {
         showTextFieldMessageOption = when (currentMessageOption) {
             MessageOption.REPLY, MessageOption.EDIT -> true
