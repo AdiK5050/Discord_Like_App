@@ -84,6 +84,10 @@ kotlin {
 
             //russh-wolf settings
             implementation(libs.russhwolf.settings)
+
+            //emoji
+            implementation(libs.emoji.kt)
+            implementation(libs.emoji.compose.m3) // With compose.material3
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
