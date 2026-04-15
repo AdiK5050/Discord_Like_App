@@ -19,14 +19,20 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.adik5050.discord_like.platform_specific.toClipEntry
+import io.adik5050.discord_like.shared.composables.EmojiSelector
+import io.adik5050.discord_like.shared.viewmodels.EmojiSelectorViewmodel
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.chat.composables.ChatContent
@@ -39,6 +45,7 @@ import io.adik5050.discord_like.ui.app.chat.composables.TextFieldMessageOption
 import io.adik5050.discord_like.ui.app.chat.viewmodels.ChatViewModel
 import kotlinx.coroutines.launch
 
+val TEXT_FIELD_HEIGHT = 72.dp
 @Suppress("ParamsComparedByRef")
 @Composable
 fun ChatPage(
@@ -47,17 +54,19 @@ fun ChatPage(
     userSession: UserSession,
     channelId: Int,
     chatViewModel: ChatViewModel = viewModel { ChatViewModel(appDatabase, userSession,channelId) },
+    emojiSelectorViewmodel: EmojiSelectorViewmodel = viewModel { EmojiSelectorViewmodel() },
     onNavigateToHome: () -> Unit
 ) {
     val channelMembers by chatViewModel.channelMembers.collectAsStateWithLifecycle()
     val messageHistory by chatViewModel.messageHistory.collectAsStateWithLifecycle()
 
+    var showEmojiSelector by remember { mutableStateOf(false) }
     // adding copy to clipboard functionality
     val clipboard = LocalClipboard.current
 
-    LaunchedEffect(chatViewModel.currentMessageOption ) {
+    LaunchedEffect(chatViewModel.currentMessageOption) {
         chatViewModel.currentMessageOption?.let { option ->
-            if(option.optionId == MessageOption.COPY.optionId) {
+            if (option.optionId == MessageOption.COPY.optionId) {
                 chatViewModel.copyMessage()?.let {
                     clipboard.setClipEntry(it.toClipEntry())
                 }
@@ -74,7 +83,7 @@ fun ChatPage(
             println(chatViewModel.error)
         }
     }
-    Surface (
+    Surface(
         modifier = modifier
             .fillMaxSize()
             .windowInsetsPadding(WindowInsets.statusBars)
@@ -85,14 +94,17 @@ fun ChatPage(
         val scrollState = rememberScrollState()
         val coroutineScope = rememberCoroutineScope()
         val keyboardHeight = WindowInsets.ime.getBottom(LocalDensity.current)
+        var emojiSelectorHeight by remember { mutableStateOf(1000) }
+        val keyboardManager = LocalSoftwareKeyboardController.current
 
-        LaunchedEffect(key1 = keyboardHeight) {
+        LaunchedEffect(keyboardHeight) {
             coroutineScope.launch {
                 scrollState.scrollBy(keyboardHeight.toFloat())
             }
+            if(keyboardHeight > emojiSelectorHeight) emojiSelectorHeight = keyboardHeight
         }
 
-        Column (
+        Column(
             modifier = Modifier
                 .verticalScroll(scrollState),
         ) {
@@ -106,7 +118,7 @@ fun ChatPage(
                 chatViewModel.userId,
                 channelMembers,
                 messageHistory,
-                chatViewModel.memberProfileImages ,
+                chatViewModel.memberProfileImages,
                 onClickOption = chatViewModel::onClickOption
             )
             Box(
@@ -126,13 +138,27 @@ fun ChatPage(
                         message = chatViewModel.message,
                         messagePlaceHolder = chatViewModel.channelInfo?.channelName,
                         onMessageChanged = chatViewModel::updateMessage,
+                        showEmojiSelector = showEmojiSelector,
+                        textFieldHeight = TEXT_FIELD_HEIGHT,
                         onCLickSend = {
                             chatViewModel.addMessage()
+                        },
+                        onClickSmiley = {
+                            showEmojiSelector = !showEmojiSelector
+                            if (showEmojiSelector) keyboardManager?.hide() else keyboardManager?.show()
                         }
                     )
                 }
             }
         }
+        EmojiSelector(
+            modifier = Modifier,
+            visibilityState = showEmojiSelector,
+            bottomPadding = TEXT_FIELD_HEIGHT,
+            height = with(LocalDensity.current, {emojiSelectorHeight.toDp()}),
+            viewModel = emojiSelectorViewmodel,
+            onClickEmoji = {}
+        )
         AnimatedVisibility(chatViewModel.deleteMessageDialogState) {
             DeleteMessageDialog(
                 onCancel = { chatViewModel.updateDeleteMessageDialogState(false) },
@@ -145,7 +171,7 @@ fun ChatPage(
             ForwardMessageBottomSheet(
                 onCancel = { chatViewModel.updateForwardMessageSheetState(false) },
                 channelList = chatViewModel.channelList,
-                onForward =  chatViewModel::forwardMessage
+                onForward = chatViewModel::forwardMessage
             )
         }
     }
