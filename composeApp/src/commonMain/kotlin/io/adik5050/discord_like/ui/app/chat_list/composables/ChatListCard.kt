@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -12,17 +13,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.shared.composables.ImageWithStatus
-import io.adik5050.discord_like.shared.composables.OnlineStatus
 
 @Composable
 fun ChatListCard(
     modifier: Modifier = Modifier,
-    image: ByteArray? = null,
-    status: OnlineStatus = OnlineStatus.ONLINE,
+    image: ImageBitmap?,
     name: String,
-    lastMessage: String,
+    lastMessage: String?,
     onClick: () -> Unit
 ) {
     Card (
@@ -38,21 +39,33 @@ fun ChatListCard(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             ImageWithStatus(
+                modifier = Modifier
+                    .padding(4.dp)
+                    .size(56.dp),
                 image = image,
-                status = status,
-                clickable = false,
-                onClick = {}
             )
             Column (
                 modifier = Modifier.padding(8.dp)
             ) {
                 Text(
                     text = name,
-                    style = MaterialTheme.typography.labelLarge
+                    style = MaterialTheme.typography.labelLarge,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
+                lastMessage?.let {
+                    Text(
+                        text = lastMessage,
+                        style = MaterialTheme.typography.bodyMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                } ?:
                 Text(
-                    text = lastMessage,
-                    style = MaterialTheme.typography.bodyMedium
+                    text = "Start a convo!",
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }

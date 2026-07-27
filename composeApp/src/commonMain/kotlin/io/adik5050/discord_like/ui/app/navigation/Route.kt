@@ -7,28 +7,36 @@ import kotlinx.serialization.Serializable
 sealed interface Route : NavKey {
 
     @Serializable
-    data object Home: Route {
+    data object Welcome: Route {
         @Serializable
-        data object HomePage: Route
-
+        data object WelcomePage: Route
         @Serializable
-        data object Chat: Route {
-
-            @Serializable
-            data object ChatPage: Route
-
-            @Serializable
-            data class ChatInfo( val channelId: Int): Route
-        }
+        data object Login: Route
+        @Serializable
+        data object Register: Route
     }
+    @Serializable
+    data object Home: Route
 
     @Serializable
-    data object Profile: Route {
-        @Serializable
-        data object ProfilePage
-    }
+    data object Profile: Route
 
+    @Serializable
+    data object EditProfile: Route
     @Serializable
     data object Settings: Route
 
+    @Serializable
+    data object CreateChannel: Route
+
+    @Serializable
+    data class Chat(val channelId: Int): Route {
+        @Serializable
+        data class ChatPage(val channelId: Int): Route
+        @Serializable
+        data class ChatInfo( val channelId: Int): Route
+    }
+
+    @Serializable
+    data class Error(val errorMessage: String): Route
 }

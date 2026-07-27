@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import com.wannaverse.imageselector.registerImageSelectorLauncher
+import com.wannaverse.imageselector.setImageSelectorActivity
 import io.adik5050.discord_like.storage.getDatabase
 import io.adik5050.discord_like.ui.app.App
 
@@ -13,18 +15,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        setImageSelectorActivity(this)
+        registerImageSelectorLauncher()
         setContent {
             val appDatabase = getDatabase(this)
             App(
-                appDatabase
+                appDatabase = appDatabase,
             )
         }
     }
 }
-//val currentWindowSize = calculateWindowSizeClass(this)
-//val windowSize = when (currentWindowSize.widthSizeClass) {
-//    WindowWidthSizeClass.Compact -> WindowSizes.COMPACT
-//    WindowWidthSizeClass.Medium -> WindowSizes.MEDIUM
-//    WindowWidthSizeClass.Expanded -> WindowSizes.LARGE
-//    else -> WindowSizes.MEDIUM
-//}

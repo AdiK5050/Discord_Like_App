@@ -11,7 +11,13 @@ data class UserEntity(
     @PrimaryKey(autoGenerate = true)val userId: Int = 0,
     val username: String,
     val password: String,
-    val profileImage: ByteArray? = ByteArray(0)
+    val displayName: String?,
+    val pronouns: String?,
+    val thoughts: String?,
+    val about: String?,
+    val onlineStatus: String,
+    @ColumnInfo(defaultValue = "0") val deleted: Boolean,
+    val profileImage: ByteArray?
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -48,7 +54,7 @@ data class UserEntity(
 data class ChannelEntity(
     @PrimaryKey(autoGenerate = true) val channelId: Int = 0,
     val channelName: String,
-    val userCreatedId: Int,
+    @ColumnInfo(index = true) val userCreatedId: Int,
     val channelImage: ByteArray?
 ) {
     override fun equals(other: Any?): Boolean {
@@ -93,12 +99,12 @@ data class ChannelEntity(
 data class MessageEntity(
     @PrimaryKey(autoGenerate = true) val messageId: Int = 0,
     val message: ByteArray,
-    val senderId: Int,
-    val channelId: Int,
+    @ColumnInfo(index = true) val senderId: Int,
+    @ColumnInfo(index = true) val channelId: Int,
+    val reactions: String?,
     val repliedTo: Int?,
     val messageType: MessageType,
-    @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP")
-    val sentAt: String
+    @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP") val sentAt: String
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -136,10 +142,17 @@ data class MessageEntity(
         childColumns = ["channelId"],
         onDelete = ForeignKey.CASCADE,
         onUpdate = ForeignKey.CASCADE
-    )]
+    ),
+        ForeignKey(
+            entity = UserEntity::class,
+            parentColumns = ["userId"],
+            childColumns = ["memberId"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
+        )]
 )
 data class ChannelMembersEntity(
     @PrimaryKey(autoGenerate = true) val channelMembersId: Int,
-    val channelId: Int,
-    val memberId: Int
+    @ColumnInfo(index = true) val channelId: Int,
+    @ColumnInfo(index = true) val memberId: Int
 )

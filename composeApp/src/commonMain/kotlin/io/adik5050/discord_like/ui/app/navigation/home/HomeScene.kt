@@ -1,0 +1,49 @@
+package io.adik5050.discord_like.ui.app.navigation.home
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.scene.Scene
+
+class HomePageSceneForWideScreen<T: Any>(
+    val homePage: NavEntry<T>,
+    val chatPage: NavEntry<T>,
+    override val key: Any,
+    override val previousEntries: List<NavEntry<T>>
+): Scene<T> {
+    override val entries: List<NavEntry<T>>
+        get() = listOf(homePage,chatPage)
+
+    override val content: @Composable (() -> Unit) = {
+        Surface(
+            shape = MaterialTheme.shapes.large
+        ) {
+            Row (
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Column(
+                    modifier = Modifier.weight(4f)
+                ) {
+                    homePage.Content()
+                }
+                Column(
+                    modifier = Modifier.weight(6f)
+                ) {
+                    chatPage.Content()
+                }
+            }
+        }
+    }
+    companion object {
+        const val HOME_PAGE_KEY = "HomePageSceneForWideScreen-HomePage"
+        const val CHAT_PAGE_KEY = "HomePageSceneForWideScreen-ChatPage"
+
+        fun homePagePane() = mapOf(HOME_PAGE_KEY to true)
+        fun chatPagePane() = mapOf(CHAT_PAGE_KEY to true)
+    }
+}

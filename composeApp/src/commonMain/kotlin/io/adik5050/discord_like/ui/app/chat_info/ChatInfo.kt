@@ -9,16 +9,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.ui.app.chat_info.composables.ChatInfoTopBar
 import io.adik5050.discord_like.ui.app.chat_info.composables.MediaInfo
 import io.adik5050.discord_like.ui.app.chat_info.composables.MembersInfo
-import io.adik5050.discord_like.ui.theme.AppTheme
+import io.adik5050.discord_like.ui.app.chat_info.viewmodels.ChatInfoViewModel
 
 @Composable
 fun ChatInfo(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    appDatabase: AppDatabase,
+    channelId: Int,
+    chatInfoViewModel: ChatInfoViewModel = viewModel { ChatInfoViewModel(appDatabase, channelId) }
 ) {
     Surface (
         modifier = modifier
@@ -42,21 +46,3 @@ fun ChatInfo(
     }
 }
 
-@Preview
-@Composable
-fun PreviewChatInfo() {
-    AppTheme {
-        Surface {
-            ChatInfo()
-        }
-    }
-}
-@Preview
-@Composable
-fun PreviewChatInfoDark() {
-    AppTheme (darkTheme = true){
-        Surface {
-            ChatInfo()
-        }
-    }
-}

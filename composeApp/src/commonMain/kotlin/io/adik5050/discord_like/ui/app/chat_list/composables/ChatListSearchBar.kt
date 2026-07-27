@@ -21,10 +21,11 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ChatListSearchBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickSearchBar: () -> Unit,
 ) {
     Button(
-        onClick = {} ,
+        onClick = onClickSearchBar ,
         modifier = modifier
             .padding(8.dp),
         shape = MaterialTheme.shapes.large,

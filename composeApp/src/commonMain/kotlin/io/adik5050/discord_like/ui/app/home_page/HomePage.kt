@@ -1,73 +1,51 @@
 package io.adik5050.discord_like.ui.app.home_page
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import io.adik5050.discord_like.storage.AppDatabase
+import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.chat_list.ChatList
+import io.adik5050.discord_like.ui.app.home_page.viewmodels.HomeViewModel
 import io.adik5050.discord_like.ui.app.server_list.ServerList
-import io.adik5050.discord_like.ui.theme.AppTheme
 
 
 @Composable
 fun HomePage(
     modifier: Modifier = Modifier,
+    appDatabase: AppDatabase,
+    userSession: UserSession,
+    homeViewModel: HomeViewModel = viewModel { HomeViewModel(appDatabase, userSession) },
     onClickMessageIcon: () -> Unit,
-    onClickChatPage: () -> Unit
+    onClickChatPage: (Int) -> Unit,
+    onNavigateToCreateChannel: () -> Unit
 ) {
     Row (
         modifier = modifier
-            .fillMaxSize(),
+            .fillMaxSize()
     ) {
+        val channelList by homeViewModel.channelList.collectAsStateWithLifecycle()
+        LaunchedEffect(Unit) {
+            homeViewModel.loadChannelImages(channelList)
+        }
         ServerList(
-            modifier = Modifier
-                .width(80.dp),
+            modifier = Modifier,
             onClickMessageIcon = onClickMessageIcon
         )
-        Surface (
-            shape = MaterialTheme.shapes.large
-        ){
-            Row {
-                ChatList(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth()
-                        .weight(0.30f),
-                    onClickToChatPage = onClickChatPage
-                )
-            }
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewChatPage() {
-    AppTheme {
-        Surface {
-            HomePage(
-                onClickMessageIcon = {}
-            ) {}
-        }
-    }
-}
-@Preview(showBackground = true)
-@Composable
-fun PreviewChatPageDark() {
-    AppTheme (
-        darkTheme = true
-    ) {
-        Surface {
-            HomePage(
-                onClickMessageIcon = {}
-            ) {}
-        }
+        ChatList(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+            channelList = channelList,
+            entityImageList = homeViewModel.channelImageList,
+            onClickSearchBar = {},
+            onNavigateToChannel = onClickChatPage,
+            onNavigateToCreateChannel = onNavigateToCreateChannel
+        )
     }
 }

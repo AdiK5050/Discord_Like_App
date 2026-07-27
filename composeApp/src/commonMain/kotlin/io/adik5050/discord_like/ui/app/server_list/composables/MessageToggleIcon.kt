@@ -36,7 +36,7 @@ fun MessageToggleIcon(
             contentDescription = "Server Icon",
             modifier = Modifier
                 .padding(8.dp)
-                .size(48.dp)
+                .size(40.dp)
         )
     }
 }

@@ -1,6 +1,7 @@
 package io.adik5050.discord_like.ui.app.server_list
 
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Surface
@@ -18,13 +19,14 @@ fun ServerList(
     onClickMessageIcon: () -> Unit
 ) {
     LazyColumn (
-        modifier = modifier,
+        modifier = modifier
+            .padding(top = 8.dp),
     ) {
         item {
             MessageToggleIcon(
                 onClick = onClickMessageIcon
             )
-            Spacer(modifier = Modifier.size(16.dp))
+            Spacer(modifier = Modifier.size(8.dp))
         }
         items(count = 15) {
             ServerIcon()

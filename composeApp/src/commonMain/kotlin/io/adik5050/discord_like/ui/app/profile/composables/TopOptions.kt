@@ -21,15 +21,51 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.ui.theme.AppTheme
 import myapplication.composeapp.generated.resources.Res
+import myapplication.composeapp.generated.resources.arrow_back
 import myapplication.composeapp.generated.resources.discord_nitro
 import myapplication.composeapp.generated.resources.discord_quest
 import myapplication.composeapp.generated.resources.discord_settings
 import myapplication.composeapp.generated.resources.discord_store
+import myapplication.composeapp.generated.resources.logout
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun TopOptions(
+fun ProfileTopOptions(
+    modifier: Modifier = Modifier,
+    onLogout: () -> Unit,
+    onNavigateBack: () -> Unit
+) {
+    Row (
+        modifier = modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        IconButton(
+            shape = CircleShape,
+            onClick = onNavigateBack,
+            content = {
+                Icon(
+                    painter = painterResource(Res.drawable.arrow_back),
+                    contentDescription = "Back"
+                )
+            }
+        )
+        IconButton(
+            shape = CircleShape,
+            onClick = onLogout,
+            content = {
+                Icon(
+                    painter = painterResource(Res.drawable.logout),
+                    contentDescription = "Settings"
+                )
+            }
+        )
+    }
+}
+@Composable
+fun OldTopOptions(
     onQuest: () -> Unit = {},
     onNitro: () -> Unit = {},
     onStore: () -> Unit = {},
@@ -113,10 +149,10 @@ fun PreviewTopOptions() {
         Surface(
             color = MaterialTheme.colorScheme.surface
         ) {
-            TopOptions(
-                modifier = Modifier
-                    .padding(8.dp)
-            )
+//            ProfileTopOptions(
+//                modifier = Modifier
+//                    .padding(8.dp)
+//            )
         }
     }
 }

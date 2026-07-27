@@ -15,7 +15,7 @@ fun main() = application {
         val appDatabase = getDatabase()
 
         App(
-            appDatabase
+            appDatabase = appDatabase
         )
     }
 }

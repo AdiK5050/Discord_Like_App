@@ -15,21 +15,19 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.shared.composables.ImageWithStatus
 import io.adik5050.discord_like.shared.composables.OnlineStatus
-import io.adik5050.discord_like.ui.theme.AppTheme
 import myapplication.composeapp.generated.resources.Res
 import myapplication.composeapp.generated.resources.add_circle_24dp_e3e3e3
 import myapplication.composeapp.generated.resources.direct_down
@@ -42,37 +40,34 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ProfileInfo(
     modifier: Modifier = Modifier,
-    name: String,
-    userId: String,
-    pronouns: String,
-    image: ByteArray?,
+    displayName: String,
+    username: String,
+    pronouns: String?,
+    thoughts: String?,
+    image: ImageBitmap?,
+    status: OnlineStatus,
     clickableImage: Boolean,
     onClickImage: () -> Unit,
-    status: OnlineStatus,
     onEdit: () -> Unit,
-    thoughts: String? = null,
-    onClickNotes: () -> Unit = {}
 ) {
     Column(
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         ProfileInfoImageRow(
-            modifier,
             image = image,
             status = status,
+            statusAlignment = Alignment.BottomEnd,
             thoughts = thoughts,
             clickableImage = clickableImage,
             onClickImage = onClickImage,
-            onClickNotes = onClickNotes
         )
         ProfileInfoTextRow(
-            modifier,
-            name = name,
-            userId = userId,
+            displayName = displayName,
+            username = username,
             pronouns = pronouns,
         )
         ProfileEditButton(
-            modifier = modifier,
             onEdit = onEdit
         )
     }
@@ -80,12 +75,12 @@ fun ProfileInfo(
 @Composable
 fun ProfileInfoImageRow(
     modifier: Modifier = Modifier,
-    image: ByteArray? = null,
+    image: ImageBitmap? = null,
     status: OnlineStatus = OnlineStatus.ONLINE,
     thoughts: String?,
+    statusAlignment: Alignment,
     clickableImage: Boolean,
     onClickImage: () -> Unit,
-    onClickNotes: () -> Unit,
 ) {
     Row (
         modifier = modifier,
@@ -96,6 +91,7 @@ fun ProfileInfoImageRow(
             modifier = Modifier.size(82.dp),
             image = image,
             status = status,
+            statusAlignment = statusAlignment,
             clickable = clickableImage,
             onClick = onClickImage
         )
@@ -103,8 +99,7 @@ fun ProfileInfoImageRow(
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceContainer,
                 contentColor = MaterialTheme.colorScheme.onSurface
-            ),
-            onClick = onClickNotes,
+            )
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -133,8 +128,8 @@ fun ProfileInfoImageRow(
 @Composable
 fun ProfileInfoTextRow(
     modifier: Modifier = Modifier,
-    name: String,
-    userId: String,
+    displayName: String,
+    username: String,
     pronouns: String?,
     onClickName: () -> Unit = {}
 ) {
@@ -149,7 +144,7 @@ fun ProfileInfoTextRow(
                 )
         ) {
             Text(
-                text = name,
+                text = displayName,
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
@@ -163,7 +158,7 @@ fun ProfileInfoTextRow(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = userId,
+                text = username,
                 style = MaterialTheme.typography.bodyMedium
             )
             Spacer(modifier = Modifier.size(4.dp))
@@ -171,11 +166,12 @@ fun ProfileInfoTextRow(
                 text = "•"
             )
             Spacer(modifier = Modifier.size(4.dp))
-            Text(
-                text = pronouns ?: "He/Him",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Spacer(modifier = Modifier.size(4.dp))
+            pronouns ?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
     }
 }
@@ -205,31 +201,4 @@ fun ProfileEditButton(
             )
         }
     )
-}
-
-
-@Preview
-@Composable
-fun PreviewProfileInfo() {
-    AppTheme(
-        darkTheme = true
-    ) {
-        Surface (
-            modifier = Modifier.padding(top = 24.dp)
-        ){
-            ProfileInfo(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                name = "Adi",
-                userId = "adi8299",
-                pronouns = "He/Him",
-                image = null,
-                status = OnlineStatus.DO_NOT_DISTURB,
-                clickableImage = false,
-                onClickImage = {},
-                onEdit = {},
-                thoughts = "Your Favorite Anime?",
-                onClickNotes = {},
-            )
-        }
-    }
 }
