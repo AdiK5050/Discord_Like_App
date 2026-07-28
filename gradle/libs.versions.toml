@@ -20,7 +20,6 @@ kotlinx-coroutines-core-android = "1.10.2"
 kotlinxSerializationCore = "1.11.0"
 kotlinxSerializationJson = "1.11.0"
 
-material3WindowSizeClass = "1.4.0"
 cmpNavigation3 = "1.1.0-alpha01"
 material3AdaptiveCompose = "1.2.0"
 
@@ -52,7 +51,6 @@ kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 jetbrains-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "cmpNavigation3" }
 jetbrains-lifecycle-viewmodel-nav3 = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "androidx-lifecycle" }
-androidx-material3-window-size-class1 = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "material3WindowSizeClass" }
 jetbrains-material3-adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "material3AdaptiveCompose" }
 jetbrains-material3-adaptive-layout = { module = "org.jetbrains.compose.material3.adaptive:adaptive-layout", version.ref = "material3AdaptiveCompose" }
 russhwolf-settings = { group = "com.russhwolf", name = "multiplatform-settings-no-arg", version.ref = "settings" }
@@ -66,7 +64,6 @@ ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", v
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-android-library = { id = "com.android.library", version.ref = "agp" }
 android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 compose-hot-reload = { id = "org.jetbrains.compose.hot-reload", version.ref = "composeHotReload" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

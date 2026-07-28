@@ -10,7 +10,7 @@ compose-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "c
 compose-components-resources = { group = "org.jetbrains.compose.components", name = "components-resources", version.ref = "compose" }
 compose-materialIconsExtended = { group = "org.jetbrains.compose.material", name = "material-icons-extended", version.ref = "materialIconsExtended" }
 compose-material3 = { group = "org.jetbrains.compose.material3", name = "material3", version.ref = "material3" }
-
+jetbrains-material3-window-size-class1 = { group = "org.jetbrains.compose.material3", name = "material3-window-size-class", version.ref = "material3" }
 [bundles]
 compose = [
     "compose-foundation",
@@ -18,7 +18,8 @@ compose = [
     "compose-ui",
     "compose-components-resources",
     "compose-materialIconsExtended",
-    "compose-material3"
+    "compose-material3",
+    "jetbrains-material3-window-size-class1"
 ]
 
 [plugins]

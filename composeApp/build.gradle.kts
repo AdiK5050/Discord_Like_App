@@ -50,11 +50,6 @@ kotlin {
 //    }
     
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.ui.tooling.preview)
-            implementation(libs.androidx.activity.compose)
-            implementation (libs.androidx.material3.window.size.class1)
-        }
         commonMain.dependencies {
             implementation(jetbrains.bundles.compose)
             implementation(libs.ui)
@@ -85,9 +80,6 @@ kotlin {
             //russh-wolf settings
             implementation(libs.russhwolf.settings)
 
-            //emoji
-            implementation(libs.emoji.kt)
-            implementation(libs.emoji.compose.m3) // With compose.material3
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
