@@ -11,6 +11,10 @@ iosApp/Configuration/Local.xcconfig
 captures
 .externalNativeBuild
 .cxx
+
+# Room / SQLite runtime database
+composeApp/my_room.db*
+
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/
