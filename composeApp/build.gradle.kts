@@ -18,6 +18,7 @@ kotlin {
         namespace = "io.adik5050.discord_like"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
+        androidResources.enable = true
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }

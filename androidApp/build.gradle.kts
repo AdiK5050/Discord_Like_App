@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 android {
-    namespace = "io.adik5050.discord_like"
+    namespace = "io.adik5050.discord_like.android"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
