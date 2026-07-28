@@ -1,7 +1,13 @@
+// Default (empty) team id. Override locally in Local.xcconfig (git-ignored)
+// with your Apple Developer Team ID, e.g. `TEAM_ID = ABCDE12345`.
 TEAM_ID=
 
-PRODUCT_NAME=MyApplication
+PRODUCT_NAME=Discord Like
 PRODUCT_BUNDLE_IDENTIFIER=io.adik5050.discord_like.MyApplication$(TEAM_ID)
 
 CURRENT_PROJECT_VERSION=1
 MARKETING_VERSION=1.0
+
+// Optional local overrides (not committed). The `?` makes the include
+// optional so CI / fresh checkouts build without the file present.
+#include? "Local.xcconfig"

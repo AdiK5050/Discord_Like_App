@@ -5,11 +5,16 @@
 xcuserdata
 !src/**/build/
 local.properties
+iosApp/Configuration/Local.xcconfig
 .idea
 .DS_Store
 captures
 .externalNativeBuild
 .cxx
+
+# Room / SQLite runtime database
+composeApp/my_room.db*
+
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/

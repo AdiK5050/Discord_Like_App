@@ -1,18 +1,17 @@
 package io.adik5050.discord_like.ui.app.login.viewmodels
 
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.storage.UserEntity
 import io.adik5050.discord_like.storage.UserSession
+import io.adik5050.discord_like.storage.seedTestData
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    appDatabase: AppDatabase,
+    private val appDatabase: AppDatabase,
     val userSession: UserSession
 ) : ViewModel() {
     val userDao = appDatabase.getUserDao()
@@ -78,82 +77,7 @@ class LoginViewModel(
         if(_usernameTextFieldValue.value.text.isNotBlank() && _passwordTextFieldValue.value.text.isNotBlank()) _loginButtonEnabled.value = true
         else _loginButtonEnabled.value = false
     }
-    fun fillDataInDatabase() = viewModelScope.launch{
-        var numberOfUsers by mutableStateOf(0)
-        viewModelScope.launch {
-            numberOfUsers = userDao.getAllUsers().size
-        }.join()
-        if(numberOfUsers == 0) listOfUsers.forEach { userEntity ->
-            userDao.insertUser(userEntity.username, userEntity.password, userEntity.onlineStatus, userEntity.profileImage )
-        }
+    fun fillDataInDatabase() = viewModelScope.launch {
+        appDatabase.seedTestData()
     }
 }
-
-val listOfUsers = listOf(
-    UserEntity(
-        username = "adi8299",
-        password = "Adi12345",
-        profileImage = null,
-        displayName = "Adi",
-        pronouns = "He/Him",
-        thoughts = null,
-        about = null,
-        deleted = false,
-        onlineStatus = "Offline",
-    ),
-    UserEntity(
-        username = "therealmarko",
-        password = "Marko12345",
-        profileImage = null,
-        displayName = "Marko",
-        pronouns = "He/Him",
-        thoughts =  null,
-        about = null,
-        deleted = false,
-        onlineStatus = "Offline",
-    ),
-    UserEntity(
-        username = "wazei",
-        password = "Wazei12345",
-        profileImage = null,
-        displayName = "Wazei",
-        pronouns = "He/Him",
-        thoughts =  null,
-        about = null,
-        deleted = false,
-        onlineStatus = "Offline",
-    ),
-    UserEntity(
-        username = "sooluckyseven",
-        password = "Lucky12345",
-        profileImage = null,
-        displayName = "Sooluckyseven",
-        pronouns = "He/Him",
-        thoughts =  null,
-        about = null,
-        deleted = false,
-        onlineStatus = "Offline",
-    ),
-    UserEntity(
-        username = "hyuu",
-        password = "Yui12345",
-        profileImage = null,
-        displayName = "Yui",
-        pronouns = "She/Her",
-        thoughts =  null,
-        about = null,
-        deleted = false,
-        onlineStatus = "Offline",
-    ),
-    UserEntity(
-        username = "riassexy",
-        password = "Rias12345",
-        profileImage = null,
-        displayName = "Rias",
-        pronouns = "She/Her",
-        thoughts =  null,
-        about = null,
-        deleted = false,
-        onlineStatus = "Offline",
-    ),
-)
