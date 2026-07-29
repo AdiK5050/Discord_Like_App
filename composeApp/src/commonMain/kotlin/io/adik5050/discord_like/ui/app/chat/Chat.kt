@@ -204,7 +204,7 @@ fun ChatPage(
                         .fillMaxWidth(if (isLandscape) 0.5f else 1f)
                         .padding(8.dp)
                         .padding(bottom = TEXT_FIELD_HEIGHT),
-                    onEmojiSelected = {},
+                    onEmojiSelected = chatViewModel::addEmojiToTextField,
                 )
         }
         AnimatedVisibility(chatViewModel.deleteMessageDialogState) {
