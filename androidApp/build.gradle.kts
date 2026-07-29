@@ -36,5 +36,4 @@ dependencies {
     implementation(project(":composeApp"))
     implementation(libs.ui.tooling.preview)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.material3.window.size.class1)
 }

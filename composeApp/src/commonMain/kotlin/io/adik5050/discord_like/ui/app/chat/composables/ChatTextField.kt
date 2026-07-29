@@ -1,10 +1,8 @@
 package io.adik5050.discord_like.ui.app.chat.composables
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -16,6 +14,8 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.isAltPressed
 import androidx.compose.ui.input.key.isCtrlPressed
@@ -27,9 +27,10 @@ import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
 import myapplication.composeapp.generated.resources.Res
 import myapplication.composeapp.generated.resources.attachment
+import myapplication.composeapp.generated.resources.keyboard_icon
 import myapplication.composeapp.generated.resources.send
 import myapplication.composeapp.generated.resources.smiley
 import org.jetbrains.compose.resources.painterResource
@@ -37,8 +38,11 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun ChatTextField(
     modifier: Modifier = Modifier,
+    focusRequester: FocusRequester,
     message: TextFieldValue,
     messagePlaceHolder: String?,
+    showEmojiSelector: Boolean,
+    textFieldHeight: Dp,
     onMessageChanged: (TextFieldValue) -> Unit,
     onClickSmiley: () -> Unit = {},
     onCLickSend: () -> Unit = {},
@@ -55,7 +59,7 @@ fun ChatTextField(
     ) {
         Row (
             modifier = Modifier
-                .heightIn(min = 72.dp),
+                .heightIn(min = textFieldHeight),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(
@@ -74,6 +78,7 @@ fun ChatTextField(
                 modifier = modifier
                     .fillMaxWidth()
                     .weight(1f)
+                    .focusRequester(focusRequester)
                     .onKeyEvent { event ->
                         if (event.key.keyCode == Key.Enter.keyCode &&
                             !event.isShiftPressed &&
@@ -115,7 +120,7 @@ fun ChatTextField(
                 onClick = onClickSmiley,
                 content = {
                     Icon(
-                        painter = painterResource(Res.drawable.smiley),
+                        painter = if(showEmojiSelector) painterResource(Res.drawable.keyboard_icon) else painterResource(Res.drawable.smiley),
                         contentDescription = "Smiley",
                     )
                 }
