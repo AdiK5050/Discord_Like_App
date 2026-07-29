@@ -14,6 +14,8 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.isAltPressed
 import androidx.compose.ui.input.key.isCtrlPressed
@@ -36,6 +38,7 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun ChatTextField(
     modifier: Modifier = Modifier,
+    focusRequester: FocusRequester,
     message: TextFieldValue,
     messagePlaceHolder: String?,
     showEmojiSelector: Boolean,
@@ -75,6 +78,7 @@ fun ChatTextField(
                 modifier = modifier
                     .fillMaxWidth()
                     .weight(1f)
+                    .focusRequester(focusRequester)
                     .onKeyEvent { event ->
                         if (event.key.keyCode == Key.Enter.keyCode &&
                             !event.isShiftPressed &&

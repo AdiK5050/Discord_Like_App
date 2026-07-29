@@ -108,6 +108,7 @@ fun RootNavigation(
                 ChatNavigation(
                     appDatabase = appDatabase,
                     userSession = userSession,
+                    windowSizeClass = windowSizeClass,
                     channelId = it.channelId,
                     onNavigateToHome = { rootBackstack.add(Route.Home) }
                 )
