@@ -9,6 +9,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
+import androidx.window.core.layout.WindowSizeClass
 import io.adik5050.discord_like.shared.composables.KeyboardAware
 import io.adik5050.discord_like.storage.AppDatabase
 import io.adik5050.discord_like.storage.UserSession
@@ -23,6 +24,7 @@ fun ChatNavigation(
     modifier: Modifier = Modifier,
     appDatabase: AppDatabase,
     userSession: UserSession,
+    windowSizeClass: WindowSizeClass,
     channelId: Int,
     onNavigateToHome: () -> Unit
 ) {
@@ -51,6 +53,7 @@ fun ChatNavigation(
                         modifier = Modifier,
                         appDatabase = appDatabase,
                         userSession = userSession,
+                        windowSizeClass = windowSizeClass,
                         channelId = it.channelId,
                         onNavigateToHome = {
                             onNavigateToHome()

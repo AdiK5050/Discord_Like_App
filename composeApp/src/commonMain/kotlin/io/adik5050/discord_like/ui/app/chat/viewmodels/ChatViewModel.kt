@@ -23,6 +23,7 @@ import io.adik5050.discord_like.ui.app.chat.composables.allMessageOptions
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import me.trysurpass.util.Emojis
 
 class ChatViewModel(
     appDatabase: AppDatabase,
@@ -232,6 +233,10 @@ class ChatViewModel(
     }
     fun updateMessage(newMessage: TextFieldValue) {
         message = newMessage
+    }
+    fun addEmojiToTextField(emoji: Emojis.Emoji) {
+        val newMessage = "${message.text} ${emoji.emoji}"
+        message = TextFieldValue(text = newMessage, selection = TextRange(newMessage.length))
     }
     fun addMessage() = viewModelScope.launch{
         if(message.text.trim().isEmpty()) return@launch
