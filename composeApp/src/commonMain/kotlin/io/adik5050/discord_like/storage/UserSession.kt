@@ -7,7 +7,7 @@ object AppSetting {
     val settings: Settings = Settings()
 }
 
-class UserSession() {
+class UserSession {
     private val settings = AppSetting.settings
 
     companion object {

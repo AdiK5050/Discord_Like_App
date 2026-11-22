@@ -58,3 +58,12 @@ val Migration_6_7 = object : Migration(6, 7) {
     }
 }
 
+val Migration_7_8 = object: Migration(7, 8) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL("ALTER TABLE MessageEntity DROP COLUMN `reactions`")
+        connection.execSQL("CREATE TABLE IF NOT EXISTS `ReactionEntity` (`reactionId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `reaction` TEXT NOT NULL, `senderId` INTEGER NOT NULL, `messageId` INTEGER NOT NULL, `reactedAt` TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(`messageId`) REFERENCES `MessageEntity`(`messageId`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`senderId`) REFERENCES `UserEntity`(`userId`) ON UPDATE CASCADE ON DELETE CASCADE )")
+        connection.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_ReactionEntity_messageId_senderId_reaction` ON `ReactionEntity` (`messageId`, `senderId`, `reaction`)")
+        connection.execSQL("CREATE INDEX IF NOT EXISTS `index_ReactionEntity_senderId` ON `ReactionEntity` (`senderId`)")
+    }
+}
+

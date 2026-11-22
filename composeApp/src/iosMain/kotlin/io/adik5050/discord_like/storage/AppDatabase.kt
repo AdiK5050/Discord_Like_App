@@ -8,6 +8,7 @@ import io.adik5050.discord_like.storage.migrations.Migration_3_4
 import io.adik5050.discord_like.storage.migrations.Migration_4_5
 import io.adik5050.discord_like.storage.migrations.Migration_5_6
 import io.adik5050.discord_like.storage.migrations.Migration_6_7
+import io.adik5050.discord_like.storage.migrations.Migration_7_8
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -20,7 +21,7 @@ fun getDatabase(): AppDatabase {
     return Room.databaseBuilder<AppDatabase>(
         name = dbFilePath,
     ).setQueryCoroutineContext(Dispatchers.IO)
-        .addMigrations(Migration_1_2, Migration_2_3, Migration_3_4, Migration_4_5, Migration_5_6, Migration_6_7)
+        .addMigrations(Migration_1_2, Migration_2_3, Migration_3_4, Migration_4_5, Migration_5_6, Migration_6_7, Migration_7_8)
         .setDriver(BundledSQLiteDriver())
         .build()
 }

@@ -4,6 +4,7 @@ package io.adik5050.discord_like.storage
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity
@@ -101,7 +102,6 @@ data class MessageEntity(
     val message: ByteArray,
     @ColumnInfo(index = true) val senderId: Int,
     @ColumnInfo(index = true) val channelId: Int,
-    val reactions: String?,
     val repliedTo: Int?,
     val messageType: MessageType,
     @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP") val sentAt: String
@@ -155,4 +155,32 @@ data class ChannelMembersEntity(
     @PrimaryKey(autoGenerate = true) val channelMembersId: Int,
     @ColumnInfo(index = true) val channelId: Int,
     @ColumnInfo(index = true) val memberId: Int
+)
+
+@Entity(
+    foreignKeys = [ForeignKey(
+        entity = MessageEntity::class,
+        parentColumns = ["messageId"],
+        childColumns = ["messageId"],
+        onDelete = ForeignKey.CASCADE,
+        onUpdate = ForeignKey.CASCADE
+    ),
+        ForeignKey(
+            entity = UserEntity::class,
+            parentColumns = ["userId"],
+            childColumns = ["senderId"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
+        )],
+    indices = [
+        Index(value = ["messageId", "senderId", "reaction"], unique = true),
+        Index(value = ["senderId"])
+    ]
+)
+data class ReactionEntity(
+    @PrimaryKey(autoGenerate = true) val reactionId: Int = 0,
+    val reaction: String,
+    val senderId: Int,
+    val messageId: Int,
+    @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP") val reactedAt: String
 )
