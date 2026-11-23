@@ -21,6 +21,7 @@ abstract class AppDatabase: RoomDatabase() {
     abstract fun getUserDao(): UserDao
     abstract fun getChannelDao(): ChannelDao
     abstract fun getMessageDao(): MessageDao
+    abstract fun getReactionDao(): ReactionDao
 }
 
 // The Room compiler generates the `actual` implementations.

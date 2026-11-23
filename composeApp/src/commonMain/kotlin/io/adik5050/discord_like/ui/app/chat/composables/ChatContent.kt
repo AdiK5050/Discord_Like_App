@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
@@ -12,11 +13,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import io.adik5050.discord_like.shared.composables.stringToOnlineStatus
 import io.adik5050.discord_like.storage.MessageEntity
+import io.adik5050.discord_like.storage.ReactionEntity
 import io.adik5050.discord_like.ui.app.chat.viewmodels.UserInfo
 
 @Composable
@@ -25,11 +28,14 @@ fun ChatContent (
     userId: Int,
     channelMembers: List<UserInfo>,
     messageHistory: List<MessageEntity>,
+    reactionHistory: List<ReactionEntity>,
     memberProfileImages: Map<Int, ImageBitmap>,
+    onClickReaction: (String, Int) -> Unit,
     onClickOption: (optionId: Int, messageId: Int) -> Unit,
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
     var currentMessageId by remember { mutableStateOf(0) }
+    val groupedReactionsByMessage = remember(reactionHistory) { reactionHistory.groupBy { it.messageId } }
 
     var isSelectedMessageOwn by remember { mutableStateOf(false) }
     Surface (
@@ -79,6 +85,17 @@ fun ChatContent (
                                 onClickOption(it, message.messageId)
                             }
                         )
+                        groupedReactionsByMessage[message.messageId]?.let { reactions ->
+                            ReactionCard(
+                                ownUserId = userId,
+                                reactions = reactions,
+                                onClickReaction = { reaction ->
+                                    onClickReaction(reaction, message.messageId)
+                                },
+                                modifier = Modifier
+                                    .align(Alignment.End)
+                            )
+                        }
                     }
                 }
             }

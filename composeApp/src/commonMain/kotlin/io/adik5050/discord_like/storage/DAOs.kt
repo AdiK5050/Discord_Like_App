@@ -79,3 +79,22 @@ interface MessageDao {
     @Query("DELETE FROM MessageEntity WHERE messageId = :messageId")
     suspend fun deleteMessage(messageId: Int)
 }
+
+@Dao
+interface ReactionDao {
+    @Query("INSERT INTO ReactionEntity (reaction, senderId, messageId) VALUES (:reaction, :senderId, :messageId)")
+    suspend fun addReaction(reaction: String, senderId: Int, messageId: Int)
+
+    @Query("DELETE FROM ReactionEntity WHERE messageId = :messageId AND senderId = :senderId AND reaction = :reaction")
+    suspend fun removeReaction(reaction: String, senderId: Int, messageId: Int): Int
+
+    @Transaction
+    suspend fun toggleReaction(reaction: String, senderId: Int, messageId: Int) {
+        if (removeReaction(reaction, senderId, messageId) == 0) {
+            addReaction(reaction = reaction, senderId = senderId, messageId = messageId)
+        }
+    }
+
+    @Query("SELECT RE.reactionId, RE.reaction, RE.senderId, RE.messageId, RE.reactedAt FROM ReactionEntity RE JOIN MessageEntity ME ON RE.messageId = ME.messageId WHERE ME.channelId = :channelId ORDER BY RE.reactionId")
+    fun getAllReactionsByChannelId(channelId: Int): Flow<List<ReactionEntity>>
+}

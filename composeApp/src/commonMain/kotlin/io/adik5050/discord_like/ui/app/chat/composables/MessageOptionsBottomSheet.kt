@@ -28,8 +28,10 @@ import myapplication.composeapp.generated.resources.message_option_copy
 import myapplication.composeapp.generated.resources.message_option_delete
 import myapplication.composeapp.generated.resources.message_option_edit
 import myapplication.composeapp.generated.resources.message_option_forward
+import myapplication.composeapp.generated.resources.message_option_react
 import myapplication.composeapp.generated.resources.message_option_reply
 import myapplication.composeapp.generated.resources.reply
+import myapplication.composeapp.generated.resources.smiley
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
@@ -117,6 +119,7 @@ fun MessageOption(
 }
 
 enum class MessageOption(val optionId: Int, val icon: DrawableResource, val description: StringResource) {
+    REACT(optionId = 5, icon = Res.drawable.smiley, description = Res.string.message_option_react),
     EDIT(optionId = 1, icon = Res.drawable.edit, description = Res.string.message_option_edit),
     REPLY(optionId = 2, icon = Res.drawable.reply, description = Res.string.message_option_reply),
     FORWARD(optionId = 3, icon = Res.drawable.forward, description = Res.string.message_option_forward),
@@ -125,6 +128,7 @@ enum class MessageOption(val optionId: Int, val icon: DrawableResource, val desc
 }
 
 val allMessageOptions = listOf(
+    MessageOption.REACT,
     MessageOption.EDIT,
     MessageOption.REPLY,
     MessageOption.FORWARD,
@@ -132,6 +136,7 @@ val allMessageOptions = listOf(
     MessageOption.DELETE
 )
 val ownMessageOptions = listOf(
+    MessageOption.REACT,
     MessageOption.EDIT,
     MessageOption.REPLY,
     MessageOption.FORWARD,
@@ -140,6 +145,7 @@ val ownMessageOptions = listOf(
 )
 
 val otherMessageOptions = listOf(
+    MessageOption.REACT,
     MessageOption.REPLY,
     MessageOption.FORWARD,
     MessageOption.COPY

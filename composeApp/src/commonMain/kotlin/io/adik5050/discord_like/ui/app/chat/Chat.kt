@@ -23,9 +23,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -74,12 +72,12 @@ fun ChatPage(
 
     val channelMembers by chatViewModel.channelMembers.collectAsStateWithLifecycle()
     val messageHistory by chatViewModel.messageHistory.collectAsStateWithLifecycle()
+    val reactionHistory by chatViewModel.reactionHistory.collectAsStateWithLifecycle()
 
     //Emoji Selector Behavior
     val textFieldFocusRequester = remember { FocusRequester() }
     val rootFocusRequester = remember { FocusRequester() }
     val keyboardManager = LocalSoftwareKeyboardController.current
-    var showEmojiSelector by remember { mutableStateOf(false) }
 
     // Give the screen focus so it receives physical-keyboard key events.
     LaunchedEffect(Unit) {
@@ -115,8 +113,6 @@ fun ChatPage(
             .windowInsetsPadding(WindowInsets.navigationBars.only(WindowInsetsSides.Bottom + WindowInsetsSides.End))
             .focusRequester(rootFocusRequester)
             .onPreviewKeyEvent { event ->
-                // Must sit ABOVE focusable so it tunnels through even when the
-                // root itself (not the text field) holds focus.
                 if (event.type == KeyEventType.KeyDown &&
                     !event.isCtrlPressed &&
                     !event.isMetaPressed &&
@@ -125,11 +121,10 @@ fun ChatPage(
                     val codePoint = event.utf16CodePoint
                     val isLetter = codePoint != 0 && Char(codePoint).isLetter()
                     val isShift = event.key == Key.ShiftLeft || event.key == Key.ShiftRight
-                    if ((isLetter || isShift) && !showEmojiSelector) {
+                    if ((isLetter || isShift) && !chatViewModel.showEmojiSelector) {
                         textFieldFocusRequester.requestFocus()
                     }
                 }
-                // Never consume the event; let the now-focused field handle it.
                 false
             }
             .focusable()
@@ -137,9 +132,7 @@ fun ChatPage(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
             ) {
-                // Click on empty space (children consume their own clicks):
-                // close the emoji selector and drop the text field's focus.
-                showEmojiSelector = false
+                chatViewModel.updateShowEmojiSelector(false)
                 rootFocusRequester.requestFocus()
             },
         color = MaterialTheme.colorScheme.surface,
@@ -160,7 +153,9 @@ fun ChatPage(
                 chatViewModel.userId,
                 channelMembers,
                 messageHistory,
+                reactionHistory,
                 chatViewModel.memberProfileImages,
+                onClickReaction = chatViewModel::onClickReaction,
                 onClickOption = chatViewModel::onClickOption
             )
             Box(
@@ -181,14 +176,14 @@ fun ChatPage(
                         message = chatViewModel.message,
                         messagePlaceHolder = chatViewModel.channelInfo?.channelName,
                         onMessageChanged = chatViewModel::updateMessage,
-                        showEmojiSelector = showEmojiSelector,
+                        showEmojiSelector = chatViewModel.showEmojiSelector,
                         textFieldHeight = TEXT_FIELD_HEIGHT,
                         onCLickSend = {
                             chatViewModel.addMessage()
                         },
                         onClickSmiley = {
-                            showEmojiSelector = !showEmojiSelector
-                            if(showEmojiSelector) keyboardManager?.hide()
+                           chatViewModel.updateShowEmojiSelector(!chatViewModel.showEmojiSelector)
+                            if(chatViewModel.showEmojiSelector) keyboardManager?.hide()
                             else {
                                 textFieldFocusRequester.requestFocus()
                                 keyboardManager?.show()
@@ -198,13 +193,13 @@ fun ChatPage(
                 }
             }
         }
-        AnimatedVisibility(showEmojiSelector) {
+        AnimatedVisibility(chatViewModel.showEmojiSelector) {
                 EmojiSelector(
                     modifier = Modifier
                         .fillMaxWidth(if (isLandscape) 0.5f else 1f)
                         .padding(8.dp)
                         .padding(bottom = TEXT_FIELD_HEIGHT),
-                    onEmojiSelected = chatViewModel::addEmojiToTextField,
+                    onEmojiSelected = chatViewModel::onSelectEmoji,
                 )
         }
         AnimatedVisibility(chatViewModel.deleteMessageDialogState) {

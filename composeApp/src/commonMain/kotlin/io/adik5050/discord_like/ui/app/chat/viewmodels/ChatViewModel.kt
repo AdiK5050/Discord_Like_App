@@ -16,6 +16,7 @@ import io.adik5050.discord_like.storage.ChannelEntity
 import io.adik5050.discord_like.storage.MessageDao
 import io.adik5050.discord_like.storage.MessageEntity
 import io.adik5050.discord_like.storage.MessageType
+import io.adik5050.discord_like.storage.ReactionDao
 import io.adik5050.discord_like.storage.UserDao
 import io.adik5050.discord_like.storage.UserSession
 import io.adik5050.discord_like.ui.app.chat.composables.MessageOption
@@ -36,6 +37,7 @@ class ChatViewModel(
     val messageDao: MessageDao = appDatabase.getMessageDao()
     val channelDao: ChannelDao = appDatabase.getChannelDao()
 
+    val reactionDao: ReactionDao = appDatabase.getReactionDao()
     var channelInfo: ChannelEntity? = null
 
     var message by mutableStateOf(TextFieldValue(""))
@@ -44,6 +46,9 @@ class ChatViewModel(
     var error: String? by mutableStateOf(null)
         private set
 
+
+    var showEmojiSelector by  mutableStateOf(false)
+        private set
     var showTextFieldMessageOption by mutableStateOf(false)
         private set
     var currentMessageOption: MessageOption? by mutableStateOf(null)
@@ -65,6 +70,13 @@ class ChatViewModel(
             initialValue = emptyList()
         )
     val messageHistory = messageDao.getAllMessagesByChannelID(channelId)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
+
+    val reactionHistory = reactionDao.getAllReactionsByChannelId(channelId = channelId)
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
@@ -107,6 +119,7 @@ class ChatViewModel(
         updateShowTextFieldMessageOption()
 
         when(currentMessageOption) {
+            MessageOption.REACT -> updateShowEmojiSelector(true)
             MessageOption.EDIT -> editMessage()
             MessageOption.REPLY -> { /* No Action Needed */ }
             MessageOption.DELETE -> updateDeleteMessageDialogState(true)
@@ -211,11 +224,33 @@ class ChatViewModel(
         clearCurrentOption()
         clearChannelList()
     }
+    fun updateShowEmojiSelector(boolean: Boolean) {
+        showEmojiSelector = boolean
+    }
     fun updateShowTextFieldMessageOption() {
         showTextFieldMessageOption = when (currentMessageOption) {
             MessageOption.REPLY, MessageOption.EDIT -> true
             null -> false
             else -> false
+        }
+    }
+
+    fun onSelectEmoji(emoji: Emojis.Emoji) {
+        if(currentMessageOption != null && currentMessageOption == MessageOption.REACT) {
+            currentMessageInfo?.let {
+                viewModelScope.launch {
+                    reactionDao.toggleReaction(emoji.emoji, senderId = userId, messageId = it.messageId)
+                }
+            }
+            updateShowEmojiSelector(false)
+            clearCurrentOption()
+        }
+        else addEmojiToTextField(emoji)
+    }
+
+    fun onClickReaction(reaction: String, messageId: Int) {
+        viewModelScope.launch {
+            reactionDao.toggleReaction(reaction, senderId = userId, messageId = messageId)
         }
     }
 
